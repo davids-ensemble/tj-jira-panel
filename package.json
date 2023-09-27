@@ -20,6 +20,7 @@
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore"
   },
   "dependencies": {
+    "fast-xml-parser": "^4.3.1",
     "lit": "^2.0.2"
   },
   "devDependencies": {

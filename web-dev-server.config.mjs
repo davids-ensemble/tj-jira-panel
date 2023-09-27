@@ -23,5 +23,12 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
     // hmr && hmrPlugin({ exclude: ['**/*/node_modules/**/*'], presets: [presets.litElement] }),
   ],
 
+  middleware: [
+    function allowCors(context, next) {
+      context.res.setHeader('Access-Control-Allow-Origin', '*');
+      return next();
+    },
+  ],
+
   // See documentation for all available options
 });

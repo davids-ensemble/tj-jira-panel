@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en-GB">
+
 <head>
   <meta charset="utf-8">
   <style>
@@ -7,23 +8,13 @@
       background: #fafafa;
     }
   </style>
+  <script src="../dist/src/jira-tj-web-panel.js" type="module"></script>
 </head>
+
 <body>
-  <div id="demo"></div>
-
-  <script type="module">
-    import { html, render } from 'lit';
-    import '../dist/src/jira-tj-web-panel.js';
-
-    const header = 'Hello owc World!';
-    render(
-      html`
-        <jira-tj-web-panel .header=${header}>
-          some light-dom
-        </jira-tj-web-panel>
-      `,
-      document.querySelector('#demo')
-    );
-  </script>
+  <div id="demo">
+    <jira-tj-web-panel></jira-tj-web-panel>
+  </div>
 </body>
+
 </html>
