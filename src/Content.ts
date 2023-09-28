@@ -29,6 +29,9 @@ export class JiraWebPanelContent extends LitElement {
   @property()
   private jiraId?: string;
 
+  @property()
+  private jiraSummary?: string;
+
   @state()
   private shouldShowLoadingIndicator = true;
 
@@ -68,6 +71,7 @@ export class JiraWebPanelContent extends LitElement {
     } else if (this.user?.sessionUuid) {
       content = html`<jira-web-panel-task
         jiraId=${ifDefined(this.jiraId)}
+        jiraSummary=${ifDefined(this.jiraSummary)}
         .user=${this.user}
       ></jira-web-panel-task>`;
     } else {

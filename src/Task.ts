@@ -4,6 +4,8 @@ import { customElement, property, state } from 'lit/decorators.js';
 
 import { AuthObject, findTaskForJiraId, recordHours } from './tjAPI.js';
 
+import './TaskForm.js';
+
 interface Day {
   date: Date;
   dayOfWeek: number;
@@ -44,6 +46,7 @@ export class JiraWebPanelTask extends LitElement {
       border: none;
       background: transparent;
       text-align: center;
+      cursor: pointer;
     }
 
     input[disabled] {
@@ -52,7 +55,10 @@ export class JiraWebPanelTask extends LitElement {
   `;
 
   @property()
-  private jiraId?: string;
+  private jiraId!: string;
+
+  @property()
+  private jiraSummary!: string;
 
   @property({ type: Object })
   private user!: AuthObject;
@@ -157,7 +163,14 @@ export class JiraWebPanelTask extends LitElement {
       return html`<jira-web-panel-loader></jira-web-panel-loader>`;
     }
     if (!this.task) {
-      return html`<p>Task not found</p>`;
+      return html`<jira-web-panel-task-form
+        .user=${this.user}
+        jiraId=${this.jiraId}
+        jiraSummary=${this.jiraSummary}
+        @taskCreated=${(e: CustomEvent) => {
+          this.task = e.detail;
+        }}
+      ></jira-web-panel-task-form>`;
     }
     return html`<p>${this.task?.name}</p>
       ${this.renderTable()}`;

@@ -88,6 +88,22 @@ export const getTimesheet = async ({
   return dom;
 };
 
+const parseTask = (task: Element) => ({
+  id: task.attributes.getNamedItem('id')?.value,
+  name: task.querySelector('name')?.textContent,
+  startDate: new Date(task.querySelector('startDate')?.textContent ?? ''),
+  recordedHours: Array.from(
+    task.querySelectorAll('recordedHours > workDay')
+  ).reduce((acc: Record<string, string>, item) => {
+    const date = item.attributes.getNamedItem('day')?.value;
+    const hours = item.attributes.getNamedItem('hours')?.value;
+    if (date && hours) {
+      acc[date] = hours;
+    }
+    return acc;
+  }, {}),
+});
+
 export const findTaskForJiraId = async ({
   jiraId,
   ...authObject
@@ -97,21 +113,68 @@ export const findTaskForJiraId = async ({
   const matchingTasks = timesheet.evaluate(xpath, timesheet);
   const task = matchingTasks.iterateNext()?.parentElement;
   if (task) {
-    return {
-      id: task.attributes.getNamedItem('id')?.value,
-      name: task.querySelector('name')?.textContent,
-      startDate: new Date(task.querySelector('startDate')?.textContent ?? ''),
-      recordedHours: Array.from(
-        task.querySelectorAll('recordedHours > workDay')
-      ).reduce((acc: Record<string, string>, item) => {
-        const date = item.attributes.getNamedItem('day')?.value;
-        const hours = item.attributes.getNamedItem('hours')?.value;
-        if (date && hours) {
-          acc[date] = hours;
-        }
-        return acc;
-      }, {}),
-    };
+    return parseTask(task);
+  }
+  return null;
+};
+
+export const getAllTasks = async (options: AuthObject) => {
+  const timesheet = await getTimesheet(options);
+  const tasks = timesheet.querySelectorAll('task');
+  const result: Record<string, string> = {};
+  tasks.forEach(task => {
+    const id = task.attributes.getNamedItem('id')?.value;
+    const name = task.querySelector('name')?.textContent;
+    const active = task.querySelector('active')?.textContent === 'true';
+    if (id && name && active) {
+      result[id] = name;
+    }
+  });
+  return result;
+};
+
+interface CreateTaskParams extends AuthObject {
+  name: string;
+  parentTaskId: string;
+}
+
+export const createSubTask = async ({
+  name,
+  parentTaskId,
+  userId,
+  username,
+  sessionUuid,
+}: CreateTaskParams) => {
+  const date = new Date().toISOString().split('T')[0];
+  const body = `
+<addSubTask id="0" version="0">
+  <id>0</id>
+  <version>0</version>
+  <active>true</active>
+  <name>${name}</name>
+  <descriptionHtmlText>&lt;p&gt; &lt;/p&gt;</descriptionHtmlText>
+  <startDate>${date}</startDate>
+  <parentTaskId>${parentTaskId}</parentTaskId>
+  <kind>WORK</kind>
+  <workKind>DEVELOPMENT</workKind>
+  <assignedUser id="${userId}" userName="${username}"/>
+</addSubTask>
+  `;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/xml',
+      Tj_session: sessionUuid,
+      Tj_user: username,
+    },
+    body,
+  });
+  const data = await response.text();
+  const dom = new DOMParser().parseFromString(data, 'text/xml');
+  const active = dom.querySelector('active')?.textContent === 'true';
+  if (active) {
+    // @ts-ignore
+    return parseTask(dom.querySelector('result'));
   }
   return null;
 };

@@ -17,13 +17,19 @@ export class JiraTjWebPanel extends LitElement {
   @property()
   private jiraId?: string;
 
+  @property()
+  private jiraSummary?: string;
+
   render() {
     return html`
       <div id="tj-web-panel">
         <jira-web-panel-heading
           headingLabel="TJ Integration"
         ></jira-web-panel-heading>
-        <jira-web-panel-content jiraId=${this.jiraId}></jira-web-panel-content>
+        <jira-web-panel-content
+          jiraId=${this.jiraId}
+          jiraSummary=${this.jiraSummary}
+        ></jira-web-panel-content>
       </div>
     `;
   }
