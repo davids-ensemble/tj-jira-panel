@@ -1,4 +1,5 @@
 import { html, css, LitElement } from 'lit';
+import { property } from 'lit/decorators.js';
 
 import './Heading.js';
 import './Content.js';
@@ -13,13 +14,16 @@ export class JiraTjWebPanel extends LitElement {
     }
   `;
 
+  @property()
+  private jiraId?: string;
+
   render() {
     return html`
       <div id="tj-web-panel">
         <jira-web-panel-heading
           headingLabel="TJ Integration"
         ></jira-web-panel-heading>
-        <jira-web-panel-content></jira-web-panel-content>
+        <jira-web-panel-content jiraId=${this.jiraId}></jira-web-panel-content>
       </div>
     `;
   }

@@ -1,9 +1,11 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 
 import { getServerConfig } from './tjAPI.js';
 
 import './LoginForm.js';
+import './Task.js';
+import './Loader.js';
 
 @customElement('jira-web-panel-content')
 export class JiraWebPanelContent extends LitElement {
@@ -22,6 +24,9 @@ export class JiraWebPanelContent extends LitElement {
       text-align: right;
     }
   `;
+
+  @property()
+  private jiraId?: string;
 
   @state()
   private shouldShowLoadingIndicator = true;
@@ -47,18 +52,24 @@ export class JiraWebPanelContent extends LitElement {
   }
 
   renderUI() {
+    if (this.shouldShowLoadingIndicator) {
+      return html`<jira-web-panel-loader></jira-web-panel-loader>`;
+    }
     if (!this.user.sessionUuid) {
       return html`<jira-web-panel-login
         @login=${this.loginHandler}
       ></jira-web-panel-login>`;
     }
-    return null;
+    return html`<jira-web-panel-task
+      jiraId=${this.jiraId}
+      .user=${this.user}
+    ></jira-web-panel-task>`;
   }
 
   render() {
     return html`
       <section id="tj-web-panel_content">
-        ${this.shouldShowLoadingIndicator ? 'Loading...' : this.renderUI()}
+        ${this.renderUI()}
         <footer>
           ${this.user.username
             ? html`Logged in as ${this.user.username} (${this.user.userId}) @ `

@@ -45,16 +45,87 @@ export const login = async (username: string, password: string) => {
   return result;
 };
 
-export const getTimesheet = async (userId: string) => {
+export interface AuthObject {
+  userId: string;
+  sessionUuid: string;
+  username: string;
+}
+
+export const getTimesheet = async ({
+  userId,
+  username,
+  sessionUuid,
+}: AuthObject) => {
   const date = new Date().toISOString().split('T')[0];
   const body = `<getTimesheet><forUser>${userId}</forUser><containingDay>${date}</containingDay></getTimesheet>`;
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/xml',
+      Tj_session: sessionUuid,
+      Tj_user: username,
     },
     body,
   });
   const data = await response.text();
   const dom = new DOMParser().parseFromString(data, 'text/xml');
+  return dom;
+};
+
+export const findTaskForJiraId = async ({
+  jiraId,
+  ...authObject
+}: AuthObject & { jiraId: string }) => {
+  const timesheet = await getTimesheet(authObject);
+  const xpath = `//task/name[contains(text(),"${jiraId}")]`;
+  const matchingTasks = timesheet.evaluate(xpath, timesheet);
+  const task = matchingTasks.iterateNext()?.parentElement;
+  if (task) {
+    return {
+      id: task.attributes.getNamedItem('id')?.value,
+      name: task.querySelector('name')?.textContent,
+      startDate: new Date(task.querySelector('startDate')?.textContent ?? ''),
+      recordedHours: Array.from(
+        task.querySelectorAll('recordedHours > workDay')
+      ).reduce((acc: Record<string, string>, item) => {
+        const date = item.attributes.getNamedItem('day')?.value;
+        const hours = item.attributes.getNamedItem('hours')?.value;
+        if (date && hours) {
+          acc[date] = hours;
+        }
+        return acc;
+      }, {}),
+    };
+  }
+  return null;
+};
+
+interface RecordHoursParams {
+  username: string;
+  sessionUuid: string;
+  taskId: string;
+  day: string;
+  hours: string;
+}
+
+export const recordHours = async ({
+  username,
+  sessionUuid,
+  taskId,
+  day,
+  hours,
+}: RecordHoursParams) => {
+  const body = `<recordHoursForDay id="0" version="0" taskId="${taskId}" day="${day}" hours="${hours}"/>`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/xml',
+      Tj_session: sessionUuid,
+      Tj_user: username,
+    },
+    body,
+  });
+  const data = await response.text();
+  const dom = new DOMParser().parseFromString(data, 'text/xml');
+  return dom;
 };
