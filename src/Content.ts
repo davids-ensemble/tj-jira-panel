@@ -1,7 +1,8 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
-import { getServerConfig } from './tjAPI.js';
+import { AuthObject, getServerConfig, isSessionValid } from './tjAPI.js';
 
 import './LoginForm.js';
 import './Task.js';
@@ -35,15 +36,24 @@ export class JiraWebPanelContent extends LitElement {
   private serverVersion: string | undefined;
 
   @state()
-  private user = JSON.parse(localStorage.getItem('tj_user') ?? '{}');
+  private user: AuthObject | null = JSON.parse(
+    localStorage.getItem('tj_user') ?? '{}'
+  );
 
   constructor() {
     super();
     (async () => {
       const data = await getServerConfig();
       this.serverVersion = data.version;
-      this.shouldShowLoadingIndicator = false;
     })();
+  }
+
+  async connectedCallback() {
+    super.connectedCallback?.();
+    if (this.user?.sessionUuid && !(await isSessionValid(this.user))) {
+      this.user = null;
+    }
+    this.shouldShowLoadingIndicator = false;
   }
 
   loginHandler(e: CustomEvent) {
@@ -52,18 +62,20 @@ export class JiraWebPanelContent extends LitElement {
   }
 
   renderUI() {
+    let content;
     if (this.shouldShowLoadingIndicator) {
-      return html`<jira-web-panel-loader></jira-web-panel-loader>`;
-    }
-    if (!this.user.sessionUuid) {
-      return html`<jira-web-panel-login
+      content = html`<jira-web-panel-loader></jira-web-panel-loader>`;
+    } else if (this.user?.sessionUuid) {
+      content = html`<jira-web-panel-task
+        jiraId=${ifDefined(this.jiraId)}
+        .user=${this.user}
+      ></jira-web-panel-task>`;
+    } else {
+      content = html`<jira-web-panel-login
         @login=${this.loginHandler}
       ></jira-web-panel-login>`;
     }
-    return html`<jira-web-panel-task
-      jiraId=${this.jiraId}
-      .user=${this.user}
-    ></jira-web-panel-task>`;
+    return content;
   }
 
   render() {
@@ -71,7 +83,7 @@ export class JiraWebPanelContent extends LitElement {
       <section id="tj-web-panel_content">
         ${this.renderUI()}
         <footer>
-          ${this.user.username
+          ${this.user?.sessionUuid
             ? html`Logged in as ${this.user.username} (${this.user.userId}) @ `
             : null}
           ${this.serverVersion ? html`v${this.serverVersion}` : null}

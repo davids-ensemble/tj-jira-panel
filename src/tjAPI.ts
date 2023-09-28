@@ -1,5 +1,11 @@
 const url = 'https://tj.ensemblesoftware.ro/data';
 
+export interface AuthObject {
+  userId: string;
+  sessionUuid: string;
+  username: string;
+}
+
 export const getServerConfig = async () => {
   const body = `<getServerConfiguration/>`;
   const response = await fetch(url, {
@@ -45,11 +51,21 @@ export const login = async (username: string, password: string) => {
   return result;
 };
 
-export interface AuthObject {
-  userId: string;
-  sessionUuid: string;
-  username: string;
-}
+export const isSessionValid = async ({ sessionUuid, username }: AuthObject) => {
+  const body = `<getCurrentLogin/>`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/xml',
+      Tj_session: sessionUuid,
+      Tj_user: username,
+    },
+    body,
+  });
+  const data = await response.text();
+  const dom = new DOMParser().parseFromString(data, 'text/xml');
+  return dom.querySelector('sessionUuid')?.textContent === sessionUuid;
+};
 
 export const getTimesheet = async ({
   userId,
