@@ -1,22 +1,25 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+
 import { getServerConfig } from './tjAPI.js';
+
+import './LoginForm.js';
 
 @customElement('jira-web-panel-content')
 export class JiraWebPanelContent extends LitElement {
   static styles = css`
-    div {
+    section {
       font-size: 14px;
       margin-top: 5px;
       padding-left: 20px;
       box-sizing: border-box;
       min-height: 100px;
     }
-    p {
-      margin: 0;
-    }
-    .gray {
+    footer {
+      margin-top: 10px;
       color: rgb(107, 119, 140);
+      font-size: 8px;
+      text-align: right;
     }
   `;
 
@@ -26,21 +29,43 @@ export class JiraWebPanelContent extends LitElement {
   @state()
   private serverVersion: string | undefined;
 
+  @state()
+  private user = JSON.parse(localStorage.getItem('tj_user') ?? '{}');
+
   constructor() {
     super();
-    getServerConfig().then(data => {
+    (async () => {
+      const data = await getServerConfig();
       this.serverVersion = data.version;
       this.shouldShowLoadingIndicator = false;
-    });
+    })();
+  }
+
+  loginHandler(e: CustomEvent) {
+    this.user = e.detail;
+    localStorage.setItem('tj_user', JSON.stringify(this.user));
+  }
+
+  renderUI() {
+    if (!this.user.sessionUuid) {
+      return html`<jira-web-panel-login
+        @login=${this.loginHandler}
+      ></jira-web-panel-login>`;
+    }
+    return null;
   }
 
   render() {
     return html`
-      <div id="tj-web-panel_content">
-        ${this.shouldShowLoadingIndicator
-          ? 'Loading...'
-          : html`<p class="gray">v${this.serverVersion}</p>`}
-      </div>
+      <section id="tj-web-panel_content">
+        ${this.shouldShowLoadingIndicator ? 'Loading...' : this.renderUI()}
+        <footer>
+          ${this.user.username
+            ? html`Logged in as ${this.user.username} (${this.user.userId}) @ `
+            : null}
+          ${this.serverVersion ? html`v${this.serverVersion}` : null}
+        </footer>
+      </section>
     `;
   }
 }
