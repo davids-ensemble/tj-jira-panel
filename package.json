@@ -1,9 +1,9 @@
 {
-  "name": "jira-tj-web-panel",
-  "description": "Webcomponent jira-tj-web-panel following open-wc recommendations",
+  "name": "@ens-davids/jira-tj-web-panel",
+  "description": "web component for integrating TJ with Adobe's Jira",
   "license": "MIT",
-  "author": "jira-tj-web-panel",
-  "version": "0.0.0",
+  "author": "ens-davids<davids@ensemble.com>",
+  "version": "1.0.0",
   "type": "module",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
@@ -11,6 +11,7 @@
     ".": "./dist/src/index.js",
     "./jira-tj-web-panel.js": "./dist/src/jira-tj-web-panel.js"
   },
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "analyze": "cem analyze --litelement",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
@@ -20,7 +21,6 @@
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore"
   },
   "dependencies": {
-    "fast-xml-parser": "^4.3.1",
     "lit": "^2.0.2"
   },
   "devDependencies": {
