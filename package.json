@@ -21,6 +21,7 @@
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore"
   },
   "dependencies": {
+    "tslib": "^2.3.1",
     "lit": "^2.0.2"
   },
   "devDependencies": {
@@ -35,7 +36,6 @@
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
     "prettier": "^2.4.1",
-    "tslib": "^2.3.1",
     "typescript": "^4.5.2"
   },
   "customElements": "custom-elements.json",
