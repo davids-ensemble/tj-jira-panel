@@ -3,7 +3,7 @@
   "description": "web component for integrating TJ with Adobe's Jira",
   "license": "MIT",
   "author": "ens-davids<davids@ensemble.com>",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "type": "module",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
@@ -21,7 +21,6 @@
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore"
   },
   "dependencies": {
-    "tslib": "^2.3.1",
     "lit": "^2.0.2"
   },
   "devDependencies": {
@@ -35,6 +34,7 @@
     "eslint-config-prettier": "^8.3.0",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
+    "tslib": "^2.3.1",
     "prettier": "^2.4.1",
     "typescript": "^4.5.2"
   },
