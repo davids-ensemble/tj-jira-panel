@@ -85,6 +85,9 @@ export class JiraWebPanelTaskForm extends LitElement {
                   placeholder="name"
                   id="name"
                   name="name"
+                  @keypress=${(e: KeyboardEvent) => {
+                    e.stopImmediatePropagation();
+                  }}
                   value=${`[${this.jiraId}] ${this.jiraSummary}`}
                 />
               </div>

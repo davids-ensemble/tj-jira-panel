@@ -139,7 +139,8 @@ export class JiraWebPanelTask extends LitElement {
                   @focus=${(e: FocusEvent) => {
                     (e.target as HTMLInputElement).select();
                   }}
-                  @keydown=${(e: KeyboardEvent) => {
+                  @keypress=${(e: KeyboardEvent) => {
+                    e.stopImmediatePropagation();
                     if (e.key === 'Enter') {
                       e.preventDefault();
                       this.saveHours(

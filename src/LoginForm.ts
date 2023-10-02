@@ -36,6 +36,10 @@ export class JiraWebPanelLogin extends LitElement {
     this.dispatchEvent(event);
   }
 
+  static stopEventPropagation(e: Event) {
+    e.stopImmediatePropagation();
+  }
+
   render() {
     return html`
       <form action="" @submit=${this.__onFormSubmit}>
@@ -44,12 +48,14 @@ export class JiraWebPanelLogin extends LitElement {
           placeholder="username"
           id="username"
           name="username"
+          @keypress=${JiraWebPanelLogin.stopEventPropagation}
         /><br />
         <input
           type="password"
           placeholder="password"
           id="password"
           name="password"
+          @keypress=${JiraWebPanelLogin.stopEventPropagation}
         /><br />
         <input type="submit" value="Login" />
       </form>
