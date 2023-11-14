@@ -157,6 +157,7 @@ export const createSubTask = async ({
   <parentTaskId>${parentTaskId}</parentTaskId>
   <kind>WORK</kind>
   <workKind>DEVELOPMENT</workKind>
+  <billable>true</billable>
   <assignedUser id="${userId}" userName="${username}"/>
 </addSubTask>
   `;
