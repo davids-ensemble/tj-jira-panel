@@ -3,7 +3,7 @@
   "description": "web component for integrating TJ with Adobe's Jira",
   "license": "MIT",
   "author": "ens-davids<davids@ensemble.com>",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
