@@ -151,7 +151,7 @@ export const createSubTask = async ({
   <id>0</id>
   <version>0</version>
   <active>true</active>
-  <name>${name}</name>
+  <name>${name.replace(/</g, '[').replace(/>/g, ']')}</name>
   <descriptionHtmlText>&lt;p&gt; &lt;/p&gt;</descriptionHtmlText>
   <startDate>${date}</startDate>
   <parentTaskId>${parentTaskId}</parentTaskId>
