@@ -41,6 +41,10 @@ export class JiraWebPanelTask extends LitElement {
       font-weight: 500;
     }
 
+    .currentDay {
+      color: #2886bb;
+    }
+
     input {
       width: 100%;
       border: none;
@@ -120,7 +124,11 @@ export class JiraWebPanelTask extends LitElement {
           <tr>
             ${days.map(
               day => html`<th>
-                <div>
+                <div
+                  class="${day.date.getDate() === new Date().getDate()
+                    ? 'currentDay'
+                    : ''}"
+                >
                   <span>${day.label}</span>
                   <span>${day.date.getDate()}</span>
                 </div>
