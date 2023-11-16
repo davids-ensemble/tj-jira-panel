@@ -13,7 +13,7 @@ interface Day {
   iso: string;
 }
 
-@customElement('jira-web-panel-task')
+@customElement('jira-web-panel-tasks-table')
 export class JiraWebPanelTask extends LitElement {
   static styles = css`
     p {

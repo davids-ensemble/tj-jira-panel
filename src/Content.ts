@@ -5,7 +5,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { AuthObject, getServerConfig, isSessionValid } from './tjAPI.js';
 
 import './LoginForm.js';
-import './Task.js';
+import './TasksTable.js';
 import './Loader.js';
 
 @customElement('jira-web-panel-content')
@@ -69,11 +69,11 @@ export class JiraWebPanelContent extends LitElement {
     if (this.shouldShowLoadingIndicator) {
       content = html`<jira-web-panel-loader></jira-web-panel-loader>`;
     } else if (this.user?.sessionUuid) {
-      content = html`<jira-web-panel-task
+      content = html`<jira-web-panel-tasks-table
         jiraId=${ifDefined(this.jiraId)}
         jiraSummary=${ifDefined(this.jiraSummary)}
         .user=${this.user}
-      ></jira-web-panel-task>`;
+      ></jira-web-panel-tasks-table>`;
     } else {
       content = html`<jira-web-panel-login
         @login=${this.loginHandler}
