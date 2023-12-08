@@ -20,6 +20,25 @@ export class JiraWebPanelTask extends LitElement {
       font-weight: 600;
       margin: 0;
       font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    p::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
+      background: var(--status-color);
+      box-shadow: 0 0 0 1px rgba(9, 30, 66, 0.3);
+    }
+
+    p[data-active='true'] {
+      --status-color: #0b9d0e;
+    }
+    p[data-active='false'] {
+      --status-color: #e4e4e4;
     }
 
     table {
@@ -181,7 +200,7 @@ export class JiraWebPanelTask extends LitElement {
         }}
       ></jira-web-panel-task-form>`;
     }
-    return html`<p>${this.task?.name}</p>
+    return html`<p data-active="${this.task?.active}">${this.task?.name}</p>
       ${this.renderTable()}`;
   }
 

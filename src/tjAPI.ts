@@ -91,6 +91,7 @@ export const getTimesheet = async ({
 const parseTask = (task: Element) => ({
   id: task.attributes.getNamedItem('id')?.value,
   name: task.querySelector('name')?.textContent,
+  active: task.querySelector('active')?.textContent === 'true',
   startDate: new Date(task.querySelector('startDate')?.textContent ?? ''),
   recordedHours: Array.from(
     task.querySelectorAll('recordedHours > workDay')
@@ -111,9 +112,19 @@ export const findTaskForJiraId = async ({
   const timesheet = await getTimesheet(authObject);
   const xpath = `//task/name[contains(text(),"${jiraId}")]`;
   const matchingTasks = timesheet.evaluate(xpath, timesheet);
-  const task = matchingTasks.iterateNext()?.parentElement;
-  if (task) {
-    return parseTask(task);
+  let returnedTask;
+  for (
+    let task = matchingTasks.iterateNext()?.parentElement;
+    task;
+    task = matchingTasks.iterateNext()?.parentElement
+  ) {
+    returnedTask = task;
+    if (task.querySelector('active')?.textContent === 'true') {
+      break;
+    }
+  }
+  if (returnedTask) {
+    return parseTask(returnedTask);
   }
   return null;
 };
