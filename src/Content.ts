@@ -87,10 +87,16 @@ export class JiraWebPanelContent extends LitElement {
       <section id="tj-web-panel_content">
         ${this.renderUI()}
         <footer>
-          ${this.user?.sessionUuid
-            ? html`Logged in as ${this.user.username} (${this.user.userId}) @ `
-            : null}
-          ${this.serverVersion ? html`v${this.serverVersion}` : null}
+          <p></p>
+            ${
+              this.user?.sessionUuid
+                ? html`Logged in as ${this.user.username} (${this.user.userId})
+                  @ `
+                : null
+            }
+            ${this.serverVersion ? html`TJ v${this.serverVersion}` : null}
+          </p>
+          <p>TJI v1.0.7</p>
         </footer>
       </section>
     `;

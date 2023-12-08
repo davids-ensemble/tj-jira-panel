@@ -18,7 +18,8 @@
     "build": "tsc && npm run analyze -- --exclude dist",
     "prepublish": "tsc && npm run analyze -- --exclude dist",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
-    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore"
+    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
+    "release": "npx standard-version -a"
   },
   "dependencies": {
     "lit": "^2.0.2"
@@ -77,5 +78,10 @@
       "eslint --fix",
       "prettier --write"
     ]
+  },
+  "standard-version": {
+    "scripts": {
+      "postbump": "TJI_VERSION=$(grep '\"version\"' package.json | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && sed -i '' -E \"s|TJI v.*(<.*)|TJI v${TJI_VERSION}\\1|\" src/Content.ts && git add src/Content.ts"
+    }
   }
 }
