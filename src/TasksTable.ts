@@ -64,6 +64,10 @@ export class JiraWebPanelTask extends LitElement {
       color: #2886bb;
     }
 
+    .disabled {
+      opacity: 0.5;
+    }
+
     input {
       width: 100%;
       border: none;
@@ -146,6 +150,8 @@ export class JiraWebPanelTask extends LitElement {
                 <div
                   class="${day.date.getDate() === new Date().getDate()
                     ? 'currentDay'
+                    : ''} ${(this.task?.startDate ?? new Date()) > day.date
+                    ? 'disabled'
                     : ''}"
                 >
                   <span>${day.label}</span>
