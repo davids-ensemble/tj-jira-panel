@@ -31,6 +31,10 @@ export class JiraWebPanelHeading extends LitElement {
       --btn-bg: rgba(9, 30, 66, 0.13);
     }
 
+    button[aria-expanded='false'] {
+      transform: rotate(-90deg);
+    }
+
     h4 {
       margin: 0;
       font-weight: 600;
@@ -42,14 +46,25 @@ export class JiraWebPanelHeading extends LitElement {
   @property()
   headingLabel = '';
 
+  @property({ type: Boolean })
+  isExpanded = true;
+
   render() {
     return html`
       <div id="tj-web-panel_heading">
         <button
           aria-label="${this.headingLabel}"
           aria-controls="tj-web-panel"
-          aria-expanded="true"
+          aria-expanded="${this.isExpanded}"
           resolved=""
+          @click=${() => {
+            this.dispatchEvent(
+              new CustomEvent('toggle', {
+                bubbles: true,
+                composed: true,
+              })
+            );
+          }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14">
             <g fill="none" fill-rule="evenodd">
