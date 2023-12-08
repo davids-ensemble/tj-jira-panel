@@ -16,6 +16,12 @@ interface Day {
 @customElement('jira-web-panel-tasks-table')
 export class JiraWebPanelTask extends LitElement {
   static styles = css`
+    span.parent {
+      display: block;
+      font-size: 10px;
+      margin: 0;
+    }
+
     p {
       font-weight: 600;
       margin: 0;
@@ -206,7 +212,10 @@ export class JiraWebPanelTask extends LitElement {
         }}
       ></jira-web-panel-task-form>`;
     }
-    return html`<p data-active="${this.task?.active}">${this.task?.name}</p>
+    return html`${this.task?.parentTask
+        ? html`<span class="parent">${this.task.parentTask.name}</span>`
+        : ''}
+      <p data-active="${this.task?.active}">${this.task?.name}</p>
       ${this.renderTable()}`;
   }
 

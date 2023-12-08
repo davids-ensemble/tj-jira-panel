@@ -78,7 +78,6 @@ export class JiraWebPanelHeading extends LitElement {
         <h4 class="toggle-title" id="tj-web-panel-label">
           ${this.headingLabel}
         </h4>
-        <ul class="ops"></ul>
       </div>
     `;
   }

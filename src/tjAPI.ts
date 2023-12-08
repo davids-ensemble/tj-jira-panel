@@ -105,6 +105,15 @@ const parseTask = (task: Element) => ({
   }, {}),
 });
 
+const getTaskById = (id: string, timesheet: Document) => {
+  const xpath = `//task[@id="${id}"]`;
+  const task = timesheet.evaluate(xpath, timesheet).iterateNext();
+  if (task) {
+    return task as Element;
+  }
+  return null;
+};
+
 export const findTaskForJiraId = async ({
   jiraId,
   ...authObject
@@ -124,7 +133,14 @@ export const findTaskForJiraId = async ({
     }
   }
   if (returnedTask) {
-    return parseTask(returnedTask);
+    const parentTask = getTaskById(
+      returnedTask?.querySelector('parentTaskId')?.textContent ?? '',
+      timesheet
+    );
+    return {
+      ...parseTask(returnedTask),
+      parentTask: parentTask ? parseTask(parentTask) : null,
+    };
   }
   return null;
 };
