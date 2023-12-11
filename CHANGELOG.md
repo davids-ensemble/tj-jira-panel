@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/davids-ensemble/jira-tj-web-panel/compare/v1.0.6...v1.1.0) (2023-12-11)
+
+
+### Features
+
+* added a highlight for the current day ([32e18c6](https://github.com/davids-ensemble/jira-tj-web-panel/commit/32e18c622a8bd366f7f85b07d2ca2f78ec248937))
+* added task status indicator ([d86ad19](https://github.com/davids-ensemble/jira-tj-web-panel/commit/d86ad197f4ead3d200cbd2ba50e3a80bcaf764f0))
+* added toggling functionality ([a0ab505](https://github.com/davids-ensemble/jira-tj-web-panel/commit/a0ab5055d8344b165abc2f9a1598b9ad02a12406))
+* added widget version to the footer ([3439ac5](https://github.com/davids-ensemble/jira-tj-web-panel/commit/3439ac58af35bc2b9607d89280a9a325cd2bec45))
+* disabled days will be faded out ([0f67dd2](https://github.com/davids-ensemble/jira-tj-web-panel/commit/0f67dd252f2f6ae8d98671a61f542d480460fe9c))
+* task's parent will show up if it exists ([971458e](https://github.com/davids-ensemble/jira-tj-web-panel/commit/971458e85cf25269e0cc61998f49181c2278a8ff))
+
+
+### Bug Fixes
+
+* fixed names containing < or > failing to create tasks ([e459206](https://github.com/davids-ensemble/jira-tj-web-panel/commit/e459206216b8a1781b95ee8a25f2ebcd1f7108d0))
+
 ### [1.0.6](https://github.com/davids-ensemble/jira-tj-web-panel/compare/v1.0.5...v1.0.6) (2023-11-14)
 
 
