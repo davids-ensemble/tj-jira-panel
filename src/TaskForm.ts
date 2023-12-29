@@ -50,7 +50,15 @@ export class JiraWebPanelTaskForm extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback?.();
-    this.allTasks = await getAllTasks(this.user);
+    const allTasks = await getAllTasks(this.user);
+    const selectedTasks = localStorage.getItem('tj_selected_tasks');
+    if (selectedTasks) {
+      this.allTasks = Object.fromEntries(
+        Object.entries(allTasks).filter(([id]) => selectedTasks.includes(id))
+      );
+    } else {
+      this.allTasks = allTasks;
+    }
     this.shouldShowLoadingIndicator = false;
   }
 
