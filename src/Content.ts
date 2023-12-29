@@ -133,7 +133,7 @@ export class JiraWebPanelContent extends LitElement {
                 : null}
               ${this.serverVersion ? html`TJ v${this.serverVersion}` : null}
             </p>
-            <p>TJI v1.1.0</p>
+            <p>TJI v1.2.0</p>
           </div>
         </footer>
       </section>

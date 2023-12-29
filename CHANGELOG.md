@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/davids-ensemble/jira-tj-web-panel/compare/v1.1.0...v1.2.0) (2023-12-29)
+
+
+### Features
+
+* parent tasks settings ([6e3686c](https://github.com/davids-ensemble/jira-tj-web-panel/commit/6e3686cf332419aba8c7520b27c5c619360098f0))
+
 ## [1.1.0](https://github.com/davids-ensemble/jira-tj-web-panel/compare/v1.0.6...v1.1.0) (2023-12-11)
 
 
