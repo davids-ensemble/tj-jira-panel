@@ -20,6 +20,8 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface TjLoginForm {
+    }
 }
 declare global {
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
@@ -28,8 +30,15 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLTjLoginFormElement extends Components.TjLoginForm, HTMLStencilElement {
+    }
+    var HTMLTjLoginFormElement: {
+        prototype: HTMLTjLoginFormElement;
+        new (): HTMLTjLoginFormElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "tj-login-form": HTMLTjLoginFormElement;
     }
 }
 declare namespace LocalJSX {
@@ -47,8 +56,11 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface TjLoginForm {
+    }
     interface IntrinsicElements {
         "my-component": MyComponent;
+        "tj-login-form": TjLoginForm;
     }
 }
 export { LocalJSX as JSX };
@@ -56,6 +68,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "tj-login-form": LocalJSX.TjLoginForm & JSXBase.HTMLAttributes<HTMLTjLoginFormElement>;
         }
     }
 }
