@@ -1,6 +1,7 @@
 import { Component, h } from '@stencil/core';
 
-import { LoginParams, User } from '../../utils/tj-api/User';
+import { User } from '../../utils/tj/User';
+import type { LoginParams } from '../../utils/tj/User';
 
 @Component({
   tag: 'tj-login-form',
@@ -11,7 +12,9 @@ export class TJLoginForm {
   private async onFormSubmit(event: Event) {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
-    const data = Object.fromEntries([...formData.entries()]) as unknown as LoginParams;
+    const data = Object.fromEntries([
+      ...formData.entries(),
+    ]) as unknown as LoginParams;
     const authObject = await User.login(data);
     console.log(authObject);
   }
@@ -19,8 +22,18 @@ export class TJLoginForm {
   render() {
     return (
       <form action="" onSubmit={this.onFormSubmit}>
-        <input type="text" placeholder="username" id="username" name="username" />
-        <input type="password" placeholder="password" id="password" name="password" />
+        <input
+          type="text"
+          placeholder="username"
+          id="username"
+          name="username"
+        />
+        <input
+          type="password"
+          placeholder="password"
+          id="password"
+          name="password"
+        />
         <button type="submit">Login</button>
       </form>
     );
