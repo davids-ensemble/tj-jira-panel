@@ -6,29 +6,19 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
+    interface TjJiraPanel {
+        "jiraID": string;
+        "jiraSummary": string;
     }
     interface TjLoginForm {
     }
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
+    interface HTMLTjJiraPanelElement extends Components.TjJiraPanel, HTMLStencilElement {
     }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
+    var HTMLTjJiraPanelElement: {
+        prototype: HTMLTjJiraPanelElement;
+        new (): HTMLTjJiraPanelElement;
     };
     interface HTMLTjLoginFormElement extends Components.TjLoginForm, HTMLStencilElement {
     }
@@ -37,29 +27,19 @@ declare global {
         new (): HTMLTjLoginFormElement;
     };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
+        "tj-jira-panel": HTMLTjJiraPanelElement;
         "tj-login-form": HTMLTjLoginFormElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
+    interface TjJiraPanel {
+        "jiraID"?: string;
+        "jiraSummary"?: string;
     }
     interface TjLoginForm {
     }
     interface IntrinsicElements {
-        "my-component": MyComponent;
+        "tj-jira-panel": TjJiraPanel;
         "tj-login-form": TjLoginForm;
     }
 }
@@ -67,7 +47,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "tj-jira-panel": LocalJSX.TjJiraPanel & JSXBase.HTMLAttributes<HTMLTjJiraPanelElement>;
             "tj-login-form": LocalJSX.TjLoginForm & JSXBase.HTMLAttributes<HTMLTjLoginFormElement>;
         }
     }
