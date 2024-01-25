@@ -22,6 +22,9 @@ export namespace Components {
     }
     interface TjLoginForm {
     }
+    interface WithLoading {
+        "isLoading": boolean;
+    }
 }
 export interface TjLoginFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -64,11 +67,18 @@ declare global {
         prototype: HTMLTjLoginFormElement;
         new (): HTMLTjLoginFormElement;
     };
+    interface HTMLWithLoadingElement extends Components.WithLoading, HTMLStencilElement {
+    }
+    var HTMLWithLoadingElement: {
+        prototype: HTMLWithLoadingElement;
+        new (): HTMLWithLoadingElement;
+    };
     interface HTMLElementTagNameMap {
         "notification-toast": HTMLNotificationToastElement;
         "notifications-provider": HTMLNotificationsProviderElement;
         "tj-jira-panel": HTMLTjJiraPanelElement;
         "tj-login-form": HTMLTjLoginFormElement;
+        "with-loading": HTMLWithLoadingElement;
     }
 }
 declare namespace LocalJSX {
@@ -88,11 +98,15 @@ declare namespace LocalJSX {
         "onLogin"?: (event: TjLoginFormCustomEvent<void>) => void;
         "onNotification"?: (event: TjLoginFormCustomEvent<Notification>) => void;
     }
+    interface WithLoading {
+        "isLoading"?: boolean;
+    }
     interface IntrinsicElements {
         "notification-toast": NotificationToast;
         "notifications-provider": NotificationsProvider;
         "tj-jira-panel": TjJiraPanel;
         "tj-login-form": TjLoginForm;
+        "with-loading": WithLoading;
     }
 }
 export { LocalJSX as JSX };
@@ -103,6 +117,7 @@ declare module "@stencil/core" {
             "notifications-provider": LocalJSX.NotificationsProvider & JSXBase.HTMLAttributes<HTMLNotificationsProviderElement>;
             "tj-jira-panel": LocalJSX.TjJiraPanel & JSXBase.HTMLAttributes<HTMLTjJiraPanelElement>;
             "tj-login-form": LocalJSX.TjLoginForm & JSXBase.HTMLAttributes<HTMLTjLoginFormElement>;
+            "with-loading": LocalJSX.WithLoading & JSXBase.HTMLAttributes<HTMLWithLoadingElement>;
         }
     }
 }

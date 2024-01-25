@@ -29,11 +29,13 @@ export class TJJiraPanel {
   render() {
     return (
       <notifications-provider>
-        {!this.isLoggedIn ? (
-          <tj-login-form></tj-login-form>
-        ) : (
-          'user is logged in'
-        )}
+        <with-loading isLoading={this.isLoading}>
+          {!this.isLoggedIn ? (
+            <tj-login-form></tj-login-form>
+          ) : (
+            'user is logged in'
+          )}
+        </with-loading>
       </notifications-provider>
     );
   }
