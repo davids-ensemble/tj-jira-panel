@@ -1,4 +1,5 @@
 import { Server } from './Server';
+import { checkForError } from './utils';
 
 export interface LoginParams {
   username: string;
@@ -43,7 +44,7 @@ export class User {
     });
     const data = await response.text();
     const dom = new DOMParser().parseFromString(data, 'text/xml');
-    // TODO: add error handling for serviceError, loginfailed
+    checkForError(dom);
     const result = {
       userId: dom.querySelector('user')?.attributes.getNamedItem('id')?.value,
       sessionUuid: dom.querySelector('sessionUuid')?.textContent,

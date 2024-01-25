@@ -48,6 +48,7 @@ declare global {
     };
     interface HTMLTjLoginFormElementEventMap {
         "notification": Notification;
+        "login": void;
     }
     interface HTMLTjLoginFormElement extends Components.TjLoginForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLTjLoginFormElementEventMap>(type: K, listener: (this: HTMLTjLoginFormElement, ev: TjLoginFormCustomEvent<HTMLTjLoginFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -84,6 +85,7 @@ declare namespace LocalJSX {
         "jiraSummary"?: string;
     }
     interface TjLoginForm {
+        "onLogin"?: (event: TjLoginFormCustomEvent<void>) => void;
         "onNotification"?: (event: TjLoginFormCustomEvent<Notification>) => void;
     }
     interface IntrinsicElements {

@@ -1,7 +1,8 @@
-import { Component, h } from '@stencil/core';
+import { Component, Event, EventEmitter, h } from '@stencil/core';
 
-import { User } from '../../utils/tj/User';
 import type { LoginParams } from '../../utils/tj/User';
+import { User } from '../../utils/tj/User';
+import { Notification } from '../notifications-provider/types';
 
 @Component({
   tag: 'tj-login-form',
@@ -9,15 +10,25 @@ import type { LoginParams } from '../../utils/tj/User';
   shadow: true,
 })
 export class TJLoginForm {
-  private async onFormSubmit(event: Event) {
+  @Event() notification: EventEmitter<Notification>;
+  @Event() login: EventEmitter<void>;
+
+  onFormSubmit = async (event: Event) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
     const data = Object.fromEntries([
       ...formData.entries(),
     ]) as unknown as LoginParams;
-    const authObject = await User.login(data);
-    console.log(authObject);
-  }
+    try {
+      await User.login(data);
+      this.login.emit();
+    } catch (error) {
+      this.notification.emit({
+        type: 'error',
+        message: error.message,
+      });
+    }
+  };
 
   render() {
     return (

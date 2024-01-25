@@ -1,4 +1,6 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, Listen, Prop, State, h } from '@stencil/core';
+
+import { User } from '../../utils/tj/User';
 
 @Component({
   tag: 'tj-jira-panel',
@@ -8,12 +10,31 @@ export class TJJiraPanel {
   @Prop({ attribute: 'jira-id' }) jiraID: string;
   @Prop() jiraSummary: string;
 
+  @State() isLoggedIn = false;
+  @State() isLoading = true;
+
+  async componentWillLoad() {
+    if (User.sessionUuid) {
+      const user = await User.isSessionValid();
+      this.isLoggedIn = !!user;
+    }
+    this.isLoading = false;
+  }
+
+  @Listen('login')
+  onLogin() {
+    this.isLoggedIn = true;
+  }
+
   render() {
     return (
-      <div>
-        <h4>{this.jiraID}</h4>
-        <p>{this.jiraSummary}</p>
-      </div>
+      <notifications-provider>
+        {!this.isLoggedIn ? (
+          <tj-login-form></tj-login-form>
+        ) : (
+          'user is logged in'
+        )}
+      </notifications-provider>
     );
   }
 }
