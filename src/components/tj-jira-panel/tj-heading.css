@@ -1,0 +1,37 @@
+div {
+  display: flex;
+  height: 20px;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+button {
+  --btn-bg: rgba(9, 30, 66, 0.08);
+  --btn-text: #344563;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  box-sizing: border-box;
+  transition: background-color 0.1s ease-out;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  cursor: pointer;
+
+  &:hover {
+    --btn-bg: rgba(9, 30, 66, 0.13);
+  }
+
+  &[aria-expanded='false'] {
+    transform: rotate(-90deg);
+  }
+}
+
+h4 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 20px;
+  color: rgb(106, 115, 123);
+}

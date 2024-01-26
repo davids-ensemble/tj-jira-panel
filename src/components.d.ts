@@ -19,6 +19,9 @@ export namespace Components {
     interface TjFooter {
         "isLoggedIn": boolean;
     }
+    interface TjHeading {
+        "isExpanded": boolean;
+    }
     interface TjJiraPanel {
         "jiraID": string;
         "jiraSummary": string;
@@ -28,6 +31,10 @@ export namespace Components {
     interface WithLoading {
         "isLoading": boolean;
     }
+}
+export interface TjHeadingCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTjHeadingElement;
 }
 export interface TjLoginFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -51,6 +58,23 @@ declare global {
     var HTMLTjFooterElement: {
         prototype: HTMLTjFooterElement;
         new (): HTMLTjFooterElement;
+    };
+    interface HTMLTjHeadingElementEventMap {
+        "togglePanel": void;
+    }
+    interface HTMLTjHeadingElement extends Components.TjHeading, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTjHeadingElementEventMap>(type: K, listener: (this: HTMLTjHeadingElement, ev: TjHeadingCustomEvent<HTMLTjHeadingElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTjHeadingElementEventMap>(type: K, listener: (this: HTMLTjHeadingElement, ev: TjHeadingCustomEvent<HTMLTjHeadingElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLTjHeadingElement: {
+        prototype: HTMLTjHeadingElement;
+        new (): HTMLTjHeadingElement;
     };
     interface HTMLTjJiraPanelElement extends Components.TjJiraPanel, HTMLStencilElement {
     }
@@ -86,6 +110,7 @@ declare global {
         "notification-toast": HTMLNotificationToastElement;
         "notifications-provider": HTMLNotificationsProviderElement;
         "tj-footer": HTMLTjFooterElement;
+        "tj-heading": HTMLTjHeadingElement;
         "tj-jira-panel": HTMLTjJiraPanelElement;
         "tj-login-form": HTMLTjLoginFormElement;
         "with-loading": HTMLWithLoadingElement;
@@ -103,6 +128,10 @@ declare namespace LocalJSX {
     interface TjFooter {
         "isLoggedIn"?: boolean;
     }
+    interface TjHeading {
+        "isExpanded"?: boolean;
+        "onTogglePanel"?: (event: TjHeadingCustomEvent<void>) => void;
+    }
     interface TjJiraPanel {
         "jiraID"?: string;
         "jiraSummary"?: string;
@@ -118,6 +147,7 @@ declare namespace LocalJSX {
         "notification-toast": NotificationToast;
         "notifications-provider": NotificationsProvider;
         "tj-footer": TjFooter;
+        "tj-heading": TjHeading;
         "tj-jira-panel": TjJiraPanel;
         "tj-login-form": TjLoginForm;
         "with-loading": WithLoading;
@@ -130,6 +160,7 @@ declare module "@stencil/core" {
             "notification-toast": LocalJSX.NotificationToast & JSXBase.HTMLAttributes<HTMLNotificationToastElement>;
             "notifications-provider": LocalJSX.NotificationsProvider & JSXBase.HTMLAttributes<HTMLNotificationsProviderElement>;
             "tj-footer": LocalJSX.TjFooter & JSXBase.HTMLAttributes<HTMLTjFooterElement>;
+            "tj-heading": LocalJSX.TjHeading & JSXBase.HTMLAttributes<HTMLTjHeadingElement>;
             "tj-jira-panel": LocalJSX.TjJiraPanel & JSXBase.HTMLAttributes<HTMLTjJiraPanelElement>;
             "tj-login-form": LocalJSX.TjLoginForm & JSXBase.HTMLAttributes<HTMLTjLoginFormElement>;
             "with-loading": LocalJSX.WithLoading & JSXBase.HTMLAttributes<HTMLWithLoadingElement>;

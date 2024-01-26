@@ -13,6 +13,7 @@ export class TJJiraPanel {
 
   @State() isLoggedIn = false;
   @State() isLoading = true;
+  @State() isExpanded = true;
 
   async componentWillLoad() {
     if (User.sessionUuid) {
@@ -27,19 +28,25 @@ export class TJJiraPanel {
     this.isLoggedIn = true;
   }
 
+  @Listen('togglePanel')
+  onTogglePanel() {
+    this.isExpanded = !this.isExpanded;
+  }
+
   render() {
     return (
       <notifications-provider>
-        <section>
+        <tj-heading isExpanded={this.isExpanded}></tj-heading>
+        <main id="tj-panel" aria-hidden={this.isExpanded ? 'false' : 'true'}>
           <with-loading isLoading={this.isLoading}>
             {!this.isLoggedIn ? (
               <tj-login-form></tj-login-form>
             ) : (
-              'user is logged in'
+              'user is logged in '
             )}
             <tj-footer isLoggedIn={this.isLoggedIn}></tj-footer>
           </with-loading>
-        </section>
+        </main>
       </notifications-provider>
     );
   }
