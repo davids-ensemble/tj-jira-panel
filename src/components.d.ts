@@ -16,6 +16,9 @@ export namespace Components {
     }
     interface NotificationsProvider {
     }
+    interface TjFooter {
+        "isLoggedIn": boolean;
+    }
     interface TjJiraPanel {
         "jiraID": string;
         "jiraSummary": string;
@@ -42,6 +45,12 @@ declare global {
     var HTMLNotificationsProviderElement: {
         prototype: HTMLNotificationsProviderElement;
         new (): HTMLNotificationsProviderElement;
+    };
+    interface HTMLTjFooterElement extends Components.TjFooter, HTMLStencilElement {
+    }
+    var HTMLTjFooterElement: {
+        prototype: HTMLTjFooterElement;
+        new (): HTMLTjFooterElement;
     };
     interface HTMLTjJiraPanelElement extends Components.TjJiraPanel, HTMLStencilElement {
     }
@@ -76,6 +85,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "notification-toast": HTMLNotificationToastElement;
         "notifications-provider": HTMLNotificationsProviderElement;
+        "tj-footer": HTMLTjFooterElement;
         "tj-jira-panel": HTMLTjJiraPanelElement;
         "tj-login-form": HTMLTjLoginFormElement;
         "with-loading": HTMLWithLoadingElement;
@@ -89,6 +99,9 @@ declare namespace LocalJSX {
         "type": Notification['type'];
     }
     interface NotificationsProvider {
+    }
+    interface TjFooter {
+        "isLoggedIn"?: boolean;
     }
     interface TjJiraPanel {
         "jiraID"?: string;
@@ -104,6 +117,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "notification-toast": NotificationToast;
         "notifications-provider": NotificationsProvider;
+        "tj-footer": TjFooter;
         "tj-jira-panel": TjJiraPanel;
         "tj-login-form": TjLoginForm;
         "with-loading": WithLoading;
@@ -115,6 +129,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "notification-toast": LocalJSX.NotificationToast & JSXBase.HTMLAttributes<HTMLNotificationToastElement>;
             "notifications-provider": LocalJSX.NotificationsProvider & JSXBase.HTMLAttributes<HTMLNotificationsProviderElement>;
+            "tj-footer": LocalJSX.TjFooter & JSXBase.HTMLAttributes<HTMLTjFooterElement>;
             "tj-jira-panel": LocalJSX.TjJiraPanel & JSXBase.HTMLAttributes<HTMLTjJiraPanelElement>;
             "tj-login-form": LocalJSX.TjLoginForm & JSXBase.HTMLAttributes<HTMLTjLoginFormElement>;
             "with-loading": LocalJSX.WithLoading & JSXBase.HTMLAttributes<HTMLWithLoadingElement>;

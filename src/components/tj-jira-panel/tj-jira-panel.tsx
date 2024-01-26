@@ -4,6 +4,7 @@ import { User } from '../../utils/tj/User';
 
 @Component({
   tag: 'tj-jira-panel',
+  styleUrl: 'tj-jira-panel.css',
   shadow: true,
 })
 export class TJJiraPanel {
@@ -15,8 +16,8 @@ export class TJJiraPanel {
 
   async componentWillLoad() {
     if (User.sessionUuid) {
-      const user = await User.isSessionValid();
-      this.isLoggedIn = !!user;
+      const isValid = await User.isSessionValid();
+      this.isLoggedIn = isValid;
     }
     this.isLoading = false;
   }
@@ -29,13 +30,16 @@ export class TJJiraPanel {
   render() {
     return (
       <notifications-provider>
-        <with-loading isLoading={this.isLoading}>
-          {!this.isLoggedIn ? (
-            <tj-login-form></tj-login-form>
-          ) : (
-            'user is logged in'
-          )}
-        </with-loading>
+        <section>
+          <with-loading isLoading={this.isLoading}>
+            {!this.isLoggedIn ? (
+              <tj-login-form></tj-login-form>
+            ) : (
+              'user is logged in'
+            )}
+            <tj-footer isLoggedIn={this.isLoggedIn}></tj-footer>
+          </with-loading>
+        </section>
       </notifications-provider>
     );
   }
