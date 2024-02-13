@@ -12,7 +12,11 @@
     "noUnusedParameters": true,
     "resolveJsonModule": true,
     "jsx": "react",
-    "jsxFactory": "h"
+    "jsxFactory": "h",
+    "paths": {
+      "@utils/*": ["./src/utils/*"],
+      "@root/*": ["./*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules"]

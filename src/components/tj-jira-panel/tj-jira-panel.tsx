@@ -1,6 +1,6 @@
 import { Component, Listen, Prop, State, h } from '@stencil/core';
 
-import { User } from '../../utils/tj/User';
+import { User } from '@utils/tj/User';
 import { Switch } from '../Switch/Switch';
 
 @Component({
