@@ -1,6 +1,7 @@
 import { Component, Listen, Prop, State, h } from '@stencil/core';
 
 import { User } from '../../utils/tj/User';
+import { Switch } from '../Switch/Switch';
 
 @Component({
   tag: 'tj-jira-panel',
@@ -14,11 +15,14 @@ export class TJJiraPanel {
   @State() isLoggedIn = false;
   @State() isLoading = true;
   @State() isExpanded = true;
+  @State() path = 'login';
 
   async componentWillLoad() {
     if (User.sessionUuid) {
       const isValid = await User.isSessionValid();
-      this.isLoggedIn = isValid;
+      if (isValid) {
+        this.onLogin();
+      }
     }
     this.isLoading = false;
   }
@@ -26,6 +30,7 @@ export class TJJiraPanel {
   @Listen('login')
   onLogin() {
     this.isLoggedIn = true;
+    this.path = 'task';
   }
 
   @Listen('togglePanel')
@@ -39,11 +44,19 @@ export class TJJiraPanel {
         <tj-heading isExpanded={this.isExpanded}></tj-heading>
         <main id="tj-panel" aria-hidden={this.isExpanded ? 'false' : 'true'}>
           <with-loading isLoading={this.isLoading}>
-            {!this.isLoggedIn ? (
-              <tj-login-form></tj-login-form>
-            ) : (
-              'user is logged in '
-            )}
+            <Switch
+              shouldBreak
+              cases={[
+                {
+                  condition: this.path === 'login',
+                  getComponent: () => <tj-login-form></tj-login-form>,
+                },
+                {
+                  condition: this.path === 'task',
+                  getComponent: () => 'user is logged in ',
+                },
+              ]}
+            />
             <tj-footer isLoggedIn={this.isLoggedIn}></tj-footer>
           </with-loading>
         </main>
