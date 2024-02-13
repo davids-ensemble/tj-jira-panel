@@ -6,9 +6,15 @@
   font-size: 14px;
   padding-left: 20px;
   box-sizing: border-box;
-  min-height: 100px;
 }
 
-main[aria-hidden='true'] {
-  display: none;
+main {
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &[aria-hidden='true'] {
+    display: none;
+  }
 }

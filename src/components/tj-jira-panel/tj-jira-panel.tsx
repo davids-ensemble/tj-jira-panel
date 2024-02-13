@@ -42,8 +42,8 @@ export class TJJiraPanel {
     return (
       <notifications-provider>
         <tj-heading isExpanded={this.isExpanded}></tj-heading>
-        <main id="tj-panel" aria-hidden={this.isExpanded ? 'false' : 'true'}>
-          <with-loading isLoading={this.isLoading}>
+        <with-loading isLoading={this.isLoading}>
+          <main id="tj-panel" aria-hidden={this.isExpanded ? 'false' : 'true'}>
             <Switch
               shouldBreak
               cases={[
@@ -58,8 +58,8 @@ export class TJJiraPanel {
               ]}
             />
             <tj-footer isLoggedIn={this.isLoggedIn}></tj-footer>
-          </with-loading>
-        </main>
+          </main>
+        </with-loading>
       </notifications-provider>
     );
   }
