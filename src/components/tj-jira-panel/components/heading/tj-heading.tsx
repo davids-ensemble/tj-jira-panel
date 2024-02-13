@@ -16,6 +16,7 @@ export class TJHeading {
         <button
           aria-controls="tj-panel"
           aria-expanded={String(this.isExpanded)}
+          aria-label="Toggle TJ panel"
           onClick={() => this.togglePanel.emit()}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14">
