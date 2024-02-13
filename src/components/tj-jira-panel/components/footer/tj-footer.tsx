@@ -28,7 +28,7 @@ export class TJFooter {
             {this.isLoggedIn
               ? `Logged in as ${User.username} (${User.userId}) @ `
               : null}
-            {this.serverVersion ? 'v' + this.serverVersion : null}
+            {this.serverVersion ? 'TJ v' + this.serverVersion : null}
           </p>
           <p>TJI v{version}</p>
         </div>
