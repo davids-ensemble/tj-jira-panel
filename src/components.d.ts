@@ -29,6 +29,7 @@ export namespace Components {
     interface TjLoginForm {
     }
     interface TjSettings {
+        "isLoggedIn": boolean;
     }
     interface WithLoading {
         "isLoading": boolean;
@@ -168,6 +169,7 @@ declare namespace LocalJSX {
         "onNotification"?: (event: TjLoginFormCustomEvent<Notification>) => void;
     }
     interface TjSettings {
+        "isLoggedIn"?: boolean;
     }
     interface WithLoading {
         "isLoading"?: boolean;

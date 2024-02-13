@@ -73,7 +73,9 @@ export class TJJiraPanel {
                 },
                 {
                   condition: this.path === 'settings',
-                  renderComponent: () => <tj-settings></tj-settings>,
+                  renderComponent: () => (
+                    <tj-settings isLoggedIn={this.isLoggedIn}></tj-settings>
+                  ),
                 },
               ]}
             />
