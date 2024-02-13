@@ -49,11 +49,11 @@ export class TJJiraPanel {
               cases={[
                 {
                   condition: this.path === 'login',
-                  getComponent: () => <tj-login-form></tj-login-form>,
+                  renderComponent: () => <tj-login-form></tj-login-form>,
                 },
                 {
                   condition: this.path === 'task',
-                  getComponent: () => 'user is logged in ',
+                  renderComponent: () => 'user is logged in ',
                 },
               ]}
             />

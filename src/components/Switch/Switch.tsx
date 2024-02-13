@@ -2,7 +2,7 @@ import type { VNode, FunctionalComponent } from '@stencil/core';
 
 interface Case {
   condition: boolean;
-  getComponent: () => VNode;
+  renderComponent: () => VNode;
 }
 
 interface SwitchProps {
@@ -17,9 +17,9 @@ export const Switch: FunctionalComponent<SwitchProps> = ({
 }) => {
   const result = [];
 
-  for (const { condition, getComponent } of cases) {
+  for (const { condition, renderComponent } of cases) {
     if (condition) {
-      result.push(getComponent());
+      result.push(renderComponent());
       if (shouldBreak) {
         break;
       }
