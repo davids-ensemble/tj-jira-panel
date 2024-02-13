@@ -15,3 +15,11 @@ footer div:last-child {
 footer p {
   margin: 2px;
 }
+
+[role='button'] {
+  cursor: pointer;
+
+  &[aria-label='Close settings'] {
+    color: red;
+  }
+}

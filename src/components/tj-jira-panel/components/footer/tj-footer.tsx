@@ -1,8 +1,9 @@
-import { Component, Prop, State, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Prop, State, h } from '@stencil/core';
 
 import { version } from '@root/package.json';
 import { Server } from '@utils/tj/Server';
 import { User } from '@utils/tj/User';
+import { Icon } from './Icons';
 
 @Component({
   tag: 'tj-footer',
@@ -10,9 +11,13 @@ import { User } from '@utils/tj/User';
   shadow: true,
 })
 export class TJFooter {
+  @Event() showSettings: EventEmitter<void>;
+  @Event() hideSettings: EventEmitter<void>;
+
   @Prop() isLoggedIn: boolean;
 
   @State() serverVersion: string;
+  @State() isSettingsOpen = false;
 
   async componentWillLoad() {
     const config = await Server.fetchServerConfig();
@@ -22,7 +27,23 @@ export class TJFooter {
   render() {
     return (
       <footer>
-        <div></div>
+        <div>
+          <Icon
+            type={this.isSettingsOpen ? 'settings-x' : 'settings'}
+            size={24}
+            role="button"
+            aria-label={
+              this.isSettingsOpen ? 'Close settings' : 'Open settings'
+            }
+            tabindex={0}
+            onClick={() => {
+              this.isSettingsOpen
+                ? this.hideSettings.emit()
+                : this.showSettings.emit();
+              this.isSettingsOpen = !this.isSettingsOpen;
+            }}
+          />
+        </div>
         <div>
           <p>
             {this.isLoggedIn

@@ -16,6 +16,7 @@ export class TJJiraPanel {
   @State() isLoading = true;
   @State() isExpanded = true;
   @State() path = 'login';
+  @State() lastPath = 'login';
 
   async componentWillLoad() {
     if (User.sessionUuid) {
@@ -27,15 +28,30 @@ export class TJJiraPanel {
     this.isLoading = false;
   }
 
+  updatePath(value: string) {
+    this.lastPath = this.path;
+    this.path = value;
+  }
+
   @Listen('login')
   onLogin() {
     this.isLoggedIn = true;
-    this.path = 'task';
+    this.updatePath('task');
   }
 
   @Listen('togglePanel')
   onTogglePanel() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  @Listen('showSettings')
+  onShowSettings() {
+    this.updatePath('settings');
+  }
+
+  @Listen('hideSettings')
+  onHideSettings() {
+    this.path = this.lastPath;
   }
 
   render() {
@@ -54,6 +70,10 @@ export class TJJiraPanel {
                 {
                   condition: this.path === 'task',
                   renderComponent: () => 'user is logged in ',
+                },
+                {
+                  condition: this.path === 'settings',
+                  renderComponent: () => <tj-settings></tj-settings>,
                 },
               ]}
             />
