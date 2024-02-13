@@ -1,8 +1,8 @@
 import { Component, Prop, State, h } from '@stencil/core';
 
-import { Server } from '../../utils/tj/Server';
-import { version } from '../../../package.json';
-import { User } from '../../utils/tj/User';
+import { Server } from '../../../../utils/tj/Server';
+import { version } from '../../../../../package.json';
+import { User } from '../../../../utils/tj/User';
 
 @Component({
   tag: 'tj-footer',
