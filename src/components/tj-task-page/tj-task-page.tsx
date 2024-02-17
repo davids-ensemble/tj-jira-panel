@@ -53,7 +53,12 @@ export class TJTaskPage {
               },
               {
                 condition: this.task === null,
-                renderComponent: () => <div>Task not found.</div>,
+                renderComponent: () => (
+                  <tj-new-task-form
+                    jiraID={this.jiraID}
+                    jiraSummary={this.jiraSummary}
+                  />
+                ),
               },
             ]}
           />

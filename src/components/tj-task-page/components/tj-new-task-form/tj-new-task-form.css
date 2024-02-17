@@ -1,0 +1,24 @@
+p {
+  margin: 0;
+  margin-bottom: 5px;
+}
+form {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+form > div {
+  display: flex;
+  flex-direction: column;
+}
+input[type='submit'] {
+  background-color: #005273;
+  border: 0;
+  color: white;
+  text-transform: uppercase;
+  border-radius: 2px;
+  max-width: 100px;
+  padding: 5px 10px;
+  cursor: pointer;
+}

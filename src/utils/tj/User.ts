@@ -134,4 +134,14 @@ export class User {
     }
     return null;
   }
+
+  public static async getTaskById(id: string) {
+    const timesheet = await this.getTimesheet();
+    const xpath = `//task[@id="${id}"]`;
+    const task = timesheet.evaluate(xpath, timesheet).iterateNext();
+    if (task) {
+      return new Task(task as Element, timesheet);
+    }
+    return null;
+  }
 }

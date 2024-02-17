@@ -1,3 +1,7 @@
+import { Server } from './Server';
+import { User } from './User';
+import { checkForError } from './utils';
+
 export class Task {
   id: string;
   name: string;
@@ -33,5 +37,41 @@ export class Task {
         }
       }
     }
+  }
+
+  async createSubTask(name: string) {
+    const date = new Date().toISOString().split('T')[0];
+    const body = `
+<addSubTask id="0" version="0">
+  <id>0</id>
+  <version>0</version>
+  <active>true</active>
+  <name>${name.replace(/</g, '[').replace(/>/g, ']')}</name>
+  <descriptionHtmlText>&lt;p&gt; &lt;/p&gt;</descriptionHtmlText>
+  <startDate>${date}</startDate>
+  <parentTaskId>${this.id}</parentTaskId>
+  <kind>WORK</kind>
+  <workKind>DEVELOPMENT</workKind>
+  <billable>true</billable>
+  <assignedUser id="${User.userId}" userName="${User.username}"/>
+</addSubTask>
+  `;
+    const response = await fetch(Server.url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/xml',
+        'Tj_session': User.sessionUuid,
+        'Tj_user': User.username,
+      },
+      body,
+    });
+    const data = await response.text();
+    const dom = new DOMParser().parseFromString(data, 'text/xml');
+    checkForError(dom);
+    const active = dom.querySelector('active')?.textContent === 'true';
+    if (active) {
+      return new Task(dom.querySelector('result'));
+    }
+    return null;
   }
 }
