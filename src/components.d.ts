@@ -43,6 +43,9 @@ export namespace Components {
         "jiraID": string;
         "jiraSummary": string;
     }
+    interface TjTaskTimesheet {
+        "task": Task;
+    }
     interface WithLoading {
         "isLoading": boolean;
     }
@@ -66,6 +69,10 @@ export interface TjNewTaskFormCustomEvent<T> extends CustomEvent<T> {
 export interface TjTaskPageCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTjTaskPageElement;
+}
+export interface TjTaskTimesheetCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTjTaskTimesheetElement;
 }
 declare global {
     interface HTMLNotificationToastElement extends Components.NotificationToast, HTMLStencilElement {
@@ -186,6 +193,23 @@ declare global {
         prototype: HTMLTjTaskPageElement;
         new (): HTMLTjTaskPageElement;
     };
+    interface HTMLTjTaskTimesheetElementEventMap {
+        "notification": Notification;
+    }
+    interface HTMLTjTaskTimesheetElement extends Components.TjTaskTimesheet, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTjTaskTimesheetElementEventMap>(type: K, listener: (this: HTMLTjTaskTimesheetElement, ev: TjTaskTimesheetCustomEvent<HTMLTjTaskTimesheetElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTjTaskTimesheetElementEventMap>(type: K, listener: (this: HTMLTjTaskTimesheetElement, ev: TjTaskTimesheetCustomEvent<HTMLTjTaskTimesheetElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLTjTaskTimesheetElement: {
+        prototype: HTMLTjTaskTimesheetElement;
+        new (): HTMLTjTaskTimesheetElement;
+    };
     interface HTMLWithLoadingElement extends Components.WithLoading, HTMLStencilElement {
     }
     var HTMLWithLoadingElement: {
@@ -203,6 +227,7 @@ declare global {
         "tj-parent-tasks-page": HTMLTjParentTasksPageElement;
         "tj-settings": HTMLTjSettingsElement;
         "tj-task-page": HTMLTjTaskPageElement;
+        "tj-task-timesheet": HTMLTjTaskTimesheetElement;
         "with-loading": HTMLWithLoadingElement;
     }
 }
@@ -248,6 +273,10 @@ declare namespace LocalJSX {
         "jiraSummary"?: string;
         "onNotification"?: (event: TjTaskPageCustomEvent<Notification>) => void;
     }
+    interface TjTaskTimesheet {
+        "onNotification"?: (event: TjTaskTimesheetCustomEvent<Notification>) => void;
+        "task"?: Task;
+    }
     interface WithLoading {
         "isLoading"?: boolean;
     }
@@ -262,6 +291,7 @@ declare namespace LocalJSX {
         "tj-parent-tasks-page": TjParentTasksPage;
         "tj-settings": TjSettings;
         "tj-task-page": TjTaskPage;
+        "tj-task-timesheet": TjTaskTimesheet;
         "with-loading": WithLoading;
     }
 }
@@ -279,6 +309,7 @@ declare module "@stencil/core" {
             "tj-parent-tasks-page": LocalJSX.TjParentTasksPage & JSXBase.HTMLAttributes<HTMLTjParentTasksPageElement>;
             "tj-settings": LocalJSX.TjSettings & JSXBase.HTMLAttributes<HTMLTjSettingsElement>;
             "tj-task-page": LocalJSX.TjTaskPage & JSXBase.HTMLAttributes<HTMLTjTaskPageElement>;
+            "tj-task-timesheet": LocalJSX.TjTaskTimesheet & JSXBase.HTMLAttributes<HTMLTjTaskTimesheetElement>;
             "with-loading": LocalJSX.WithLoading & JSXBase.HTMLAttributes<HTMLWithLoadingElement>;
         }
     }

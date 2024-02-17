@@ -70,8 +70,15 @@ export class Task {
     checkForError(dom);
     const active = dom.querySelector('active')?.textContent === 'true';
     if (active) {
-      return new Task(dom.querySelector('result'));
+      const task = new Task(dom.querySelector('result'));
+      task.parentTask = this;
+      return task;
     }
     return null;
+  }
+
+  async recordHours(hours: string, day: string) {
+    const body = `<recordHoursForDay id="0" version="0" taskId="${this.id}" day="${day}" hours="${hours}"/>`;
+    return User.fetch(body);
   }
 }

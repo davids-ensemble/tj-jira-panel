@@ -3,6 +3,7 @@ import {
   Event,
   EventEmitter,
   Host,
+  Listen,
   Prop,
   State,
   h,
@@ -40,6 +41,11 @@ export class TJTaskPage {
     }
   }
 
+  @Listen('taskCreated')
+  taskCreatedHandler(event: CustomEvent<Task>) {
+    this.task = event.detail;
+  }
+
   render() {
     return (
       <Host>
@@ -49,7 +55,7 @@ export class TJTaskPage {
             cases={[
               {
                 condition: this.task !== null,
-                renderComponent: () => <div>Task found.</div>,
+                renderComponent: () => <tj-task-timesheet task={this.task} />,
               },
               {
                 condition: this.task === null,

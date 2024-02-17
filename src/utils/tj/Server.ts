@@ -1,3 +1,5 @@
+import { checkForError } from './utils';
+
 interface ServerConfig {
   version: string;
   url: string;
@@ -5,7 +7,8 @@ interface ServerConfig {
 }
 
 export class Server {
-  private static _url: string = localStorage.getItem('tj_url') ?? 'https://tj.ensemblesoftware.ro/data';
+  private static _url: string =
+    localStorage.getItem('tj_url') ?? 'https://tj.ensemblesoftware.ro/data';
   private static _serverConfig: ServerConfig | null = null;
 
   public static get url(): string {
@@ -33,9 +36,24 @@ export class Server {
     const result = {
       version: dom.querySelector('serverVersion')?.textContent ?? 'unknown',
       url: dom.querySelector('serverUrl')?.textContent,
-      supportsGeneratedSummaries: dom.querySelector('supportsGeneratedSummaries')?.textContent === 'true',
+      supportsGeneratedSummaries:
+        dom.querySelector('supportsGeneratedSummaries')?.textContent === 'true',
     };
     Server._serverConfig = result;
     return result;
+  }
+
+  public static async fetch(body: string) {
+    const response = await fetch(Server.url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/xml',
+      },
+      body,
+    });
+    const data = await response.text();
+    const dom = new DOMParser().parseFromString(data, 'text/xml');
+    checkForError(dom);
+    return dom;
   }
 }

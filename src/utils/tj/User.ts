@@ -144,4 +144,20 @@ export class User {
     }
     return null;
   }
+
+  public static async fetch(body: string) {
+    const response = await fetch(Server.url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/xml',
+        'Tj_session': this.sessionUuid,
+        'Tj_user': this.username,
+      },
+      body,
+    });
+    const data = await response.text();
+    const dom = new DOMParser().parseFromString(data, 'text/xml');
+    checkForError(dom);
+    return dom;
+  }
 }
