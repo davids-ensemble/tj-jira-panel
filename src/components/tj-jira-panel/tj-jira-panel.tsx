@@ -69,7 +69,12 @@ export class TJJiraPanel {
                 },
                 {
                   condition: this.path === 'task',
-                  renderComponent: () => 'user is logged in ',
+                  renderComponent: () => (
+                    <tj-task-page
+                      jiraID={this.jiraID}
+                      jiraSummary={this.jiraSummary}
+                    ></tj-task-page>
+                  ),
                 },
                 {
                   condition: this.path === 'settings',

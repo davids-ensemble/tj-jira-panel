@@ -1,4 +1,5 @@
 import { Server } from './Server';
+import { Task } from './Task';
 import { checkForError } from './utils';
 
 export interface LoginParams {
@@ -111,5 +112,26 @@ export class User {
       }
     });
     return result;
+  }
+
+  public static async findTaskForJiraID(jiraID: string): Promise<Task | null> {
+    const timesheet = await this.getTimesheet();
+    const xpath = `//task/name[contains(text(),"${jiraID}")]`;
+    const matchingTasks = timesheet.evaluate(xpath, timesheet);
+    let foundTask: Element | null;
+    for (
+      let task = matchingTasks.iterateNext()?.parentElement;
+      task;
+      task = matchingTasks.iterateNext()?.parentElement
+    ) {
+      foundTask = task;
+      if (task.querySelector('active')?.textContent === 'true') {
+        break;
+      }
+    }
+    if (foundTask) {
+      return new Task(foundTask, timesheet);
+    }
+    return null;
   }
 }
