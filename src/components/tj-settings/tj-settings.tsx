@@ -21,39 +21,45 @@ export class TJSettings {
 
   render() {
     return (
-      <div>
+      <div class="settingsPage">
         <p>
           <strong>Settings</strong>
-          <Switch
-            cases={[
-              {
-                condition: this.path === 'menu',
-                renderComponent: () => (
-                  <SettingsMenu
-                    isLoggedIn={this.isLoggedIn}
-                    changePath={this.changePath}
-                  />
-                ),
-              },
-              {
-                condition: this.path === 'server',
-                renderComponent: () => <ServerPage />,
-              },
-              {
-                condition: this.path !== 'menu',
-                renderComponent: () => (
-                  <button
-                    data-path="menu"
-                    class="menuButton"
-                    onClick={this.changePath}
-                  >
-                    Back
-                  </button>
-                ),
-              },
-            ]}
-          />
         </p>
+        <Switch
+          cases={[
+            {
+              condition: this.path === 'menu',
+              renderComponent: () => (
+                <SettingsMenu
+                  isLoggedIn={this.isLoggedIn}
+                  changePath={this.changePath}
+                />
+              ),
+            },
+            {
+              condition: this.path === 'server',
+              renderComponent: () => <ServerPage />,
+            },
+            {
+              condition: this.path === 'parent-tasks',
+              renderComponent: () => (
+                <tj-parent-tasks-page></tj-parent-tasks-page>
+              ),
+            },
+            {
+              condition: this.path !== 'menu',
+              renderComponent: () => (
+                <button
+                  data-path="menu"
+                  class="menuButton"
+                  onClick={this.changePath}
+                >
+                  Back
+                </button>
+              ),
+            },
+          ]}
+        />
       </div>
     );
   }

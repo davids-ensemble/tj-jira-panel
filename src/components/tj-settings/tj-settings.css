@@ -1,5 +1,7 @@
-:host {
-  display: block;
+.settingsPage {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 p {
@@ -9,7 +11,6 @@ p {
 .menu {
   display: flex;
   flex-direction: column;
-  margin-top: 5px;
   gap: 5px;
   width: fit-content;
 }
@@ -26,8 +27,6 @@ p {
 }
 
 .server {
-  margin: 5px 0;
-
   label {
     display: flex;
     flex-direction: column;

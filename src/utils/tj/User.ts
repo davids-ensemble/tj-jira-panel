@@ -27,6 +27,14 @@ export class User {
     return User.authObject.sessionUuid;
   }
 
+  public static get selectedTasks() {
+    return JSON.parse(localStorage.getItem('tj_selected_tasks_tjiv2') ?? '[]');
+  }
+
+  public static set selectedTasks(value: string[]) {
+    localStorage.setItem('tj_selected_tasks_tjiv2', JSON.stringify(value));
+  }
+
   public static async login({ username, password }: LoginParams) {
     const escapedPassword = password
       .replace('&', '&amp;')
@@ -70,5 +78,38 @@ export class User {
     const data = await response.text();
     const dom = new DOMParser().parseFromString(data, 'text/xml');
     return dom.querySelector('sessionUuid')?.textContent === sessionUuid;
+  }
+
+  public static async getTimesheet() {
+    const date = new Date().toISOString().split('T')[0];
+    const body = `<getTimesheet><forUser>${this.userId}</forUser><containingDay>${date}</containingDay></getTimesheet>`;
+    const response = await fetch(Server.url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/xml',
+        'Tj_session': this.sessionUuid,
+        'Tj_user': this.username,
+      },
+      body,
+    });
+    const data = await response.text();
+    const dom = new DOMParser().parseFromString(data, 'text/xml');
+    checkForError(dom);
+    return dom;
+  }
+
+  public static async getAllTasks() {
+    const timesheet = await this.getTimesheet();
+    const tasks = timesheet.querySelectorAll('task');
+    const result: Record<string, string> = {};
+    tasks.forEach(task => {
+      const id = task.attributes.getNamedItem('id')?.value;
+      const name = task.querySelector('name')?.textContent;
+      const active = task.querySelector('active')?.textContent === 'true';
+      if (id && name && active) {
+        result[id] = name;
+      }
+    });
+    return result;
   }
 }

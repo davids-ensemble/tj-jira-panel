@@ -28,6 +28,8 @@ export namespace Components {
     }
     interface TjLoginForm {
     }
+    interface TjParentTasksPage {
+    }
     interface TjSettings {
         "isLoggedIn": boolean;
     }
@@ -119,6 +121,12 @@ declare global {
         prototype: HTMLTjLoginFormElement;
         new (): HTMLTjLoginFormElement;
     };
+    interface HTMLTjParentTasksPageElement extends Components.TjParentTasksPage, HTMLStencilElement {
+    }
+    var HTMLTjParentTasksPageElement: {
+        prototype: HTMLTjParentTasksPageElement;
+        new (): HTMLTjParentTasksPageElement;
+    };
     interface HTMLTjSettingsElement extends Components.TjSettings, HTMLStencilElement {
     }
     var HTMLTjSettingsElement: {
@@ -138,6 +146,7 @@ declare global {
         "tj-heading": HTMLTjHeadingElement;
         "tj-jira-panel": HTMLTjJiraPanelElement;
         "tj-login-form": HTMLTjLoginFormElement;
+        "tj-parent-tasks-page": HTMLTjParentTasksPageElement;
         "tj-settings": HTMLTjSettingsElement;
         "with-loading": HTMLWithLoadingElement;
     }
@@ -168,6 +177,8 @@ declare namespace LocalJSX {
         "onLogin"?: (event: TjLoginFormCustomEvent<void>) => void;
         "onNotification"?: (event: TjLoginFormCustomEvent<Notification>) => void;
     }
+    interface TjParentTasksPage {
+    }
     interface TjSettings {
         "isLoggedIn"?: boolean;
     }
@@ -181,6 +192,7 @@ declare namespace LocalJSX {
         "tj-heading": TjHeading;
         "tj-jira-panel": TjJiraPanel;
         "tj-login-form": TjLoginForm;
+        "tj-parent-tasks-page": TjParentTasksPage;
         "tj-settings": TjSettings;
         "with-loading": WithLoading;
     }
@@ -195,6 +207,7 @@ declare module "@stencil/core" {
             "tj-heading": LocalJSX.TjHeading & JSXBase.HTMLAttributes<HTMLTjHeadingElement>;
             "tj-jira-panel": LocalJSX.TjJiraPanel & JSXBase.HTMLAttributes<HTMLTjJiraPanelElement>;
             "tj-login-form": LocalJSX.TjLoginForm & JSXBase.HTMLAttributes<HTMLTjLoginFormElement>;
+            "tj-parent-tasks-page": LocalJSX.TjParentTasksPage & JSXBase.HTMLAttributes<HTMLTjParentTasksPageElement>;
             "tj-settings": LocalJSX.TjSettings & JSXBase.HTMLAttributes<HTMLTjSettingsElement>;
             "with-loading": LocalJSX.WithLoading & JSXBase.HTMLAttributes<HTMLWithLoadingElement>;
         }
