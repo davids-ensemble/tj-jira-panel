@@ -13,6 +13,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
 
   &[aria-hidden='true'] {
     display: none;

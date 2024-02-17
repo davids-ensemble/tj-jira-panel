@@ -12,11 +12,13 @@ export class WithLoading {
     return (
       <Host>
         {this.isLoading ? (
-          <div class="lds-ellipsis">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+          <div class="wrapper">
+            <div class="lds-ellipsis">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
         ) : (
           <slot></slot>
