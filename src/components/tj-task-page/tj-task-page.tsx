@@ -20,7 +20,7 @@ import { Switch } from '../Switch/Switch';
 export class TJTaskPage {
   @Event() notification: EventEmitter<Notification>;
 
-  @Prop() jiraID: string;
+  @Prop({ attribute: 'jira-id' }) jiraID: string;
   @Prop() jiraSummary: string;
 
   @State() isLoading = true;

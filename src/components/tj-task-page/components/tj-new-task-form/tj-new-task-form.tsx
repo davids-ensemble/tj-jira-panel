@@ -13,7 +13,7 @@ export class TJNewTaskForm {
   @Event() notification: EventEmitter<Notification>;
   @Event() taskCreated: EventEmitter<Task>;
 
-  @Prop() jiraID: string;
+  @Prop({ attribute: 'jira-id' }) jiraID: string;
   @Prop() jiraSummary: string;
 
   @State() isLoading = true;
