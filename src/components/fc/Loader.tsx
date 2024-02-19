@@ -1,4 +1,4 @@
-import { h, FunctionalComponent } from '@stencil/core';
+import { FunctionalComponent, h } from '@stencil/core';
 
 interface LoaderProps {
   isLoading: boolean;

@@ -1,5 +1,6 @@
-import { Loader } from '@fc';
 import { Component, State, Watch, h } from '@stencil/core';
+
+import { Loader } from '@fc';
 import { User } from '@utils/tj';
 
 @Component({

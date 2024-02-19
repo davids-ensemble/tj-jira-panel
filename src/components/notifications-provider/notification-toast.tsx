@@ -1,7 +1,7 @@
-import { Component, h, Prop, State } from '@stencil/core';
+import { Component, Prop, State, h } from '@stencil/core';
 
-import type { Notification } from './types';
 import { Icon } from './Icons';
+import type { Notification } from './types';
 
 @Component({
   tag: 'notification-toast',

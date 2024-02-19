@@ -1,7 +1,7 @@
 import { Component, Listen, Prop, State, h } from '@stencil/core';
 
-import { User } from '@utils/tj';
 import { Loader, Switch } from '@fc';
+import { User } from '@utils/tj';
 
 @Component({
   tag: 'tj-jira-panel',

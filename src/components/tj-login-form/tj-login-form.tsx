@@ -2,6 +2,7 @@ import { Component, Event, EventEmitter, h } from '@stencil/core';
 
 import type { LoginParams } from '@utils/tj';
 import { User } from '@utils/tj';
+
 import { Notification } from '../notifications-provider/types';
 
 @Component({

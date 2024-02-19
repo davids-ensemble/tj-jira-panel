@@ -1,7 +1,8 @@
 import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
 
-import type { Notification } from '../../../notifications-provider/types';
 import { Task } from '@utils/tj';
+
+import type { Notification } from '../../../notifications-provider/types';
 
 interface Day {
   date: Date;

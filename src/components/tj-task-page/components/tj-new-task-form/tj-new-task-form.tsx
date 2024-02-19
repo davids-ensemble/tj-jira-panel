@@ -1,8 +1,9 @@
 import { Component, Event, EventEmitter, Prop, State, h } from '@stencil/core';
 
-import type { Notification } from '../../../notifications-provider/types';
-import { Task, User } from '@utils/tj';
 import { Loader } from '@fc';
+import { Task, User } from '@utils/tj';
+
+import type { Notification } from '../../../notifications-provider/types';
 
 @Component({
   tag: 'tj-new-task-form',

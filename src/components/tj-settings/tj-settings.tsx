@@ -1,6 +1,7 @@
 import { Component, Prop, State, h } from '@stencil/core';
 
 import { Switch } from '@fc';
+
 import { ServerPage } from './pages/ServerPage';
 import { SettingsMenu } from './pages/SettingsMenu';
 

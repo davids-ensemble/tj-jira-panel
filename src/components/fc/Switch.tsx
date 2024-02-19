@@ -1,4 +1,4 @@
-import type { VNode, FunctionalComponent } from '@stencil/core';
+import type { FunctionalComponent, VNode } from '@stencil/core';
 
 interface Case {
   condition: boolean;

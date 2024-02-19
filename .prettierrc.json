@@ -1,4 +1,5 @@
 {
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "arrowParens": "avoid",
   "bracketSpacing": true,
   "jsxBracketSameLine": false,
@@ -9,5 +10,15 @@
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "all",
-  "useTabs": false
+  "useTabs": false,
+  "importOrder": [
+    "^@stencil/core$",
+    "<THIRD_PARTY_MODULES>",
+    "^(@fc|@utils|@root)",
+    "^[./].*.(png|webp|jpg|jpeg|svg|json)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators"]
 }

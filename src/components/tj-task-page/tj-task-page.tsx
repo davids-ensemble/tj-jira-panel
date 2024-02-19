@@ -8,9 +8,11 @@ import {
   State,
   h,
 } from '@stencil/core';
-import { Notification } from '../notifications-provider/types';
-import { User, Task } from '@utils/tj';
+
 import { Loader, Switch } from '@fc';
+import { Task, User } from '@utils/tj';
+
+import { Notification } from '../notifications-provider/types';
 
 @Component({
   tag: 'tj-task-page',
