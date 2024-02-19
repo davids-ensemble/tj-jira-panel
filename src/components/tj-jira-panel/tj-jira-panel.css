@@ -6,9 +6,10 @@
   font-size: 14px;
   padding-left: 20px;
   box-sizing: border-box;
+  --primary-color: #005273;
 }
 
-main {
+#tj-panel {
   min-height: 80px;
   display: flex;
   flex-direction: column;

@@ -1,7 +1,7 @@
 import { Component, Listen, Prop, State, h } from '@stencil/core';
 
 import { User } from '@utils/tj/User';
-import { Switch } from '../Switch/Switch';
+import { Loader, Switch } from '@fc';
 
 @Component({
   tag: 'tj-jira-panel',
@@ -58,7 +58,7 @@ export class TJJiraPanel {
     return (
       <notifications-provider>
         <tj-heading isExpanded={this.isExpanded}></tj-heading>
-        <with-loading isLoading={this.isLoading}>
+        <Loader isLoading={this.isLoading}>
           <main id="tj-panel" aria-hidden={this.isExpanded ? 'false' : 'true'}>
             <Switch
               shouldBreak
@@ -86,7 +86,7 @@ export class TJJiraPanel {
             />
             <tj-footer isLoggedIn={this.isLoggedIn}></tj-footer>
           </main>
-        </with-loading>
+        </Loader>
       </notifications-provider>
     );
   }

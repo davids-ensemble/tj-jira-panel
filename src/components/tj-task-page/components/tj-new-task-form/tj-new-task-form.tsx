@@ -3,6 +3,7 @@ import { Component, Event, EventEmitter, Prop, State, h } from '@stencil/core';
 import { User } from '@utils/tj/User';
 import type { Notification } from '../../../notifications-provider/types';
 import { Task } from '@utils/tj/Task';
+import { Loader } from '@fc';
 
 @Component({
   tag: 'tj-new-task-form',
@@ -60,7 +61,7 @@ export class TJNewTaskForm {
 
   render() {
     return (
-      <with-loading isLoading={this.isLoading}>
+      <Loader isLoading={this.isLoading}>
         <p>
           <strong>No task found for {this.jiraID}</strong>
         </p>
@@ -90,7 +91,7 @@ export class TJNewTaskForm {
           </div>
           <input type="submit" value="Create" />
         </form>
-      </with-loading>
+      </Loader>
     );
   }
 }

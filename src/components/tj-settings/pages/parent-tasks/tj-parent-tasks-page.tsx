@@ -1,3 +1,4 @@
+import { Loader } from '@fc';
 import { Component, State, Watch, h } from '@stencil/core';
 import { User } from '@utils/tj/User';
 
@@ -40,7 +41,7 @@ export class TJParentTasksPage {
 
   render() {
     return (
-      <with-loading isLoading={this.isLoading}>
+      <Loader isLoading={this.isLoading}>
         <fieldset>
           <legend>Choose the tasks you want to see in parent tasks:</legend>
           {Object.entries(this.allTasks ?? {}).map(([id, name]) => (
@@ -57,7 +58,7 @@ export class TJParentTasksPage {
           ))}
         </fieldset>
         <button onClick={this.unselectAll}>Unselect all</button>
-      </with-loading>
+      </Loader>
     );
   }
 }

@@ -11,7 +11,7 @@ import {
 import { Notification } from '../notifications-provider/types';
 import { Task } from '@utils/tj/Task';
 import { User } from '@utils/tj/User';
-import { Switch } from '../Switch/Switch';
+import { Loader, Switch } from '@fc';
 
 @Component({
   tag: 'tj-task-page',
@@ -49,7 +49,7 @@ export class TJTaskPage {
   render() {
     return (
       <Host>
-        <with-loading isLoading={this.isLoading}>
+        <Loader isLoading={this.isLoading}>
           <Switch
             shouldBreak
             cases={[
@@ -68,7 +68,7 @@ export class TJTaskPage {
               },
             ]}
           />
-        </with-loading>
+        </Loader>
       </Host>
     );
   }

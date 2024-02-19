@@ -46,9 +46,6 @@ export namespace Components {
     interface TjTaskTimesheet {
         "task": Task;
     }
-    interface WithLoading {
-        "isLoading": boolean;
-    }
 }
 export interface TjFooterCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -210,12 +207,6 @@ declare global {
         prototype: HTMLTjTaskTimesheetElement;
         new (): HTMLTjTaskTimesheetElement;
     };
-    interface HTMLWithLoadingElement extends Components.WithLoading, HTMLStencilElement {
-    }
-    var HTMLWithLoadingElement: {
-        prototype: HTMLWithLoadingElement;
-        new (): HTMLWithLoadingElement;
-    };
     interface HTMLElementTagNameMap {
         "notification-toast": HTMLNotificationToastElement;
         "notifications-provider": HTMLNotificationsProviderElement;
@@ -228,7 +219,6 @@ declare global {
         "tj-settings": HTMLTjSettingsElement;
         "tj-task-page": HTMLTjTaskPageElement;
         "tj-task-timesheet": HTMLTjTaskTimesheetElement;
-        "with-loading": HTMLWithLoadingElement;
     }
 }
 declare namespace LocalJSX {
@@ -277,9 +267,6 @@ declare namespace LocalJSX {
         "onNotification"?: (event: TjTaskTimesheetCustomEvent<Notification>) => void;
         "task"?: Task;
     }
-    interface WithLoading {
-        "isLoading"?: boolean;
-    }
     interface IntrinsicElements {
         "notification-toast": NotificationToast;
         "notifications-provider": NotificationsProvider;
@@ -292,7 +279,6 @@ declare namespace LocalJSX {
         "tj-settings": TjSettings;
         "tj-task-page": TjTaskPage;
         "tj-task-timesheet": TjTaskTimesheet;
-        "with-loading": WithLoading;
     }
 }
 export { LocalJSX as JSX };
@@ -310,7 +296,6 @@ declare module "@stencil/core" {
             "tj-settings": LocalJSX.TjSettings & JSXBase.HTMLAttributes<HTMLTjSettingsElement>;
             "tj-task-page": LocalJSX.TjTaskPage & JSXBase.HTMLAttributes<HTMLTjTaskPageElement>;
             "tj-task-timesheet": LocalJSX.TjTaskTimesheet & JSXBase.HTMLAttributes<HTMLTjTaskTimesheetElement>;
-            "with-loading": LocalJSX.WithLoading & JSXBase.HTMLAttributes<HTMLWithLoadingElement>;
         }
     }
 }

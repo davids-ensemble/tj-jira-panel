@@ -2,7 +2,6 @@
 
 # TODO list
 
-- fix with-loading not showing loader
 - migrate v1 parent tasks list to v2
 - spec tests
 - e2e tests (switch to playwright)

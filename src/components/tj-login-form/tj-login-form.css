@@ -6,7 +6,7 @@ form {
 }
 
 button {
-  background-color: #005273;
+  background-color: var(--primary-color);
   border: 0;
   color: white;
   text-transform: uppercase;

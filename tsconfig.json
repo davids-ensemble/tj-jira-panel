@@ -15,7 +15,8 @@
     "jsxFactory": "h",
     "paths": {
       "@utils/*": ["./src/utils/*"],
-      "@root/*": ["./*"]
+      "@root/*": ["./*"],
+      "@fc": ["./src/components/fc"]
     }
   },
   "include": ["src"],
