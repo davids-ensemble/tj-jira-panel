@@ -6,9 +6,9 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Notification } from "./components/notifications-provider/types";
-import { Task } from "./utils/tj/Task";
+import { Task } from "./utils/tj/index";
 export { Notification } from "./components/notifications-provider/types";
-export { Task } from "./utils/tj/Task";
+export { Task } from "./utils/tj/index";
 export namespace Components {
     interface NotificationToast {
         "identifier": string;

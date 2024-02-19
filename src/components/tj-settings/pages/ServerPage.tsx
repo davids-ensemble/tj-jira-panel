@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from '@stencil/core';
 
-import { Server } from '@utils/tj/Server';
+import { Server } from '@utils/tj';
 
 export const ServerPage: FunctionalComponent = () => {
   return (

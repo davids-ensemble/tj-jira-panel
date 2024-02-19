@@ -1,8 +1,7 @@
 import { Component, Event, EventEmitter, Prop, State, h } from '@stencil/core';
 
 import { version } from '@root/package.json';
-import { Server } from '@utils/tj/Server';
-import { User } from '@utils/tj/User';
+import { User, Server } from '@utils/tj';
 import { Icon } from './Icons';
 
 @Component({

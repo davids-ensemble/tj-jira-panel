@@ -9,8 +9,7 @@ import {
   h,
 } from '@stencil/core';
 import { Notification } from '../notifications-provider/types';
-import { Task } from '@utils/tj/Task';
-import { User } from '@utils/tj/User';
+import { User, Task } from '@utils/tj';
 import { Loader, Switch } from '@fc';
 
 @Component({

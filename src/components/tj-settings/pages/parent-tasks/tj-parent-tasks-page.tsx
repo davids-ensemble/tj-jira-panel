@@ -1,6 +1,6 @@
 import { Loader } from '@fc';
 import { Component, State, Watch, h } from '@stencil/core';
-import { User } from '@utils/tj/User';
+import { User } from '@utils/tj';
 
 @Component({
   tag: 'tj-parent-tasks-page',

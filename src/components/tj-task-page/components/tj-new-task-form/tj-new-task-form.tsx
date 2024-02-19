@@ -1,8 +1,7 @@
 import { Component, Event, EventEmitter, Prop, State, h } from '@stencil/core';
 
-import { User } from '@utils/tj/User';
 import type { Notification } from '../../../notifications-provider/types';
-import { Task } from '@utils/tj/Task';
+import { Task, User } from '@utils/tj';
 import { Loader } from '@fc';
 
 @Component({
