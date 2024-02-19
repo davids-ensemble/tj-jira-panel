@@ -1,14 +1,12 @@
 import { Config } from '@stencil/core';
 
 export const config: Config = {
+  globalScript: 'src/global/app.ts',
   namespace: 'tj-jira-panel',
   outputTargets: [
     {
       type: 'dist',
       esmLoaderPath: '../loader',
-    },
-    {
-      type: 'dist-custom-elements',
     },
     {
       type: 'docs-readme',
@@ -19,6 +17,6 @@ export const config: Config = {
     },
   ],
   testing: {
-    browserHeadless: "new",
+    browserHeadless: 'new',
   },
 };

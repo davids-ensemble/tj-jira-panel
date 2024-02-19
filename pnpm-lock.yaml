@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@ionic/core':
+    specifier: ^7.7.2
+    version: 7.7.2
   '@stencil/core':
     specifier: ^4.7.0
     version: 4.9.1
@@ -365,6 +368,14 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
+  /@ionic/core@7.7.2:
+    resolution: {integrity: sha512-cH92OSqJBTaW8AAqh+M6NjzltVoAZCXqsHAOQMmZgrY4KgXNU+Wh+fs2La/UrFxTob9pZf30EpRddUG5rQYIFw==}
+    dependencies:
+      '@stencil/core': 4.12.2
+      ionicons: 7.2.2
+      tslib: 2.6.2
+    dev: false
+
   /@istanbuljs/load-nyc-config@1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
     engines: {node: '>=8'}
@@ -656,6 +667,12 @@ packages:
     dependencies:
       '@sinonjs/commons': 3.0.0
     dev: true
+
+  /@stencil/core@4.12.2:
+    resolution: {integrity: sha512-WEMpoqwMV4hY/ab2z9NxRhSeZwuKEugjyn6Vd+qA9xqZh6VNUL27QbP8vCa7IeqD4Zql4JBtKu3lVuBHutWE6w==}
+    engines: {node: '>=16.0.0', npm: '>=7.10.0'}
+    hasBin: true
+    dev: false
 
   /@stencil/core@4.9.1:
     resolution: {integrity: sha512-FB3vQR2xbX8RkiKdvBRj6jAe2VunKgB4U5hWSbpdcg/GhZrwOhsEgkGUGa8hGm9bgEUpIu16in1zFqziPyBEFw==}
@@ -1471,6 +1488,12 @@ packages:
   /inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
     dev: true
+
+  /ionicons@7.2.2:
+    resolution: {integrity: sha512-I3iYIfc9Q9FRifWyFSwTAvbEABWlWY32i0sAVDDPGYnaIZVugkLCZFbEcrphW6ixVPg8tt1oLwalo/JJwbEqnA==}
+    dependencies:
+      '@stencil/core': 4.12.2
+    dev: false
 
   /ip@1.1.8:
     resolution: {integrity: sha512-PuExPYUiu6qMBQb4l06ecm6T6ujzhmh+MeJcW9wa89PoAz5pvd4zPgN5WJV104mb6S2T1AwNIAaB70JNrLQWhg==}
@@ -2620,7 +2643,6 @@ packages:
 
   /tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
-    dev: true
 
   /type-detect@4.0.8:
     resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}
