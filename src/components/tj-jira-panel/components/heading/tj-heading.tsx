@@ -3,7 +3,7 @@ import { Component, Event, EventEmitter, Prop, h } from '@stencil/core';
 @Component({
   tag: 'tj-heading',
   styleUrl: 'tj-heading.css',
-  shadow: true,
+  scoped: true,
 })
 export class TJHeading {
   @Prop() isExpanded: boolean;

@@ -13,7 +13,7 @@ interface Day {
 @Component({
   tag: 'tj-task-timesheet',
   styleUrl: 'tj-task-timesheet.css',
-  shadow: true,
+  scoped: true,
 })
 export class TJNewTaskForm {
   @Event() notification: EventEmitter<Notification>;

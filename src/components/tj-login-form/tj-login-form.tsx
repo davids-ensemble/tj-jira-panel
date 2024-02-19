@@ -7,7 +7,7 @@ import { Notification } from '../notifications-provider/types';
 @Component({
   tag: 'tj-login-form',
   styleUrl: 'tj-login-form.css',
-  shadow: true,
+  scoped: true,
 })
 export class TJLoginForm {
   @Event() notification: EventEmitter<Notification>;

@@ -7,7 +7,7 @@ import { Task } from '@utils/tj/Task';
 @Component({
   tag: 'tj-new-task-form',
   styleUrl: 'tj-new-task-form.css',
-  shadow: true,
+  scoped: true,
 })
 export class TJNewTaskForm {
   @Event() notification: EventEmitter<Notification>;

@@ -10,8 +10,6 @@ import { Task } from "./utils/tj/Task";
 export { Notification } from "./components/notifications-provider/types";
 export { Task } from "./utils/tj/Task";
 export namespace Components {
-    interface IonicStylesProvider {
-    }
     interface NotificationToast {
         "identifier": string;
         "message": string;
@@ -77,12 +75,6 @@ export interface TjTaskTimesheetCustomEvent<T> extends CustomEvent<T> {
     target: HTMLTjTaskTimesheetElement;
 }
 declare global {
-    interface HTMLIonicStylesProviderElement extends Components.IonicStylesProvider, HTMLStencilElement {
-    }
-    var HTMLIonicStylesProviderElement: {
-        prototype: HTMLIonicStylesProviderElement;
-        new (): HTMLIonicStylesProviderElement;
-    };
     interface HTMLNotificationToastElement extends Components.NotificationToast, HTMLStencilElement {
     }
     var HTMLNotificationToastElement: {
@@ -225,7 +217,6 @@ declare global {
         new (): HTMLWithLoadingElement;
     };
     interface HTMLElementTagNameMap {
-        "ionic-styles-provider": HTMLIonicStylesProviderElement;
         "notification-toast": HTMLNotificationToastElement;
         "notifications-provider": HTMLNotificationsProviderElement;
         "tj-footer": HTMLTjFooterElement;
@@ -241,8 +232,6 @@ declare global {
     }
 }
 declare namespace LocalJSX {
-    interface IonicStylesProvider {
-    }
     interface NotificationToast {
         "identifier": string;
         "message": string;
@@ -292,7 +281,6 @@ declare namespace LocalJSX {
         "isLoading"?: boolean;
     }
     interface IntrinsicElements {
-        "ionic-styles-provider": IonicStylesProvider;
         "notification-toast": NotificationToast;
         "notifications-provider": NotificationsProvider;
         "tj-footer": TjFooter;
@@ -311,7 +299,6 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "ionic-styles-provider": LocalJSX.IonicStylesProvider & JSXBase.HTMLAttributes<HTMLIonicStylesProviderElement>;
             "notification-toast": LocalJSX.NotificationToast & JSXBase.HTMLAttributes<HTMLNotificationToastElement>;
             "notifications-provider": LocalJSX.NotificationsProvider & JSXBase.HTMLAttributes<HTMLNotificationsProviderElement>;
             "tj-footer": LocalJSX.TjFooter & JSXBase.HTMLAttributes<HTMLTjFooterElement>;

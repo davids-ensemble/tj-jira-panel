@@ -3,7 +3,7 @@ import { Component, Host, Prop, h } from '@stencil/core';
 @Component({
   tag: 'with-loading',
   styleUrl: 'with-loading.css',
-  shadow: true,
+  scoped: true,
 })
 export class WithLoading {
   @Prop() isLoading: boolean;

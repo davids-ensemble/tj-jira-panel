@@ -5,6 +5,8 @@ import { Icon } from './Icons';
 
 @Component({
   tag: 'notification-toast',
+  styleUrl: 'notification-toast.css',
+  scoped: true,
 })
 export class NotificationToast {
   @Prop() identifier!: string;

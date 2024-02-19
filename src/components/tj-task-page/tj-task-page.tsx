@@ -15,7 +15,7 @@ import { Switch } from '../Switch/Switch';
 
 @Component({
   tag: 'tj-task-page',
-  shadow: true,
+  scoped: true,
 })
 export class TJTaskPage {
   @Event() notification: EventEmitter<Notification>;

@@ -19,3 +19,5 @@ main {
     display: none;
   }
 }
+
+@import '~@ionic/core/css/core.css';

@@ -4,7 +4,7 @@ import { User } from '@utils/tj/User';
 @Component({
   tag: 'tj-parent-tasks-page',
   styleUrl: 'tj-parent-tasks-page.css',
-  shadow: true,
+  scoped: true,
 })
 export class TJParentTasksPage {
   @State() isLoading = true;

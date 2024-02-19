@@ -8,7 +8,7 @@ import { Icon } from './Icons';
 @Component({
   tag: 'tj-footer',
   styleUrl: 'tj-footer.css',
-  shadow: true,
+  scoped: true,
 })
 export class TJFooter {
   @Event() showSettings: EventEmitter<void>;

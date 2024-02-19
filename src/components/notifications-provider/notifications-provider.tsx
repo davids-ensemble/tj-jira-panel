@@ -7,7 +7,7 @@ type KeyedNotification = Required<Notification> & { identifier: string };
 @Component({
   tag: 'notifications-provider',
   styleUrl: 'notifications-provider.css',
-  shadow: true,
+  scoped: true,
 })
 export class NotificationsProvider {
   @State() notifications: KeyedNotification[] = [];

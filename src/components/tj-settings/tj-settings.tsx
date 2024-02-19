@@ -7,7 +7,7 @@ import { SettingsMenu } from './pages/SettingsMenu';
 @Component({
   tag: 'tj-settings',
   styleUrl: 'tj-settings.css',
-  shadow: true,
+  scoped: true,
 })
 export class TJSettings {
   @Prop() isLoggedIn: boolean;
