@@ -1,0 +1,42 @@
+<!doctype html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
+    />
+    <title>Stencil Component Starter</title>
+
+    <script
+      type="module"
+      src="/dist/tj-jira-panel//tj-jira-panel.esm.js"
+    ></script>
+    <style>
+      html {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      body {
+        min-width: 350px;
+        max-width: 500px;
+        padding: 20px 30px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      }
+    </style>
+  </head>
+  <body>
+    <tj-jira-panel
+      jira-id="XCHG-1999"
+      jira-summary="Doing a thing"
+    ></tj-jira-panel>
+    <hr />
+    <tj-jira-panel
+      jira-id="XCHG-10392"
+      jira-summary="Doing a thing"
+    ></tj-jira-panel>
+  </body>
+</html>
