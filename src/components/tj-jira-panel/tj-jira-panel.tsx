@@ -1,7 +1,7 @@
 import { Component, Listen, Prop, State, h } from '@stencil/core';
 
 import { Loader, Switch } from '@fc';
-import { User } from '@utils/tj';
+import { User, migrateV1SelectedTasks } from '@utils/tj';
 
 @Component({
   tag: 'tj-jira-panel',
@@ -19,6 +19,7 @@ export class TJJiraPanel {
   @State() lastPath = 'login';
 
   async componentWillLoad() {
+    migrateV1SelectedTasks();
     if (User.sessionUuid) {
       const isValid = await User.isSessionValid();
       if (isValid) {

@@ -10,3 +10,17 @@ export const checkForError = (dom: Document) => {
     throw new Error(error.textContent ?? 'Unknown error');
   }
 };
+
+/**
+ * Migrates the selected tasks from the old format to the new format.
+ */
+export const migrateV1SelectedTasks = () => {
+  if (localStorage.getItem('tj_selected_tasks')) {
+    const selectedTasks = localStorage.getItem('tj_selected_tasks').split(',');
+    localStorage.removeItem('tj_selected_tasks');
+    localStorage.setItem(
+      'tj_selected_tasks_tjiv2',
+      JSON.stringify(selectedTasks),
+    );
+  }
+};

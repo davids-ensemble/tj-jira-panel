@@ -2,11 +2,9 @@
 
 # TODO list
 
-- migrate v1 parent tasks list to v2
 - spec tests
 - e2e tests (switch to playwright)
 - new arc boost injector
-- test locally in jira and make css fixes (tested, looks like in preview, fixes required)
 - tampermonkey script
 - update readme
 - generate docs
