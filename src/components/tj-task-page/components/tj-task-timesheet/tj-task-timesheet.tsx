@@ -11,6 +11,11 @@ interface Day {
   iso: string;
 }
 
+const longWeekdayFormatter = new Intl.DateTimeFormat('en', {
+  weekday: 'long',
+  day: 'numeric',
+});
+
 @Component({
   tag: 'tj-task-timesheet',
   styleUrl: 'tj-task-timesheet.css',
@@ -104,6 +109,7 @@ export class TJNewTaskForm {
                 <td>
                   <input
                     type="text"
+                    aria-label={`Hours recorded on ${longWeekdayFormatter.format(day.date)}`}
                     disabled={(this.task?.startDate ?? new Date()) > day.date}
                     value={this.task.recordedHours[day.iso]}
                     onFocus={(e: FocusEvent) => {
