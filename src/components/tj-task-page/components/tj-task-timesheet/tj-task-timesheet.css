@@ -2,6 +2,8 @@ span.parent {
   display: block;
   font-size: 10px;
   margin: 0;
+  font-weight: 600;
+  opacity: 0.7;
 }
 
 p {
@@ -45,15 +47,20 @@ th div {
   flex-direction: column;
   align-items: center;
   color: rgb(50, 60, 70);
-  font-weight: 500;
-}
+  font-weight: bold;
 
-.currentDay {
-  color: #2886bb;
-}
+  &.previousDay {
+    opacity: 0.9;
+  }
 
-.disabled {
-  opacity: 0.5;
+  &.currentDay {
+    color: #2479aa;
+    font-weight: bolder;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+  }
 }
 
 input {
@@ -62,6 +69,8 @@ input {
   background: transparent;
   text-align: center;
   cursor: pointer;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
 input[disabled] {

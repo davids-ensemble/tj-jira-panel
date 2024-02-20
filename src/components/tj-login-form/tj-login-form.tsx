@@ -34,18 +34,24 @@ export class TJLoginForm {
   render() {
     return (
       <form action="" onSubmit={this.onFormSubmit}>
-        <input
-          type="text"
-          placeholder="username"
-          id="username"
-          name="username"
-        />
-        <input
-          type="password"
-          placeholder="password"
-          id="password"
-          name="password"
-        />
+        <label>
+          Username
+          <input
+            type="text"
+            placeholder="Your username"
+            id="username"
+            name="username"
+          />
+        </label>
+        <label>
+          Password
+          <input
+            type="password"
+            placeholder="Your very secret password"
+            id="password"
+            name="password"
+          />
+        </label>
         <button type="submit">Login</button>
       </form>
     );

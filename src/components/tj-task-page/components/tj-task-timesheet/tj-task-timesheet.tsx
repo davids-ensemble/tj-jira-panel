@@ -90,6 +90,8 @@ export class TJNewTaskForm {
                 <th>
                   <div
                     class={[
+                      day.date.getDate() < new Date().getDate() &&
+                        'previousDay',
                       day.date.getDate() === new Date().getDate() &&
                         'currentDay',
                       (this.task?.startDate ?? new Date()) > day.date &&

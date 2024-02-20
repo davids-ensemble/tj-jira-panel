@@ -65,32 +65,31 @@ export class TJNewTaskForm {
         <p>
           <strong>No task found for {this.jiraID}</strong>
         </p>
-        <p>Create a new task</p>
-        <form action="" onSubmit={this.onFormSubmit}>
-          <div>
-            <label htmlFor="name">name</label>
-            <input
-              type="text"
-              placeholder="name"
-              id="name"
-              name="name"
-              onKeyPress={(e: KeyboardEvent) => {
-                e.stopImmediatePropagation();
-              }}
-              value={`[${this.jiraID}] ${this.jiraSummary}`}
-            />
-          </div>
-          <div>
-            <label htmlFor="parent">parent task</label>
-            <select name="parent" id="parent">
-              $
-              {Object.entries(this.parentTasks ?? {}).map(([id, name]) => (
-                <option value={id}>{name}</option>
-              ))}
-            </select>
-          </div>
-          <input type="submit" value="Create" />
-        </form>
+        <fieldset>
+          <legend>Create a new task</legend>
+          <form action="" onSubmit={this.onFormSubmit}>
+            <label>
+              Name
+              <input
+                type="text"
+                name="name"
+                onKeyPress={(e: KeyboardEvent) => {
+                  e.stopImmediatePropagation();
+                }}
+                value={`[${this.jiraID}] ${this.jiraSummary}`}
+              />
+            </label>
+            <label>
+              Parent task
+              <select name="parent">
+                {Object.entries(this.parentTasks ?? {}).map(([id, name]) => (
+                  <option value={id}>{name}</option>
+                ))}
+              </select>
+            </label>
+            <button type="submit">Create</button>
+          </form>
+        </fieldset>
       </Loader>
     );
   }
