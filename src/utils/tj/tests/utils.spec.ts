@@ -27,10 +27,6 @@ describe('checkForError', () => {
 });
 
 describe('migrateV1SelectedTasks', () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
-
   it('should migrate selected tasks from v1 to v2', () => {
     const selectedTasks = ['task1', 'task2', 'task3'];
     localStorage.setItem('tj_selected_tasks', selectedTasks.join(','));
