@@ -1,8 +1,6 @@
 import { HttpResponse } from 'msw';
 
-import type { ResponseFunctionParameters } from '.';
-
-export const getTimesheetResponse = ({ body }: ResponseFunctionParameters) => {
+export const getTimesheetResponse = () => {
   return HttpResponse.xml(`
     <result forAction="getTimesheet">
       <tasksAndHours>
