@@ -12,7 +12,7 @@
   "unpkg": "dist/tj-jira-panel/tj-jira-panel.esm.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ionic-team/stencil-component-starter.git"
+    "url": "https://github.com/davids-ensemble/tj-jira-panel.git"
   },
   "files": [
     "dist/",
