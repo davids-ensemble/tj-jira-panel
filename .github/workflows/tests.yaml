@@ -23,6 +23,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
       - name: Install dependencies
-        run: PUPPETEER_DOWNLOAD_PATH=~/.pnpm-store/chromium pnpm install
+        run: PUPPETEER_DOWNLOAD_PATH=~/.pnpm/chromium pnpm install
       - name: Run tests
         run: pnpm test
