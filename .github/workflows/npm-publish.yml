@@ -9,6 +9,7 @@ on:
 permissions:
   actions: write # Necessary to cancel workflow executions
   checks: write # Necessary to write reports
+  contents: read
   id-token: write
 
 jobs:
