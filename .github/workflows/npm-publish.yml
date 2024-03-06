@@ -53,6 +53,6 @@ jobs:
       - name: Build
         run: pnpm build
       - name: Publish to npm
-        run: pnpm publish --provenance
+        run: pnpm publish --provenance --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
