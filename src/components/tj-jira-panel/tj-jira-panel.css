@@ -15,7 +15,6 @@
     sans-serif;
   margin-top: 30px;
   font-size: 14px;
-  padding-left: 20px;
   box-sizing: border-box;
   --primary-color: #005273;
 }
@@ -25,6 +24,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding-left: 20px;
   width: 100%;
 
   &[aria-hidden='true'] {
