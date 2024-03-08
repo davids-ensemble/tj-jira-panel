@@ -45,10 +45,11 @@ export class TJNewTaskForm {
     this.isLoading = true;
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-    const name = (form.querySelector('#name') as HTMLInputElement).value;
-    const parentID = (form.querySelector('#parent') as HTMLInputElement).value;
+    const formData = new FormData(form);
+    const name = formData.get('name') as string;
+    const parentId = formData.get('parent') as string;
     try {
-      const parent = await User.getTaskById(parentID);
+      const parent = await User.getTaskById(parentId);
       const task = await parent.createSubTask(name);
       this.taskCreated.emit(task);
     } catch (error) {
