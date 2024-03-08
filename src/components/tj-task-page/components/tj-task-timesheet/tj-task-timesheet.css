@@ -34,6 +34,7 @@ p:not([data-active]) {
 table {
   border-collapse: collapse;
   width: 100%;
+  table-layout: fixed;
 }
 
 table,
@@ -47,7 +48,7 @@ th div {
   flex-direction: column;
   align-items: center;
   color: rgb(50, 60, 70);
-  font-weight: bold;
+  font-weight: 600;
 
   &.previousDay {
     opacity: 0.9;
@@ -55,7 +56,7 @@ th div {
 
   &.currentDay {
     color: #2479aa;
-    font-weight: bolder;
+    font-weight: 900;
   }
 
   &.disabled {
