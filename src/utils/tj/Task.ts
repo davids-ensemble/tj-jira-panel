@@ -39,8 +39,7 @@ export class Task {
     }
   }
 
-  async createSubTask(name: string) {
-    const date = new Date().toISOString().split('T')[0];
+  async createSubTask(name: string, date: string) {
     const body = `
 <addSubTask id="0" version="0">
   <id>0</id>

@@ -48,9 +48,10 @@ export class TJNewTaskForm {
     const formData = new FormData(form);
     const name = formData.get('name') as string;
     const parentId = formData.get('parent') as string;
+    const date = formData.get('date') as string;
     try {
       const parent = await User.getTaskById(parentId);
-      const task = await parent.createSubTask(name);
+      const task = await parent.createSubTask(name, date);
       this.taskCreated.emit(task);
     } catch (error) {
       this.notification.emit({
@@ -87,6 +88,14 @@ export class TJNewTaskForm {
                   <option value={id}>{name}</option>
                 ))}
               </select>
+            </label>
+            <label>
+              Start date
+              <input
+                type="date"
+                name="date"
+                value={new Date().toISOString().split('T')[0]}
+              />
             </label>
             <button type="submit">Create</button>
           </form>
