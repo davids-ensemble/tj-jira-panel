@@ -14,6 +14,9 @@ export const ServerPage: FunctionalComponent = () => {
             const target = e.target as HTMLInputElement;
             Server.url = target.value;
           }}
+          onKeyPress={(e: KeyboardEvent) => {
+            e.stopImmediatePropagation();
+          }}
         />
       </label>
     </div>

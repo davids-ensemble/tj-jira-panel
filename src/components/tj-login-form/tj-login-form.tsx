@@ -41,6 +41,9 @@ export class TJLoginForm {
             placeholder="Your username"
             id="username"
             name="username"
+            onKeyPress={(e: KeyboardEvent) => {
+              e.stopImmediatePropagation();
+            }}
           />
         </label>
         <label>
@@ -50,6 +53,9 @@ export class TJLoginForm {
             placeholder="Your very secret password"
             id="password"
             name="password"
+            onKeyPress={(e: KeyboardEvent) => {
+              e.stopImmediatePropagation();
+            }}
           />
         </label>
         <button type="submit">Login</button>
