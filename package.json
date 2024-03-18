@@ -1,6 +1,6 @@
 {
   "name": "@ens-davids/tj-jira-panel",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "description": "Stencil Component Starter",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
