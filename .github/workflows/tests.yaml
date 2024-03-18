@@ -1,6 +1,13 @@
-name: Tests
+name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - "**/*.ts"
+      - "**/*.tsx"
+      - "**/*.css"
 
 jobs:
   build:
