@@ -24,3 +24,15 @@ export const migrateV1SelectedTasks = () => {
     );
   }
 };
+
+export const escapeNonAlphanumericCharacters = (value: string) => {
+  // Define a regular expression to match non-alphanumeric characters
+  const regex = /[^a-zA-Z0-9]/g;
+
+  // Replace non-alphanumeric characters with their HTML entities
+  const escapedString = value.replace(regex, function (match) {
+    return '&#' + match.charCodeAt(0) + ';';
+  });
+
+  return escapedString;
+};

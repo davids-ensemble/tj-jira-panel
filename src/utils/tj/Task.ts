@@ -1,6 +1,6 @@
 import { Server } from './Server';
 import { User } from './User';
-import { checkForError } from './utils';
+import { checkForError, escapeNonAlphanumericCharacters } from './utils';
 
 export class Task {
   id: string;
@@ -45,7 +45,7 @@ export class Task {
   <id>0</id>
   <version>0</version>
   <active>true</active>
-  <name>${name.replace(/</g, '[').replace(/>/g, ']')}</name>
+  <name>${escapeNonAlphanumericCharacters(name)}</name>
   <descriptionHtmlText>&lt;p&gt; &lt;/p&gt;</descriptionHtmlText>
   <startDate>${date}</startDate>
   <parentTaskId>${this.id}</parentTaskId>

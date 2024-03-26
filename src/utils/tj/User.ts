@@ -1,6 +1,6 @@
 import { Server } from './Server';
 import { Task } from './Task';
-import { checkForError } from './utils';
+import { checkForError, escapeNonAlphanumericCharacters } from './utils';
 
 export interface LoginParams {
   username: string;
@@ -37,12 +37,7 @@ export class User {
   }
 
   public static async login({ username, password }: LoginParams) {
-    const escapedPassword = password
-      .replace('&', '&amp;')
-      .replace('<', '&lt;')
-      .replace('>', '&gt;')
-      .replace('"', '&quot;')
-      .replace("'", '&apos;');
+    const escapedPassword = escapeNonAlphanumericCharacters(password);
     const body = `<login><userName>${username}</userName><password>${escapedPassword}</password></login>`;
     const response = await fetch(Server.url, {
       method: 'POST',
