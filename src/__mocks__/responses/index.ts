@@ -1,8 +1,5 @@
-import { getCurrentLoginResponse, getLoginResponse } from './login.responses';
-import {
-  getServerConfigurationResponse,
-  serverConfigResponse,
-} from './server.responses';
+import { createLoginResponse, getCurrentLoginResponse, getLoginResponse } from './login.responses';
+import { createServerConfigResponse, getServerConfigurationResponse } from './server.responses';
 import { getTimesheetResponse } from './timesheet.response';
 
 export interface ResponseFunctionParameters {
@@ -18,7 +15,8 @@ const responses = {
 };
 
 export const playwrightResponses = {
-  getServerConfiguration: serverConfigResponse,
+  getServerConfiguration: createServerConfigResponse,
+  login: createLoginResponse,
 };
 
 export default responses;

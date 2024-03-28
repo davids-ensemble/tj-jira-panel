@@ -60,5 +60,16 @@ test.describe('tj-jira-panel', () => {
       await expect(page.getByLabel('Password')).toBeVisible();
       await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
     });
+    test('should show an error message when the server returns one', async ({ page }) => {
+      await page.getByRole('button', { name: 'Login' }).click();
+      await expect(page.getByText('Invalid login attempt for user null')).toBeVisible();
+    });
+    test('should login successfully', async ({ page }) => {
+      await page.getByLabel('Username').fill('username');
+      await page.getByLabel('Password').fill('password');
+      await page.getByRole('button', { name: 'Login' }).click();
+      await expect(page.getByRole('button', { name: 'Login' })).not.toBeVisible();
+      await expect(page.getByText('Logged in as username')).toBeVisible();
+    });
   });
 });

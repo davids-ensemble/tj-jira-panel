@@ -2,7 +2,7 @@ import { HttpResponse } from 'msw';
 
 import { Server } from '@utils/tj';
 
-export const serverConfigResponse = `
+export const createServerConfigResponse = () => `
     <response>
       <serverVersion>1.0.0</serverVersion>
       <serverUrl>${Server.url}</serverUrl>
@@ -11,5 +11,5 @@ export const serverConfigResponse = `
   `;
 
 export const getServerConfigurationResponse = () => {
-  return HttpResponse.xml(serverConfigResponse);
+  return HttpResponse.xml(createServerConfigResponse());
 };
