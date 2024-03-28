@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 
+import { version } from '@root/package.json';
 import '@root/src/playwright.setup';
 import { Server } from '@utils/tj';
 
@@ -15,10 +16,49 @@ test.describe('tj-jira-panel', () => {
     });
   });
 
-  test('should render the login form', async ({ page }) => {
-    expect(page.getByRole('form')).not.toBeNull();
-    await expect(page.getByLabel('Username')).toBeVisible();
-    await expect(page.getByLabel('Password')).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
+  test.describe('header', () => {
+    test('should render the header', async ({ page }) => {
+      await expect(page.getByRole('heading', { name: 'TJ Integration' })).toBeVisible();
+      await expect(page.getByLabel('Toggle TJ panel')).toBeVisible();
+    });
+    test('should collapse the panel when the button is clicked', async ({ page }) => {
+      await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
+      await page.getByLabel('Toggle TJ panel').click();
+      await expect(page.getByRole('button', { name: 'Login' })).not.toBeVisible();
+      await expect(page.getByRole('heading', { name: 'TJ Integration' })).toBeVisible();
+    });
+  });
+
+  test.describe('footer', () => {
+    test('should render the footer with server information', async ({ page }) => {
+      await expect(page.getByText('TJ v1.0.0')).toBeVisible();
+      await expect(page.getByText(`TJI v${version}`)).toBeVisible();
+      await expect(page.getByRole('button', { name: /open settings/i })).toBeVisible();
+    });
+    test('should opens settings when the button is clicked', async ({ page }) => {
+      await page.getByRole('button', { name: /open settings/i }).click();
+      await expect(page.getByText('Settings')).toBeVisible();
+      await expect(page.getByRole('button', { name: /close settings/i })).toBeVisible();
+
+      await expect(page.getByRole('button', { name: /server/i })).toBeVisible();
+      await page.getByRole('button', { name: /server/i }).click();
+      await expect(page.getByLabel('Server API URL')).toBeVisible();
+      await expect(page.getByRole('button', { name: /back/i })).toBeVisible();
+
+      await page.getByRole('button', { name: /back/i }).click();
+      await expect(page.getByRole('button', { name: /server/i })).toBeVisible();
+
+      await page.getByRole('button', { name: /close settings/i }).click();
+      await expect(page.getByText('Settings')).not.toBeVisible();
+    });
+  });
+
+  test.describe('login form', () => {
+    test('should render the login form', async ({ page }) => {
+      expect(page.getByRole('form')).not.toBeNull();
+      await expect(page.getByLabel('Username')).toBeVisible();
+      await expect(page.getByLabel('Password')).toBeVisible();
+      await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
+    });
   });
 });

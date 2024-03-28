@@ -22,6 +22,7 @@
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec",
+    "pree2e": "pnpm build",
     "e2e": "playwright test",
     "generate": "stencil generate",
     "docs": "pnpm build --docs"
@@ -40,6 +41,9 @@
     "jest-cli": "^29.7.0",
     "msw": "^2.2.1",
     "node-localstorage": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=21.0.0"
   },
   "license": "MIT"
 }
