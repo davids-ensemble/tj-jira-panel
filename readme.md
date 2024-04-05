@@ -1,9 +1,5 @@
 <div align="center">
     <h1>TJ Panel for Adobe's Jira</h1>
-    <a href="#getting-started">Getting started</a> |
-    <a href="#privacy">Privacy</a> |
-    <a href="#development">Development</a> |
-    <a href="#contributors">Contributors</a>
 </div>
 
 </br>
