@@ -1,1 +1,1 @@
-export { JiraTjWebPanel } from './JiraTjWebPanel.js';
+export * from './components';

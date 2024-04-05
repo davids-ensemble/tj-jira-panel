@@ -1,87 +1,50 @@
 {
-  "name": "@ens-davids/jira-tj-web-panel",
-  "description": "web component for integrating TJ with Adobe's Jira",
-  "license": "MIT",
-  "author": "ens-davids<davids@ensemble.com>",
-  "version": "1.2.0",
-  "type": "module",
-  "main": "dist/src/index.js",
-  "module": "dist/src/index.js",
-  "exports": {
-    ".": "./dist/src/index.js",
-    "./jira-tj-web-panel.js": "./dist/src/jira-tj-web-panel.js"
+  "name": "@ens-davids/tj-jira-panel",
+  "version": "2.0.0-beta.5",
+  "description": "Stencil Component Starter",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "es2015": "dist/esm/index.js",
+  "es2017": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/tj-jira-panel/tj-jira-panel.esm.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davids-ensemble/tj-jira-panel.git"
   },
-  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/",
+    "loader/"
+  ],
   "scripts": {
-    "analyze": "cem analyze --litelement",
-    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "build": "rm -r dist && tsc && npm run analyze -- --exclude dist",
-    "prepublish": "pnpm build",
-    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
-    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
-    "release": "npx standard-version -a"
+    "build": "stencil build",
+    "start": "stencil build --dev --watch --serve",
+    "test": "stencil test --spec",
+    "e2e": "pnpm build && playwright test",
+    "generate": "stencil generate",
+    "docs": "pnpm build --docs"
   },
   "dependencies": {
-    "lit": "^2.0.2"
+    "@stencil/core": "^4.7.0",
+    "three-dots": "^0.3.2"
   },
   "devDependencies": {
-    "@custom-elements-manifest/analyzer": "^0.4.17",
-    "@open-wc/eslint-config": "^9.2.1",
-    "@typescript-eslint/eslint-plugin": "^5.48.0",
-    "@typescript-eslint/parser": "^5.48.0",
-    "@web/dev-server": "^0.1.34",
-    "concurrently": "^5.3.0",
-    "eslint": "^8.31.0",
-    "eslint-config-prettier": "^8.3.0",
-    "husky": "^4.3.8",
-    "lint-staged": "^10.5.4",
-    "tslib": "^2.3.1",
-    "prettier": "^2.4.1",
-    "typescript": "^4.5.2"
+    "@playwright/test": "^1.42.1",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/jest": "^29.5.6",
+    "@types/node": "^16.18.11",
+    "@types/node-localstorage": "^1.3.3",
+    "@xmldom/xmldom": "^0.8.10",
+    "jest": "^29.7.0",
+    "jest-cli": "^29.7.0",
+    "msw": "^2.2.1",
+    "node-localstorage": "^3.0.5",
+    "serve": "^14.2.1"
   },
-  "customElements": "custom-elements.json",
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "extends": [
-      "@open-wc",
-      "prettier"
-    ],
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "rules": {
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": [
-        "error"
-      ],
-      "import/no-unresolved": "off",
-      "import/extensions": [
-        "error",
-        "always",
-        {
-          "ignorePackages": true
-        }
-      ]
-    }
+  "engines": {
+    "node": ">=21.0.0"
   },
-  "prettier": {
-    "singleQuote": true,
-    "arrowParens": "avoid"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.ts": [
-      "eslint --fix",
-      "prettier --write"
-    ]
-  },
-  "standard-version": {
-    "scripts": {
-      "postbump": "TJI_VERSION=$(grep '\"version\"' package.json | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && sed -i '' -E \"s|TJI v.*(<.*)|TJI v${TJI_VERSION}\\1|\" src/Content.ts && git add src/Content.ts"
-    }
-  }
+  "license": "MIT"
 }

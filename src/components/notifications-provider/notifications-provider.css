@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+.notifications {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+  z-index: 10;
+  align-items: flex-end;
+}

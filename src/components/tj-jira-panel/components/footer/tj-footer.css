@@ -1,0 +1,25 @@
+footer {
+  margin-top: 10px;
+  color: #6b778c;
+  font-size: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer div:last-child {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+footer p {
+  margin: 2px;
+}
+
+[role='button'] {
+  cursor: pointer;
+
+  &[aria-label='Close settings'] {
+    color: red;
+  }
+}

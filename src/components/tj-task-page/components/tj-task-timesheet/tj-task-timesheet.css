@@ -1,0 +1,79 @@
+span.parent {
+  display: block;
+  font-size: 10px;
+  margin: 0;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+p {
+  font-weight: 600;
+  margin: 0;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+p::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+  background: var(--status-color);
+  box-shadow: 0 0 0 1px rgba(9, 30, 66, 0.3);
+}
+
+p[data-active] {
+  --status-color: #0b9d0e;
+}
+p:not([data-active]) {
+  --status-color: #e4e4e4;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table,
+th,
+td {
+  border: 1px solid rgba(106, 115, 123, 0.25);
+}
+
+th div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(50, 60, 70);
+  font-weight: 600;
+
+  &.previousDay {
+    opacity: 0.9;
+  }
+
+  &.currentDay {
+    color: #2479aa;
+    font-weight: 900;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+  }
+}
+
+input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+input[disabled] {
+  cursor: not-allowed;
+}

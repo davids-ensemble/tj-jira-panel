@@ -1,0 +1,45 @@
+name: CD
+
+on:
+  push:
+    # Publish semver tags as releases.
+    tags: ['v*.*.*']
+
+permissions:
+  actions: write # Necessary to cancel workflow executions
+  checks: write # Necessary to write reports
+  contents: read
+  id-token: write
+
+jobs:
+  publish-npm:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for tests to succeed
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'Run tests'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21
+          registry-url: https://registry.npmjs.org/
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build
+        run: pnpm build
+      - name: Publish to npm
+        # run: pnpm publish --provenance --no-git-checks
+        run: pnpm publish --no-git-checks --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

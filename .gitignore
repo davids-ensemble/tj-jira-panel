@@ -1,24 +1,32 @@
-## editors
-/.idea
-/.vscode
+dist/
+www/
+loader/
+coverage/
 
-## system files
+*~
+*.sw[mnpcod]
+*.log
+*.lock
+*.tmp
+*.tmp.*
+log.txt
+*.sublime-project
+*.sublime-workspace
+
+.stencil/
+.idea/
+.vscode/
+.sass-cache/
+.versions/
+node_modules/
+$RECYCLE.BIN/
+
 .DS_Store
-
-## npm
-/node_modules/
-/npm-debug.log
-
-## testing
-/coverage/
-
-## temp folders
-/.tmp/
-
-# build
-/_site/
-/dist/
-/out-tsc/
-
-storybook-static
-custom-elements.json
+Thumbs.db
+UserInterfaceState.xcuserstate
+.env
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+scratch

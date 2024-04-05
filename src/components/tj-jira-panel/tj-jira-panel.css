@@ -1,0 +1,49 @@
+@import '~three-dots/dist/three-dots.min.css';
+
+:host {
+  display: block;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
+  margin-top: 30px;
+  font-size: 14px;
+  box-sizing: border-box;
+  --primary-color: #005273;
+}
+
+#tj-panel {
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+
+  &[aria-hidden='true'] {
+    display: none;
+  }
+}
+
+.loader-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+
+  .loader,
+  .loader::before,
+  .loader::after {
+    color: var(--primary-color);
+    background-color: currentColor;
+  }
+}
