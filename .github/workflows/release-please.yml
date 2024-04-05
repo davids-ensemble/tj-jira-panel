@@ -13,9 +13,7 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: google-github-actions/release-please-action@v4
+      - uses: google-github-actions/release-please-action@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
           package-name: tj-jira-panel
-          default-branch: main
