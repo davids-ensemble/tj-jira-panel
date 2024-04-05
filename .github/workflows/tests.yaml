@@ -3,7 +3,14 @@ name: CI
 on:
   push:
     branches:
-      - '**'
+      - main
+    paths:
+      - "**/*.ts"
+      - "**/*.tsx"
+      - "**/*.css"
+  pull_request:
+    branches:
+      - main
     paths:
       - "**/*.ts"
       - "**/*.tsx"
