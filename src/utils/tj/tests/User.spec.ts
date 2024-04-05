@@ -1,15 +1,12 @@
 import { User } from '../User';
 
-const login = () =>
-  User.login({ username: 'testuser', password: 'testpassword' });
+const login = () => User.login({ username: 'testuser', password: 'testpassword' });
 
 describe('User', () => {
   it('should correctly set selectedTasks', () => {
     const tasks = ['task1', 'task2', 'task3'];
     User.selectedTasks = tasks;
-    expect(localStorage.getItem('tj_selected_tasks_tjiv2')).toEqual(
-      JSON.stringify(tasks),
-    );
+    expect(localStorage.getItem('tj_selected_tasks_tjiv2')).toEqual(JSON.stringify(tasks));
   });
 
   it('should correctly get selectedTasks', () => {
@@ -53,7 +50,7 @@ describe('User', () => {
 
     const tasks = await User.getAllTasks();
 
-    expect(tasks).toEqual({ '1': '[JIRA-123] Task 1', '3': 'Task 3' });
+    expect(tasks).toEqual({ '1': '[JIRA-123] Task 1', '3': 'Task 3', '333': '[JIRA-333] doing 333 tests' });
   });
 
   it('should add sessionId and userId to fetch', async () => {
