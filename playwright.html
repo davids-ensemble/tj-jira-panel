@@ -26,7 +26,18 @@
 </head>
 
 <body>
-  <tj-jira-panel jira-id="XCHG-1999" jira-summary="Doing a thing"></tj-jira-panel>
+  <tj-jira-panel jira-id="JIRA-1999" jira-summary="Doing a thing"></tj-jira-panel>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const jiraId = urlParams.get('jiraId');
+    const jiraSummary = urlParams.get('jiraSummary');
+
+    if (jiraId && jiraSummary) {
+      const tjJiraPanel = document.querySelector('tj-jira-panel');
+      tjJiraPanel.setAttribute('jira-id', jiraId);
+      tjJiraPanel.setAttribute('jira-summary', jiraSummary);
+    }
+  </script>
 </body>
 
 </html>
