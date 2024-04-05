@@ -4,6 +4,8 @@ on:
   push:
     # Publish semver tags as releases.
     tags: ['v*.*.*']
+  release:
+    types: [published]
 
 permissions:
   actions: write # Necessary to cancel workflow executions
@@ -16,13 +18,13 @@ jobs:
     name: Publish to npm
     runs-on: ubuntu-latest
     steps:
-      - name: Wait for tests to succeed
-        uses: lewagon/wait-on-check-action@v1.3.4
-        with:
-          ref: ${{ github.ref }}
-          check-name: 'Run tests'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
+      # - name: Wait for tests to succeed
+      #   uses: lewagon/wait-on-check-action@v1.3.4
+      #   with:
+      #     ref: ${{ github.ref }}
+      #     check-name: 'Run tests'
+      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
+      #     wait-interval: 10
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup pnpm
@@ -39,7 +41,7 @@ jobs:
       - name: Build
         run: pnpm build
       - name: Publish to npm
-        # run: pnpm publish --provenance --no-git-checks
-        run: pnpm publish --no-git-checks --access public
+        run: pnpm publish --provenance --no-git-checks --access public
+        # run: pnpm publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
