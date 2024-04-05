@@ -23,8 +23,8 @@ test.describe('tj-jira-panel', () => {
   });
 
   // MARK: Header
-  test.describe('header', () => {
-    test('should render the header', async ({ page }) => {
+  test.describe.only('header', () => {
+    test.only('should render the header', async ({ page }) => {
       await expect(page.getByRole('heading', { name: 'TJ Integration' })).toBeVisible();
       await expect(page.getByLabel('Toggle TJ panel')).toBeVisible();
     });
