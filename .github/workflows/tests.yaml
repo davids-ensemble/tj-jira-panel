@@ -10,13 +10,8 @@ on:
       - "**/*.css"
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20.x]
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,12 +19,21 @@ jobs:
         uses: pnpm/action-setup@v3
         with:
           version: 8
-      - name: Setup node.js ${{ matrix.node-version }}
+      - name: Setup node.js 21.x
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          # cache: 'pnpm'
+          node-version: 21
       - name: Install dependencies
         run: pnpm install
-      - name: Run tests
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run unit tests
         run: pnpm test
+      - name: Run E2E tests
+        run: pnpm e2e
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

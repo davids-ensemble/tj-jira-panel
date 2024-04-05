@@ -4,7 +4,6 @@ on:
   push:
     # Publish semver tags as releases.
     tags: ['v*.*.*']
-  workflow_dispatch:
 
 permissions:
   actions: write # Necessary to cancel workflow executions
@@ -13,7 +12,7 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,15 +21,24 @@ jobs:
         uses: pnpm/action-setup@v3
         with:
           version: 8
-      - name: Setup node.js
+      - name: Setup node.js 21.x
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          # cache: 'pnpm'
+          node-version: 21
       - name: Install dependencies
         run: pnpm install
-      - name: Run tests
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run unit tests
         run: pnpm test
+      - name: Run E2E tests
+        run: pnpm e2e
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
   publish-npm:
     needs: build
@@ -45,8 +53,7 @@ jobs:
       - name: Setup node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          # cache: 'pnpm'
+          node-version: 21
           registry-url: https://registry.npmjs.org/
       - name: Install dependencies
         run: pnpm install
