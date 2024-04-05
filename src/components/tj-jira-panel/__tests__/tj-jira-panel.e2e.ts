@@ -114,7 +114,9 @@ test.describe('tj-jira-panel', () => {
       await page.getByLabel('[JIRA-123] Task').click();
       await page.getByRole('button', { name: /close settings/i }).click();
       await expect(page.getByLabel('Parent task')).toBeVisible();
-      await expect(await page.getByLabel('Parent task').textContent()).toBe('Task 3');
+      await expect(await page.getByLabel('Parent task').textContent()).toBe(
+        ['Task 3', '[JIRA-333] doing 333 tests'].join(''),
+      );
     });
     test('should create a new task', async ({ page }) => {
       await page.getByLabel('Parent task').selectOption({ label: 'Task 3' });
@@ -122,6 +124,39 @@ test.describe('tj-jira-panel', () => {
       await expect(page.getByRole('table')).toBeVisible();
       await expect(page.getByText(`Task 3`)).toBeVisible();
       await expect(page.getByText(`[${jiraId}] ${jiraSummary}`)).toBeVisible();
+    });
+  });
+
+  // MARK: Timesheet
+  test.describe('timesheet', () => {
+    const jiraId = 'JIRA-333';
+    const jiraSummary = 'doing 333 tests';
+    const longWeekdayFormatter = new Intl.DateTimeFormat('en', {
+      weekday: 'long',
+    });
+    const todaysInputLabel = new RegExp(`Hours recorded on\s*.*\s*${longWeekdayFormatter.format(new Date())}\s*.*`);
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/playwright?jiraId=${jiraId}&jiraSummary=${jiraSummary}`);
+      await login(page);
+    });
+    test('should render the timesheet when you already have a task created', async ({ page }) => {
+      await expect(page.getByRole('table')).toBeVisible();
+      await expect(page.getByText(`Task 3`)).toBeVisible();
+      await expect(page.getByText(`[${jiraId}] ${jiraSummary}`)).toBeVisible();
+    });
+    test('should allow you to record hours for a day', async ({ page }) => {
+      await expect(page.getByRole('table')).toBeVisible();
+      const todaysInput = page.getByLabel(todaysInputLabel);
+      await todaysInput.press('8');
+      await todaysInput.press('Enter');
+      await expect(page.getByText('Hours saved successfully.')).toBeVisible();
+    });
+    test('should show an error message when the hours are not a number', async ({ page }) => {
+      await expect(page.getByRole('table')).toBeVisible();
+      const todaysInput = page.getByLabel(todaysInputLabel);
+      await todaysInput.fill('eight');
+      await todaysInput.press('Enter');
+      await expect(page.getByText('You must enter a valid number of hours.')).toBeVisible();
     });
   });
 });

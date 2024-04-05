@@ -17,6 +17,12 @@ export const createTimesheetResponse = () => `
       <name>Task 3</name>
       <active>true</active>
     </task>
+    <task id="333">
+      <name>[JIRA-333] doing 333 tests</name>
+      <active>true</active>
+      <startDate>${new Date().toISOString().split('T')[0]}</startDate>
+      <parentTaskId>3</parentTaskId>
+    </task>
   </tasksAndHours>
 </result>`;
 
@@ -31,6 +37,8 @@ export const createAddSubtaskResponse = ({ body }: ResponseFunctionParameters) =
   <parentTaskId>${parentTaskId}</parentTaskId>
 </result>`;
 };
+
+export const createRecordHoursForDayResponse = () => `<result forAction="recordHoursForDay"/>`;
 
 export const getTimesheetResponse = () => {
   return HttpResponse.xml(createTimesheetResponse());
