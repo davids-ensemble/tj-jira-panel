@@ -16,6 +16,16 @@ footer p {
   margin: 2px;
 }
 
+footer a {
+  margin: 2px;
+  color: #6b778c;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 [role='button'] {
   cursor: pointer;
 
