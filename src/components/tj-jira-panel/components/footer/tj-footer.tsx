@@ -58,7 +58,9 @@ export class TJFooter {
             {this.isLoggedIn ? `Logged in as ${User.username} (${User.userId}) @ ` : null}
             {this.serverVersion ? 'TJ v' + this.serverVersion : null}
           </p>
-          <p>TJI v{version}</p>
+          <a href={`https://github.com/davids-ensemble/tj-jira-panel/releases/tag/v${version}`} target="_blank">
+            TJI v{version}
+          </a>
         </div>
       </footer>
     );
