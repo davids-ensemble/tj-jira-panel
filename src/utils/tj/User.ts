@@ -14,9 +14,7 @@ interface AuthObject {
 }
 
 export class User {
-  private static authObject: AuthObject = JSON.parse(
-    localStorage.getItem('tj_user') ?? '{}',
-  );
+  private static authObject: AuthObject = JSON.parse(localStorage.getItem('tj_user') ?? '{}');
 
   public static get username(): string {
     return User.authObject.username;
@@ -76,9 +74,9 @@ export class User {
     return dom.querySelector('sessionUuid')?.textContent === sessionUuid;
   }
 
-  public static async getTimesheet() {
-    const date = new Date().toISOString().split('T')[0];
-    const body = `<getTimesheet><forUser>${this.userId}</forUser><containingDay>${date}</containingDay></getTimesheet>`;
+  public static async getTimesheet(date = new Date()) {
+    const dateString = date.toISOString().split('T')[0];
+    const body = `<getTimesheet><forUser>${this.userId}</forUser><containingDay>${dateString}</containingDay></getTimesheet>`;
     const response = await fetch(Server.url, {
       method: 'POST',
       headers: {
@@ -130,8 +128,8 @@ export class User {
     return null;
   }
 
-  public static async getTaskById(id: string) {
-    const timesheet = await this.getTimesheet();
+  public static async getTaskById(id: string, timesheetDate?: Date) {
+    const timesheet = await this.getTimesheet(timesheetDate);
     const xpath = `//task[@id="${id}"]`;
     const task = timesheet.evaluate(xpath, timesheet).iterateNext();
     if (task) {

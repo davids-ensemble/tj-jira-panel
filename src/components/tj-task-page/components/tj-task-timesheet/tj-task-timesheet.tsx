@@ -1,6 +1,6 @@
-import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 
-import { Task } from '@utils/tj';
+import { Task, User } from '@utils/tj';
 
 import type { Notification } from '../../../notifications-provider/types';
 
@@ -35,11 +35,8 @@ export class TJNewTaskForm {
    */
   @Prop() task!: Task;
 
-  days: Day[] = [];
-
-  componentWillLoad() {
-    this.days = this.getWeekDays(new Date());
-  }
+  @State() recordedHours = this.task.recordedHours;
+  @State() days: Day[] = this.getWeekDays(new Date());
 
   /**
    * Returns an array of Day objects representing the week days of the current week.
@@ -85,6 +82,22 @@ export class TJNewTaskForm {
     }
   }
 
+  onWeekChange = (e: Event) => {
+    const target = e.target as HTMLButtonElement;
+    const type = target.dataset.type;
+    const newDate = new Date(this.days[0].date.getTime());
+    const offset = type === 'next' ? 7 : -7;
+    newDate.setDate(newDate.getDate() + offset);
+    this.days = this.getWeekDays(newDate);
+  };
+
+  @Watch('days')
+  async getTimeSheet(newDays: Day[]) {
+    const day = newDays[0].date;
+    const task = await User.getTaskById(this.task.id, day);
+    this.recordedHours = task.recordedHours;
+  }
+
   render() {
     return (
       <Host>
@@ -117,7 +130,7 @@ export class TJNewTaskForm {
                     type="text"
                     aria-label={`Hours recorded on ${longWeekdayFormatter.format(day.date)}`}
                     disabled={(this.task?.startDate ?? new Date()) > day.date}
-                    value={this.task.recordedHours[day.iso]}
+                    value={this.recordedHours[day.iso]}
                     onFocus={(e: FocusEvent) => {
                       (e.target as HTMLInputElement).select();
                     }}
@@ -135,6 +148,19 @@ export class TJNewTaskForm {
             </tr>
           </tbody>
         </table>
+        <div class="week-navigation__container">
+          {this.days[0].date > this.task.startDate && (
+            <button data-type="previous" class="week-navigation__button" onClick={this.onWeekChange}>
+              &lt; Previous week
+            </button>
+          )}
+          <span class="week-navigation__spacer"></span>
+          {this.days[6].date < new Date() && (
+            <button data-type="next" class="week-navigation__button" onClick={this.onWeekChange}>
+              Next week &gt;
+            </button>
+          )}
+        </div>
       </Host>
     );
   }

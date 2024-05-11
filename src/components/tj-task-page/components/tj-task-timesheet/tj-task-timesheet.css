@@ -55,7 +55,7 @@ th div {
   }
 
   &.currentDay {
-    color: #2479aa;
+    color: var(--accent-color);
     font-weight: 900;
   }
 
@@ -76,4 +76,22 @@ input {
 
 input[disabled] {
   cursor: not-allowed;
+}
+
+.week-navigation__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 10px 0;
+}
+
+.week-navigation__button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: right;
+  padding: 0;
+  margin: 4px 0 0 0;
+  color: var(--accent-color);
 }
