@@ -1,4 +1,4 @@
-p {
+.title {
   margin: 0;
   margin-bottom: 5px;
 }
@@ -34,4 +34,11 @@ button {
   max-width: 100px;
   padding: 5px 10px;
   cursor: pointer;
+}
+
+.row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin-bottom: 2px;
 }

@@ -5,11 +5,16 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { Variant } from "./components/contextual-help/contextual-help";
 import { Notification } from "./components/notifications-provider/types";
 import { Task } from "./utils/tj/index";
+export { Variant } from "./components/contextual-help/contextual-help";
 export { Notification } from "./components/notifications-provider/types";
 export { Task } from "./utils/tj/index";
 export namespace Components {
+    interface ContextualHelp {
+        "variant": Variant;
+    }
     interface NotificationToast {
         "identifier": string;
         "message": string;
@@ -127,6 +132,12 @@ export interface TjTaskTimesheetCustomEvent<T> extends CustomEvent<T> {
     target: HTMLTjTaskTimesheetElement;
 }
 declare global {
+    interface HTMLContextualHelpElement extends Components.ContextualHelp, HTMLStencilElement {
+    }
+    var HTMLContextualHelpElement: {
+        prototype: HTMLContextualHelpElement;
+        new (): HTMLContextualHelpElement;
+    };
     interface HTMLNotificationToastElement extends Components.NotificationToast, HTMLStencilElement {
     }
     var HTMLNotificationToastElement: {
@@ -288,6 +299,7 @@ declare global {
         new (): HTMLTjTaskTimesheetElement;
     };
     interface HTMLElementTagNameMap {
+        "contextual-help": HTMLContextualHelpElement;
         "notification-toast": HTMLNotificationToastElement;
         "notifications-provider": HTMLNotificationsProviderElement;
         "tj-footer": HTMLTjFooterElement;
@@ -302,6 +314,9 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    interface ContextualHelp {
+        "variant": Variant;
+    }
     interface NotificationToast {
         "identifier": string;
         "message": string;
@@ -430,6 +445,7 @@ declare namespace LocalJSX {
         "task": Task;
     }
     interface IntrinsicElements {
+        "contextual-help": ContextualHelp;
         "notification-toast": NotificationToast;
         "notifications-provider": NotificationsProvider;
         "tj-footer": TjFooter;
@@ -447,6 +463,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "contextual-help": LocalJSX.ContextualHelp & JSXBase.HTMLAttributes<HTMLContextualHelpElement>;
             "notification-toast": LocalJSX.NotificationToast & JSXBase.HTMLAttributes<HTMLNotificationToastElement>;
             /**
              * The `notifications-provider` component is a provider for notifications. It listens for `notification` events and renders `notification-toast` components for each notification.
