@@ -1,0 +1,58 @@
+:host {
+  display: inline-block;
+}
+
+.wrapper {
+  position: relative;
+}
+
+button[popovertarget] {
+  background: none;
+  border: none;
+  color: #222;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 2px 0;
+
+  &:hover,
+  &[aria-expanded='true'] {
+    background: #e6e6e6;
+  }
+}
+
+svg {
+  height: 14px;
+  width: 14px;
+  padding: 0 3px;
+}
+
+div[popover] {
+  border-radius: 4px;
+  padding: 24px;
+  width: 250px;
+  border-color: #b1b1b1;
+  border-width: 1px;
+  box-shadow: 0 1px 4px #00000026;
+}
+
+::slotted([slot='heading']) {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+::slotted([slot='content']) {
+  margin: 0;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #222;
+}
+
+:popover-open {
+  position: absolute;
+  margin: 0;
+  left: -5000px;
+}

@@ -27,6 +27,7 @@
     "docs": "pnpm build --docs"
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.6.5",
     "@stencil/core": "^4.7.0",
     "three-dots": "^0.3.2"
   },

@@ -77,7 +77,7 @@ export class TJNewTaskForm {
   render() {
     return (
       <Loader isLoading={this.isLoading}>
-        <p>
+        <p class="title">
           <strong>No task found for {this.jiraID}</strong>
         </p>
         <fieldset>
@@ -95,7 +95,15 @@ export class TJNewTaskForm {
               />
             </label>
             <label>
-              Parent task
+              <span class="row">
+                Parent task
+                <contextual-help variant="info">
+                  <h6 slot="heading">Choose your tasks</h6>
+                  <p slot="content">
+                    You can select the tasks you want to see in this dropdown from Settings &gt; Parent tasks
+                  </p>
+                </contextual-help>
+              </span>
               <select name="parent">
                 {Object.entries(this.parentTasks ?? {}).map(([id, name]) => (
                   <option value={id}>{name}</option>
