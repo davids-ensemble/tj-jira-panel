@@ -71,6 +71,7 @@ export class TJNewTaskForm {
         type: 'error',
         message: error.message,
       });
+      this.isLoading = false;
     }
   };
 
