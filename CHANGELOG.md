@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.3.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.2.0...v2.3.0) (2024-05-18)
+
+
+### Features
+
+* :sparkles: added an update banner and button ([#12](https://github.com/davids-ensemble/tj-jira-panel/issues/12)) ([357c569](https://github.com/davids-ensemble/tj-jira-panel/commit/357c56946c0ae2e6fa4f52e584a5d448b4119141))
+* **script:** :sparkles: added script version to user scripts ([#14](https://github.com/davids-ensemble/tj-jira-panel/issues/14)) ([c9fd3e2](https://github.com/davids-ensemble/tj-jira-panel/commit/c9fd3e25b5531895ab5d7d651f6a469f7c77b33b))
+* **script:** :sparkles: updated user scripts to make the update button work ([#12](https://github.com/davids-ensemble/tj-jira-panel/issues/12)) ([357c569](https://github.com/davids-ensemble/tj-jira-panel/commit/357c56946c0ae2e6fa4f52e584a5d448b4119141))
+* **update-banner:** :sparkles: added a script version check and tooltip to the button ([#14](https://github.com/davids-ensemble/tj-jira-panel/issues/14)) ([c9fd3e2](https://github.com/davids-ensemble/tj-jira-panel/commit/c9fd3e25b5531895ab5d7d651f6a469f7c77b33b))
+
+
+### Bug Fixes
+
+* **script:** :bug: fixed undefined variables ([#15](https://github.com/davids-ensemble/tj-jira-panel/issues/15)) ([ae2a670](https://github.com/davids-ensemble/tj-jira-panel/commit/ae2a670d7f28c9926fdde9906876a04c94c5ed90))
+
 ## [2.2.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.1.0...v2.2.0) (2024-05-11)
 
 
