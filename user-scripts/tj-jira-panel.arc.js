@@ -19,7 +19,12 @@ const insertTjSection = async () => {
 
 const insertWebElementScript = () => {
   const script = document.createElement('script');
-  script.src = 'https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/dist/tj-jira-panel/tj-jira-panel.esm.js';
+  const version = localStorage.getItem('tj_version');
+  let url = 'https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/dist/tj-jira-panel/tj-jira-panel.esm.js';
+  if (version) {
+    url += `?v=${version}`;
+  }
+  script.src = url;
   script.type = 'module';
   script.onload = insertTjSection;
   document.head.appendChild(script);
