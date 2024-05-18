@@ -12,9 +12,10 @@ Displays the version of the server and the extension and provides a button to op
 
 ## Properties
 
-| Property     | Attribute      | Description                                                                          | Type      | Default     |
-| ------------ | -------------- | ------------------------------------------------------------------------------------ | --------- | ----------- |
-| `isLoggedIn` | `is-logged-in` | Whether the user is logged in. Certain information is only available when logged in. | `boolean` | `undefined` |
+| Property        | Attribute        | Description                                                                          | Type      | Default     |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------ | --------- | ----------- |
+| `isLoggedIn`    | `is-logged-in`   | Whether the user is logged in. Certain information is only available when logged in. | `boolean` | `undefined` |
+| `scriptVersion` | `script-version` | The version of the script used to inject the panel.                                  | `string`  | `undefined` |
 
 
 ## Events
@@ -31,9 +32,15 @@ Displays the version of the server and the extension and provides a button to op
 
  - [tj-jira-panel](../..)
 
+### Depends on
+
+- [tj-update-banner](../update-banner)
+
 ### Graph
 ```mermaid
 graph TD;
+  tj-footer --> tj-update-banner
+  tj-update-banner --> contextual-help
   tj-jira-panel --> tj-footer
   style tj-footer fill:#f9f,stroke:#333,stroke-width:4px
 ```

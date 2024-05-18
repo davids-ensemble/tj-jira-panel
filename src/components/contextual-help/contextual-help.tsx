@@ -11,12 +11,21 @@ const VARIANT_LABELS: Record<Variant, string> = {
   help: 'Help',
 };
 
+/**
+ * Component providing a button that triggers a popover with contextual help content.
+ * @slot heading - The heading of the popover. Styled to be more prominent than the content.
+ * @slot content - The content of the popover.
+ * @slot footer - The footer of the popover.
+ */
 @Component({
   tag: 'contextual-help',
   styleUrl: 'contextual-help.css',
   shadow: true,
 })
 export class ContextualHelp {
+  /**
+   * Controls the icon shown in the button.
+   */
   @Prop() variant!: Variant;
 
   @State() isOpen = false;
