@@ -1,4 +1,5 @@
 let jiraId = '';
+const SCRIPT_VERSION = '2024-05-18';
 
 const waitForElement = async selector => {
   while (document.querySelector(selector) === null) {
@@ -14,6 +15,7 @@ const insertTjSection = async () => {
   const tjWebComp = document.createElement('tj-jira-panel');
   tjWebComp.setAttribute('jira-id', jiraId);
   tjWebComp.setAttribute('jira-summary', jiraSummary);
+  tjWebComp.setAttribute('script-version', SCRIPT_VERSION);
   gitIssueWebpanel.insertAdjacentElement('afterend', tjWebComp);
 };
 
