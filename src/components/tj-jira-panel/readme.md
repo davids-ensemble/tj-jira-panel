@@ -7,10 +7,11 @@
 
 ## Properties
 
-| Property                   | Attribute      | Description                              | Type     | Default     |
-| -------------------------- | -------------- | ---------------------------------------- | -------- | ----------- |
-| `jiraID` _(required)_      | `jira-id`      | The Jira ID of the task to display.      | `string` | `undefined` |
-| `jiraSummary` _(required)_ | `jira-summary` | The Jira summary of the task to display. | `string` | `undefined` |
+| Property                   | Attribute        | Description                                         | Type     | Default     |
+| -------------------------- | ---------------- | --------------------------------------------------- | -------- | ----------- |
+| `jiraID` _(required)_      | `jira-id`        | The Jira ID of the task to display.                 | `string` | `undefined` |
+| `jiraSummary` _(required)_ | `jira-summary`   | The Jira summary of the task to display.            | `string` | `undefined` |
+| `scriptVersion`            | `script-version` | The version of the script used to inject the panel. | `string` | `undefined` |
 
 
 ## Dependencies
@@ -36,7 +37,10 @@ graph TD;
   notifications-provider --> notification-toast
   tj-task-page --> tj-task-timesheet
   tj-task-page --> tj-new-task-form
+  tj-new-task-form --> contextual-help
   tj-settings --> tj-parent-tasks-page
+  tj-footer --> tj-update-banner
+  tj-update-banner --> contextual-help
   style tj-jira-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

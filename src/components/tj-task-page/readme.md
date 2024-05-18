@@ -40,6 +40,7 @@ Main component that decides whether to show the task timesheet or the new task f
 graph TD;
   tj-task-page --> tj-task-timesheet
   tj-task-page --> tj-new-task-form
+  tj-new-task-form --> contextual-help
   tj-jira-panel --> tj-task-page
   style tj-task-page fill:#f9f,stroke:#333,stroke-width:4px
 ```

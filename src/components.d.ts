@@ -12,7 +12,13 @@ export { Variant } from "./components/contextual-help/contextual-help";
 export { Notification } from "./components/notifications-provider/types";
 export { Task } from "./utils/tj/index";
 export namespace Components {
+    /**
+     * Component providing a button that triggers a popover with contextual help content.
+     */
     interface ContextualHelp {
+        /**
+          * Controls the icon shown in the button.
+         */
         "variant": Variant;
     }
     interface NotificationToast {
@@ -149,6 +155,9 @@ export interface TjTaskTimesheetCustomEvent<T> extends CustomEvent<T> {
     target: HTMLTjTaskTimesheetElement;
 }
 declare global {
+    /**
+     * Component providing a button that triggers a popover with contextual help content.
+     */
     interface HTMLContextualHelpElement extends Components.ContextualHelp, HTMLStencilElement {
     }
     var HTMLContextualHelpElement: {
@@ -341,7 +350,13 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    /**
+     * Component providing a button that triggers a popover with contextual help content.
+     */
     interface ContextualHelp {
+        /**
+          * Controls the icon shown in the button.
+         */
         "variant": Variant;
     }
     interface NotificationToast {
@@ -508,6 +523,9 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            /**
+             * Component providing a button that triggers a popover with contextual help content.
+             */
             "contextual-help": LocalJSX.ContextualHelp & JSXBase.HTMLAttributes<HTMLContextualHelpElement>;
             "notification-toast": LocalJSX.NotificationToast & JSXBase.HTMLAttributes<HTMLNotificationToastElement>;
             /**
