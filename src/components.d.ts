@@ -35,6 +35,10 @@ export namespace Components {
           * Whether the user is logged in. Certain information is only available when logged in.
          */
         "isLoggedIn": boolean;
+        /**
+          * The version of the script used to inject the panel.
+         */
+        "scriptVersion": string | undefined;
     }
     /**
      * The heading for the TJ panel. It contains the title and a button to toggle the panel.
@@ -54,6 +58,10 @@ export namespace Components {
           * The Jira summary of the task to display.
          */
         "jiraSummary": string;
+        /**
+          * The version of the script used to inject the panel.
+         */
+        "scriptVersion": string | undefined;
     }
     /**
      * A form to log into TJ.
@@ -106,7 +114,14 @@ export namespace Components {
          */
         "task": Task;
     }
+    /**
+     * A banner that displays when a new version of the component is available.
+     */
     interface TjUpdateBanner {
+        /**
+          * The version of the script used to inject the panel.
+         */
+        "scriptVersion": string | undefined;
     }
 }
 export interface TjFooterCustomEvent<T> extends CustomEvent<T> {
@@ -300,6 +315,9 @@ declare global {
         prototype: HTMLTjTaskTimesheetElement;
         new (): HTMLTjTaskTimesheetElement;
     };
+    /**
+     * A banner that displays when a new version of the component is available.
+     */
     interface HTMLTjUpdateBannerElement extends Components.TjUpdateBanner, HTMLStencilElement {
     }
     var HTMLTjUpdateBannerElement: {
@@ -354,6 +372,10 @@ declare namespace LocalJSX {
           * Emitted when the user presses the settings button.
          */
         "onShowSettings"?: (event: TjFooterCustomEvent<void>) => void;
+        /**
+          * The version of the script used to inject the panel.
+         */
+        "scriptVersion"?: string | undefined;
     }
     /**
      * The heading for the TJ panel. It contains the title and a button to toggle the panel.
@@ -377,6 +399,10 @@ declare namespace LocalJSX {
           * The Jira summary of the task to display.
          */
         "jiraSummary": string;
+        /**
+          * The version of the script used to inject the panel.
+         */
+        "scriptVersion"?: string | undefined;
     }
     /**
      * A form to log into TJ.
@@ -453,7 +479,14 @@ declare namespace LocalJSX {
          */
         "task": Task;
     }
+    /**
+     * A banner that displays when a new version of the component is available.
+     */
     interface TjUpdateBanner {
+        /**
+          * The version of the script used to inject the panel.
+         */
+        "scriptVersion"?: string | undefined;
     }
     interface IntrinsicElements {
         "contextual-help": ContextualHelp;
@@ -512,6 +545,9 @@ declare module "@stencil/core" {
              * A component that displays the timesheet for a given task allowing the user to record hours.
              */
             "tj-task-timesheet": LocalJSX.TjTaskTimesheet & JSXBase.HTMLAttributes<HTMLTjTaskTimesheetElement>;
+            /**
+             * A banner that displays when a new version of the component is available.
+             */
             "tj-update-banner": LocalJSX.TjUpdateBanner & JSXBase.HTMLAttributes<HTMLTjUpdateBannerElement>;
         }
     }

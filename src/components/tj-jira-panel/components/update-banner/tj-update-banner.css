@@ -38,6 +38,11 @@
 .updateContent a.releaseNotesLink {
   color: var(--primary-color);
 }
+.updateButtonContainer {
+  width: 100%;
+  display: flex;
+  gap: 2px;
+}
 
 .updateButton {
   background: var(--accent-color);
@@ -48,4 +53,9 @@
   padding: 4px 8px;
   cursor: pointer;
   width: 100%;
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
 }

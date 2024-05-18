@@ -17,6 +17,10 @@ export class TJJiraPanel {
    * The Jira summary of the task to display.
    */
   @Prop() jiraSummary!: string;
+  /**
+   * The version of the script used to inject the panel.
+   */
+  @Prop() scriptVersion: string | undefined;
 
   @State() isLoggedIn = false;
   @State() isLoading = true;
@@ -86,7 +90,7 @@ export class TJJiraPanel {
                 },
               ]}
             />
-            <tj-footer isLoggedIn={this.isLoggedIn}></tj-footer>
+            <tj-footer isLoggedIn={this.isLoggedIn} scriptVersion={this.scriptVersion}></tj-footer>
           </main>
         </Loader>
       </notifications-provider>

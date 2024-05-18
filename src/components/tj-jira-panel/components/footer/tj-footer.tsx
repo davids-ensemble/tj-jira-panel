@@ -28,6 +28,10 @@ export class TJFooter {
    * Whether the user is logged in. Certain information is only available when logged in.
    */
   @Prop() isLoggedIn: boolean;
+  /**
+   * The version of the script used to inject the panel.
+   */
+  @Prop() scriptVersion: string | undefined;
 
   @State() serverVersion: string;
   @State() isSettingsOpen = false;
@@ -53,7 +57,7 @@ export class TJFooter {
             }}
           />
         </div>
-        <tj-update-banner></tj-update-banner>
+        <tj-update-banner scriptVersion={this.scriptVersion}></tj-update-banner>
         <div>
           <p>
             {this.isLoggedIn ? `Logged in as ${User.username} (${User.userId}) @ ` : null}
