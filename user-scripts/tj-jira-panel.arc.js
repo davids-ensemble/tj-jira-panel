@@ -1,5 +1,6 @@
-let jiraId = '';
 const SCRIPT_VERSION = '2024-05-18';
+let jiraId = '';
+let jiraSummary = '';
 
 const waitForElement = async selector => {
   while (document.querySelector(selector) === null) {
