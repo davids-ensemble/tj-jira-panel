@@ -53,6 +53,7 @@ export class TJFooter {
             }}
           />
         </div>
+        <tj-update-banner></tj-update-banner>
         <div>
           <p>
             {this.isLoggedIn ? `Logged in as ${User.username} (${User.userId}) @ ` : null}

@@ -106,6 +106,8 @@ export namespace Components {
          */
         "task": Task;
     }
+    interface TjUpdateBanner {
+    }
 }
 export interface TjFooterCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -298,6 +300,12 @@ declare global {
         prototype: HTMLTjTaskTimesheetElement;
         new (): HTMLTjTaskTimesheetElement;
     };
+    interface HTMLTjUpdateBannerElement extends Components.TjUpdateBanner, HTMLStencilElement {
+    }
+    var HTMLTjUpdateBannerElement: {
+        prototype: HTMLTjUpdateBannerElement;
+        new (): HTMLTjUpdateBannerElement;
+    };
     interface HTMLElementTagNameMap {
         "contextual-help": HTMLContextualHelpElement;
         "notification-toast": HTMLNotificationToastElement;
@@ -311,6 +319,7 @@ declare global {
         "tj-settings": HTMLTjSettingsElement;
         "tj-task-page": HTMLTjTaskPageElement;
         "tj-task-timesheet": HTMLTjTaskTimesheetElement;
+        "tj-update-banner": HTMLTjUpdateBannerElement;
     }
 }
 declare namespace LocalJSX {
@@ -444,6 +453,8 @@ declare namespace LocalJSX {
          */
         "task": Task;
     }
+    interface TjUpdateBanner {
+    }
     interface IntrinsicElements {
         "contextual-help": ContextualHelp;
         "notification-toast": NotificationToast;
@@ -457,6 +468,7 @@ declare namespace LocalJSX {
         "tj-settings": TjSettings;
         "tj-task-page": TjTaskPage;
         "tj-task-timesheet": TjTaskTimesheet;
+        "tj-update-banner": TjUpdateBanner;
     }
 }
 export { LocalJSX as JSX };
@@ -500,6 +512,7 @@ declare module "@stencil/core" {
              * A component that displays the timesheet for a given task allowing the user to record hours.
              */
             "tj-task-timesheet": LocalJSX.TjTaskTimesheet & JSXBase.HTMLAttributes<HTMLTjTaskTimesheetElement>;
+            "tj-update-banner": LocalJSX.TjUpdateBanner & JSXBase.HTMLAttributes<HTMLTjUpdateBannerElement>;
         }
     }
 }
