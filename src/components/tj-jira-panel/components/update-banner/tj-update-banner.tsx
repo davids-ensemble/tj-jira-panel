@@ -20,8 +20,6 @@ export class TJUpdateBanner {
   isButtonDisabled = !this.scriptVersion || new Date(this.scriptVersion) < new Date('2024-05-18');
 
   async componentWillLoad() {
-    console.log('scriptVersion', this.scriptVersion);
-    console.log(this.isButtonDisabled);
     if (!localStorage.getItem('tj_version')) {
       localStorage.setItem('tj_version', version);
     }

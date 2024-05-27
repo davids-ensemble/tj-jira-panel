@@ -35,7 +35,6 @@ export class ContextualHelp {
   popover!: HTMLDivElement;
 
   handlePopoverToggle = async (e: ToggleEvent) => {
-    console.log(e);
     const popover = e.target as HTMLDivElement;
     this.isOpen = e.newState === 'open';
     if (e.newState === 'open') {
