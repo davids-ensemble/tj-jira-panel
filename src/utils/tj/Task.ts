@@ -14,19 +14,18 @@ export class Task {
     this.id = task.attributes.getNamedItem('id')?.value;
     this.name = task.querySelector('name')?.textContent;
     this.active = task.querySelector('active')?.textContent === 'true';
-    this.startDate = new Date(
-      task.querySelector('startDate')?.textContent ?? '',
+    this.startDate = new Date(task.querySelector('startDate')?.textContent ?? '');
+    this.recordedHours = Array.from(task.querySelectorAll('recordedHours > workDay')).reduce(
+      (acc: Record<string, string>, item) => {
+        const date = item.attributes.getNamedItem('day')?.value;
+        const hours = item.attributes.getNamedItem('hours')?.value;
+        if (date && hours) {
+          acc[date] = hours;
+        }
+        return acc;
+      },
+      {},
     );
-    this.recordedHours = Array.from(
-      task.querySelectorAll('recordedHours > workDay'),
-    ).reduce((acc: Record<string, string>, item) => {
-      const date = item.attributes.getNamedItem('day')?.value;
-      const hours = item.attributes.getNamedItem('hours')?.value;
-      if (date && hours) {
-        acc[date] = hours;
-      }
-      return acc;
-    }, {});
     if (timesheet) {
       const parentTaskID = task.querySelector('parentTaskId')?.textContent;
       if (parentTaskID) {
@@ -39,14 +38,14 @@ export class Task {
     }
   }
 
-  async createSubTask(name: string, date: string) {
+  async createSubTask(name: string, date: string, description = '<p> </p>') {
     const body = `
 <addSubTask id="0" version="0">
   <id>0</id>
   <version>0</version>
   <active>true</active>
   <name>${escapeNonAlphanumericCharacters(name)}</name>
-  <descriptionHtmlText>&lt;p&gt; &lt;/p&gt;</descriptionHtmlText>
+  <descriptionHtmlText>${escapeNonAlphanumericCharacters(description)}</descriptionHtmlText>
   <startDate>${date}</startDate>
   <parentTaskId>${this.id}</parentTaskId>
   <kind>WORK</kind>

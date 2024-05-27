@@ -11,10 +11,11 @@ A form that allows the user to create a new task for the given Jira issue.
 
 ## Properties
 
-| Property                   | Attribute      | Description              | Type     | Default     |
-| -------------------------- | -------------- | ------------------------ | -------- | ----------- |
-| `jiraID` _(required)_      | `jira-id`      | The Jira ID of the task. | `string` | `undefined` |
-| `jiraSummary` _(required)_ | `jira-summary` | The summary of the task. | `string` | `undefined` |
+| Property                   | Attribute          | Description                       | Type     | Default     |
+| -------------------------- | ------------------ | --------------------------------- | -------- | ----------- |
+| `jiraDescription`          | `jira-description` | The Jira description of the task. | `string` | `undefined` |
+| `jiraID` _(required)_      | `jira-id`          | The Jira ID of the task.          | `string` | `undefined` |
+| `jiraSummary` _(required)_ | `jira-summary`     | The summary of the task.          | `string` | `undefined` |
 
 
 ## Events

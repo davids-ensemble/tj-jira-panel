@@ -7,11 +7,12 @@
 
 ## Properties
 
-| Property                   | Attribute        | Description                                         | Type     | Default     |
-| -------------------------- | ---------------- | --------------------------------------------------- | -------- | ----------- |
-| `jiraID` _(required)_      | `jira-id`        | The Jira ID of the task to display.                 | `string` | `undefined` |
-| `jiraSummary` _(required)_ | `jira-summary`   | The Jira summary of the task to display.            | `string` | `undefined` |
-| `scriptVersion`            | `script-version` | The version of the script used to inject the panel. | `string` | `undefined` |
+| Property                   | Attribute          | Description                                         | Type     | Default     |
+| -------------------------- | ------------------ | --------------------------------------------------- | -------- | ----------- |
+| `jiraDescription`          | `jira-description` | The Jira description of the task.                   | `string` | `undefined` |
+| `jiraID` _(required)_      | `jira-id`          | The Jira ID of the task to display.                 | `string` | `undefined` |
+| `jiraSummary` _(required)_ | `jira-summary`     | The Jira summary of the task to display.            | `string` | `undefined` |
+| `scriptVersion`            | `script-version`   | The version of the script used to inject the panel. | `string` | `undefined` |
 
 
 ## Dependencies

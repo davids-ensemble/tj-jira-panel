@@ -15,8 +15,13 @@ label {
   flex-direction: column;
 }
 
+label.row input {
+  width: auto;
+}
+
 input,
-select {
+select,
+textarea {
   box-sizing: border-box;
   border: 1px solid gray;
   border-radius: 0.25rem;
@@ -38,6 +43,7 @@ button {
 
 .row {
   display: flex;
+  flex-direction: row;
   gap: 4px;
   align-items: center;
   margin-bottom: 2px;

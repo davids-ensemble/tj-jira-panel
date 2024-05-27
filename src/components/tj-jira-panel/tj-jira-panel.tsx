@@ -21,6 +21,10 @@ export class TJJiraPanel {
    * The version of the script used to inject the panel.
    */
   @Prop() scriptVersion: string | undefined;
+  /**
+   * The Jira description of the task.
+   */
+  @Prop() jiraDescription: string | undefined;
 
   @State() isLoggedIn = false;
   @State() isLoading = true;
@@ -81,7 +85,11 @@ export class TJJiraPanel {
                 {
                   condition: this.path === 'task',
                   renderComponent: () => (
-                    <tj-task-page jiraID={this.jiraID} jiraSummary={this.jiraSummary}></tj-task-page>
+                    <tj-task-page
+                      jiraID={this.jiraID}
+                      jiraSummary={this.jiraSummary}
+                      jiraDescription={this.jiraDescription}
+                    ></tj-task-page>
                   ),
                 },
                 {

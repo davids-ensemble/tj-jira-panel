@@ -1,15 +1,16 @@
 // ==UserScript==
 // @name         TJ Web Panel Injector
 // @namespace    http://tampermonkey.net/
-// @version      2024-05-18
+// @version      2024-05-27
 // @description  Inserts a TJ web panel into Adobe's jira
 // @author       davids-ensemble
 // @match        https://jira.corp.adobe.com/*
 // ==/UserScript==
 
-const SCRIPT_VERSION = '2024-05-18';
+const SCRIPT_VERSION = '2024-05-27';
 let jiraId = '';
 let jiraSummary = '';
+let jiraDescription = '';
 
 const waitForElement = async selector => {
   while (document.querySelector(selector) === null) {
@@ -22,9 +23,11 @@ const insertTjSection = async () => {
   const gitIssueWebpanel = await waitForElement('#git-issue-webpanel');
   jiraId = document.getElementById('key-val')?.textContent;
   jiraSummary = document.getElementById('summary-val')?.textContent;
+  jiraDescription = document.querySelector('#description-val .user-content-block')?.innerHTML;
   const tjWebComp = document.createElement('tj-jira-panel');
   tjWebComp.setAttribute('jira-id', jiraId);
   tjWebComp.setAttribute('jira-summary', jiraSummary);
+  tjWebComp.setAttribute('jira-description', jiraDescription);
   tjWebComp.setAttribute('script-version', SCRIPT_VERSION);
   gitIssueWebpanel.insertAdjacentElement('afterend', tjWebComp);
 };
