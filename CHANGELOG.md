@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.4.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.3.0...v2.4.0) (2024-05-27)
+
+
+### Features
+
+* **new-task-form:** ✨ added support for task description pre-filled from Jira ([#18](https://github.com/davids-ensemble/tj-jira-panel/issues/18)) ([d61832e](https://github.com/davids-ensemble/tj-jira-panel/commit/d61832e615f38e2672282256ec2d39f5aa508830))
+
+
+### Bug Fixes
+
+* :bug: removed console.log lines ([#17](https://github.com/davids-ensemble/tj-jira-panel/issues/17)) ([d61832e](https://github.com/davids-ensemble/tj-jira-panel/commit/d61832e615f38e2672282256ec2d39f5aa508830))
+
 ## [2.3.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.2.0...v2.3.0) (2024-05-18)
 
 
