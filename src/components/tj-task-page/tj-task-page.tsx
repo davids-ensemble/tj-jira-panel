@@ -26,6 +26,10 @@ export class TJTaskPage {
    * The summary of the task.
    */
   @Prop() jiraSummary!: string;
+  /**
+   * The Jira description of the task.
+   */
+  @Prop() jiraDescription: string | undefined;
 
   @State() isLoading = true;
   @State() task: Task | null;
@@ -63,7 +67,13 @@ export class TJTaskPage {
               },
               {
                 condition: this.task === null,
-                renderComponent: () => <tj-new-task-form jiraID={this.jiraID} jiraSummary={this.jiraSummary} />,
+                renderComponent: () => (
+                  <tj-new-task-form
+                    jiraID={this.jiraID}
+                    jiraSummary={this.jiraSummary}
+                    jiraDescription={this.jiraDescription}
+                  />
+                ),
               },
             ]}
           />

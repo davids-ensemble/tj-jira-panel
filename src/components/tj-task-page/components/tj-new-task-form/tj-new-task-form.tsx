@@ -5,6 +5,12 @@ import { Task, User } from '@utils/tj';
 
 import type { Notification } from '../../../notifications-provider/types';
 
+const cleanDescription = (value: string) =>
+  value
+    ?.replace(/^(\s*\\n+\s*)+/, '')
+    .replace(/(\s*\\n+\s*)+$/, '')
+    .trim();
+
 /**
  * A form that allows the user to create a new task for the given Jira issue.
  */
@@ -31,9 +37,14 @@ export class TJNewTaskForm {
    * The summary of the task.
    */
   @Prop() jiraSummary!: string;
+  /**
+   * The Jira description of the task.
+   */
+  @Prop() jiraDescription: string | undefined;
 
   @State() isLoading = true;
   @State() parentTasks: Record<string, string> | null = null;
+  @State() shouldShowDescription = false;
 
   async componentWillLoad() {
     try {
@@ -62,9 +73,12 @@ export class TJNewTaskForm {
     const name = formData.get('name') as string;
     const parentId = formData.get('parent') as string;
     const date = formData.get('date') as string;
+    const description = (formData.get('description') as string) || '<p> </p>';
+    const cleanedDescription = cleanDescription(description);
+
     try {
       const parent = await User.getTaskById(parentId);
-      const task = await parent.createSubTask(name, date);
+      const task = await parent.createSubTask(name, date, cleanedDescription);
       this.taskCreated.emit(task);
     } catch (error) {
       this.notification.emit({
@@ -73,6 +87,10 @@ export class TJNewTaskForm {
       });
       this.isLoading = false;
     }
+  };
+
+  onDescriptionCheckboxChange = (e: Event) => {
+    this.shouldShowDescription = (e.target as HTMLInputElement).checked;
   };
 
   render() {
@@ -115,6 +133,16 @@ export class TJNewTaskForm {
               Start date
               <input type="date" name="date" value={new Date().toISOString().split('T')[0]} />
             </label>
+            <label class="row">
+              <input type="checkbox" checked={this.shouldShowDescription} onChange={this.onDescriptionCheckboxChange} />
+              Include task description
+            </label>
+            {this.shouldShowDescription && (
+              <label>
+                Description
+                <textarea rows={5} name="description" value={cleanDescription(this.jiraDescription)}></textarea>
+              </label>
+            )}
             <button type="submit">Create</button>
           </form>
         </fieldset>

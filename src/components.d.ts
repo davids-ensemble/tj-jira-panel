@@ -57,6 +57,10 @@ export namespace Components {
     }
     interface TjJiraPanel {
         /**
+          * The Jira description of the task.
+         */
+        "jiraDescription": string | undefined;
+        /**
           * The Jira ID of the task to display.
          */
         "jiraID": string;
@@ -78,6 +82,10 @@ export namespace Components {
      * A form that allows the user to create a new task for the given Jira issue.
      */
     interface TjNewTaskForm {
+        /**
+          * The Jira description of the task.
+         */
+        "jiraDescription": string | undefined;
         /**
           * The Jira ID of the task.
          */
@@ -102,6 +110,10 @@ export namespace Components {
      * Main component that decides whether to show the task timesheet or the new task form.
      */
     interface TjTaskPage {
+        /**
+          * The Jira description of the task.
+         */
+        "jiraDescription": string | undefined;
         /**
           * The Jira ID of the task.
          */
@@ -407,6 +419,10 @@ declare namespace LocalJSX {
     }
     interface TjJiraPanel {
         /**
+          * The Jira description of the task.
+         */
+        "jiraDescription"?: string | undefined;
+        /**
           * The Jira ID of the task to display.
          */
         "jiraID": string;
@@ -436,6 +452,10 @@ declare namespace LocalJSX {
      * A form that allows the user to create a new task for the given Jira issue.
      */
     interface TjNewTaskForm {
+        /**
+          * The Jira description of the task.
+         */
+        "jiraDescription"?: string | undefined;
         /**
           * The Jira ID of the task.
          */
@@ -468,6 +488,10 @@ declare namespace LocalJSX {
      * Main component that decides whether to show the task timesheet or the new task form.
      */
     interface TjTaskPage {
+        /**
+          * The Jira description of the task.
+         */
+        "jiraDescription"?: string | undefined;
         /**
           * The Jira ID of the task.
          */
