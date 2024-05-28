@@ -20,9 +20,7 @@ export class TJUpdateBanner {
   isButtonDisabled = !this.scriptVersion || new Date(this.scriptVersion) < new Date('2024-05-18');
 
   async componentWillLoad() {
-    if (!localStorage.getItem('tj_version')) {
-      localStorage.setItem('tj_version', version);
-    }
+    localStorage.setItem('tj_version', version);
     const response = await fetch(
       `https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/package.json?bypassDiskCache=${Date.now()}`,
     );
