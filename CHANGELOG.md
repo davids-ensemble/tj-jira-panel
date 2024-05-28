@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.1](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.4.0...v2.4.1) (2024-05-28)
+
+
+### Bug Fixes
+
+* 🐛 fixed localStorage version not updating when component updates automatically ([a00130e](https://github.com/davids-ensemble/tj-jira-panel/commit/a00130efdfe57d641d3df254f270b4e1aaeaeeca))
+
 ## [2.4.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.3.0...v2.4.0) (2024-05-27)
 
 
