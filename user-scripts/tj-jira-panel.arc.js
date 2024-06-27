@@ -1,4 +1,4 @@
-const SCRIPT_VERSION = '2024-05-27';
+const SCRIPT_VERSION = '2024-06-27';
 let jiraId = '';
 let jiraSummary = '';
 let jiraDescription = '';
@@ -11,7 +11,7 @@ const waitForElement = async selector => {
 };
 
 const insertTjSection = async () => {
-  const gitIssueWebpanel = await waitForElement('#git-issue-webpanel');
+  const issueSidebar = await waitForElement('#viewissuesidebar');
   jiraId = document.getElementById('key-val')?.textContent;
   jiraSummary = document.getElementById('summary-val')?.textContent;
   jiraDescription = document.querySelector('#description-val .user-content-block')?.innerHTML;
@@ -20,7 +20,7 @@ const insertTjSection = async () => {
   tjWebComp.setAttribute('jira-summary', jiraSummary);
   tjWebComp.setAttribute('jira-description', jiraDescription);
   tjWebComp.setAttribute('script-version', SCRIPT_VERSION);
-  gitIssueWebpanel.insertAdjacentElement('afterend', tjWebComp);
+  issueSidebar.appendChild(tjWebComp);
 };
 
 const insertWebElementScript = () => {
@@ -38,7 +38,6 @@ const insertWebElementScript = () => {
 
 (async () => {
   await waitForElement('head');
-  // TJ
   insertWebElementScript();
   setInterval(() => {
     const jiraIssue = document.getElementById('key-val')?.textContent;
