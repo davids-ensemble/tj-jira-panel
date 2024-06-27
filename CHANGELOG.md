@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.4.1...v2.5.0) (2024-06-27)
+
+
+### Features
+
+* **script:** :children_crossing: improved page injection to work without requiring a git panel ([2ad82ae](https://github.com/davids-ensemble/tj-jira-panel/commit/2ad82ae17ca3f8331d7ce93c7de4704bcc1ac550))
+
 ## [2.4.1](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.4.0...v2.4.1) (2024-05-28)
 
 
