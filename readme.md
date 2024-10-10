@@ -17,7 +17,7 @@
 
 ### Installation
 
-You have two options depending on the browser you use. You can install the script as a **[Userscript](https://en.wikipedia.org/wiki/Userscript)** in all popular browsers or as an **Arc Booster** in the Arc browser.
+You have two options depending on the browser you use. You can install the script as a **[Userscript](https://en.wikipedia.org/wiki/Userscript)** in all popular browsers.
 
 #### Userscript
 
@@ -30,9 +30,3 @@ You have two options depending on the browser you use. You can install the scrip
    > - [Userscripts for Safari (MacOS/iOS/iPadOS)](https://apps.apple.com/us/app/userscripts/id1463298887)<br>
 
 2. Install **TJ Jira Panel** by clicking **[this link](../../raw/main/user-scripts/tj-jira-panel.user.js)**.
-
-#### Arc Booster
-
-1. Create a booster for the Jira website.
-
-2. Copy the content of the **[Arc Booster script](./user-scripts/tj-jira-panel.arc.js)** and paste it into the booster.
