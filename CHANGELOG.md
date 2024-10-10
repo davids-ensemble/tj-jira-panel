@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.5.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.4.1...v2.5.0) (2024-10-10)
+
+
+### Features
+
+* :sparkles: added a loading indicator to days when switching between weeks ([19f6d04](https://github.com/davids-ensemble/tj-jira-panel/commit/19f6d04124a1a8337b9f138e03ced2da5c0dee5c))
+* **script:** :children_crossing: improved page injection to work without requiring a git panel ([2ad82ae](https://github.com/davids-ensemble/tj-jira-panel/commit/2ad82ae17ca3f8331d7ce93c7de4704bcc1ac550))
+
+
+### Bug Fixes
+
+* :bug: fixed inputs not being updated when moving between weeks ([0c19266](https://github.com/davids-ensemble/tj-jira-panel/commit/0c19266dd355206bfaf08dba4367169dce0f9f2f))
+
 ## [2.4.1](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.4.0...v2.4.1) (2024-05-28)
 
 
