@@ -68,7 +68,6 @@ export class ContextualHelp {
           >
             <Icon type={this.variant} />
           </button>
-          {/* @ts-expect-error - onToggle is not defined for div element in types */}
           <div id={this.id} popover="" ref={el => (this.popover = el)} onToggle={this.handlePopoverToggle}>
             <slot name="heading" />
             <slot name="content" />
