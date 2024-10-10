@@ -128,6 +128,7 @@ export class TJNewTaskForm {
                 <td>
                   <input
                     type="text"
+                      key={`${day.iso}-week-${Math.ceil(day.date.getDate() / 7)}`}
                     aria-label={`Hours recorded on ${longWeekdayFormatter.format(day.date)}`}
                     disabled={(this.task?.startDate ?? new Date()) > day.date}
                     value={this.recordedHours[day.iso]}
