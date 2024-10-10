@@ -1,5 +1,6 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 
+import { Loader } from '@fc';
 import { Task, User } from '@utils/tj';
 
 import type { Notification } from '../../../notifications-provider/types';
@@ -37,6 +38,7 @@ export class TJNewTaskForm {
 
   @State() recordedHours = this.task.recordedHours;
   @State() days: Day[] = this.getWeekDays(new Date());
+  @State() loadingHours = this.task.recordedHours ? false : true;
 
   /**
    * Returns an array of Day objects representing the week days of the current week.
@@ -94,8 +96,10 @@ export class TJNewTaskForm {
   @Watch('days')
   async getTimeSheet(newDays: Day[]) {
     const day = newDays[0].date;
+    this.loadingHours = true;
     const task = await User.getTaskById(this.task.id, day);
     this.recordedHours = task.recordedHours;
+    this.loadingHours = false;
   }
 
   render() {
@@ -126,24 +130,26 @@ export class TJNewTaskForm {
             <tr>
               {this.days.map(day => (
                 <td>
-                  <input
-                    type="text"
+                  <Loader isLoading={this.loadingHours} type="elastic" style={{ height: '18px' }}>
+                    <input
+                      type="text"
                       key={`${day.iso}-week-${Math.ceil(day.date.getDate() / 7)}`}
-                    aria-label={`Hours recorded on ${longWeekdayFormatter.format(day.date)}`}
-                    disabled={(this.task?.startDate ?? new Date()) > day.date}
-                    value={this.recordedHours[day.iso]}
-                    onFocus={(e: FocusEvent) => {
-                      (e.target as HTMLInputElement).select();
-                    }}
-                    onKeyPress={(e: KeyboardEvent) => {
-                      e.stopImmediatePropagation();
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        this.saveHours((e.target as HTMLInputElement).value, day.iso);
-                        (e.target as HTMLInputElement).blur();
-                      }
-                    }}
-                  />
+                      aria-label={`Hours recorded on ${longWeekdayFormatter.format(day.date)}`}
+                      disabled={(this.task?.startDate ?? new Date()) > day.date}
+                      value={this.recordedHours[day.iso]}
+                      onFocus={(e: FocusEvent) => {
+                        (e.target as HTMLInputElement).select();
+                      }}
+                      onKeyPress={(e: KeyboardEvent) => {
+                        e.stopImmediatePropagation();
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          this.saveHours((e.target as HTMLInputElement).value, day.iso);
+                          (e.target as HTMLInputElement).blur();
+                        }
+                      }}
+                    />
+                  </Loader>
                 </td>
               ))}
             </tr>
