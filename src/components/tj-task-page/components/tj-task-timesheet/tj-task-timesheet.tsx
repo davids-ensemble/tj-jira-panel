@@ -10,7 +10,8 @@ const longWeekdayFormatter = new Intl.DateTimeFormat('en', {
   day: 'numeric',
 });
 
-const now = new Date();
+const midnightToday = new Date();
+midnightToday.setUTCHours(0, 0, 0, 0);
 
 /**
  * A component that displays the timesheet for a given task allowing the user to record hours.
@@ -84,9 +85,9 @@ export class TJNewTaskForm {
                 <th>
                   <div
                     class={[
-                      day.date.getDate() < now.getDate() && 'previousDay',
-                      day.date.getDate() === now.getDate() && 'currentDay',
-                      (this.task?.startDate ?? now) > day.date && 'disabled',
+                      day.date < midnightToday && 'previousDay',
+                      day.date.getDate() === midnightToday.getDate() && 'currentDay',
+                      (this.task?.startDate ?? midnightToday) > day.date && 'disabled',
                     ].join(' ')}
                   >
                     <span>{day.label}</span>
@@ -105,7 +106,7 @@ export class TJNewTaskForm {
                       type="text"
                       key={`${day.iso}-week-${Math.ceil(day.date.getDate() / 7)}`}
                       aria-label={`Hours recorded on ${longWeekdayFormatter.format(day.date)}`}
-                      disabled={(this.task?.startDate ?? now) > day.date}
+                      disabled={(this.task?.startDate ?? midnightToday) > day.date}
                       value={this.recordedHours[day.iso]}
                       onFocus={(e: FocusEvent) => {
                         (e.target as HTMLInputElement).select();
@@ -132,7 +133,7 @@ export class TJNewTaskForm {
             </button>
           )}
           <span class="week-navigation__spacer"></span>
-          {this.days[6].date < now && (
+          {this.days[6].date < midnightToday && (
             <button data-type="next" class="week-navigation__button" onClick={this.onWeekChange}>
               Next week &gt;
             </button>
