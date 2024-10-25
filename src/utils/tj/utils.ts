@@ -52,7 +52,9 @@ export const getWeekDays = (date: Date = new Date()): Day[] => {
   const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
   // Calculate the date of the Monday of the current week.
   const diff = date.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
-  const monday = new Date(date.setDate(diff));
+  date.setDate(diff);
+  date.setUTCHours(0, 0, 0, 0);
+  const monday = new Date(date);
   for (let i = 0; i < 7; i += 1) {
     const day = new Date(monday);
     day.setDate(monday.getDate() + i);

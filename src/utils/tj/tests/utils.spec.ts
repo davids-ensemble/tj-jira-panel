@@ -67,4 +67,18 @@ describe('getWeekDays', () => {
     expect(days[0].iso).toBe('2022-12-26'); // Monday of the previous year
     expect(days[6].iso).toBe('2023-01-01'); // Sunday
   });
+
+  it('should set the time to midnight UTC', () => {
+    const days = getWeekDays(new Date('2023-10-04')); // Wednesday
+    const dates = days.map(day => day.date);
+    expect(
+      dates.every(
+        date =>
+          date.getUTCHours() === 0 &&
+          date.getUTCMinutes() === 0 &&
+          date.getUTCSeconds() === 0 &&
+          date.getUTCMilliseconds() === 0,
+      ),
+    ).toBe(true);
+  });
 });
