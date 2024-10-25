@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.6.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.5.0...v2.6.0) (2024-10-25)
+
+
+### Features
+
+* **new-task-form:** :sparkles: changed start date's default value to Monday ([b1a9e21](https://github.com/davids-ensemble/tj-jira-panel/commit/b1a9e2133632f64981938f19e314083caf770b88))
+
+
+### Bug Fixes
+
+* **timesheet:** :bug: fixed "Previous week" button showing when the task started on Monday ([255e68a](https://github.com/davids-ensemble/tj-jira-panel/commit/255e68a4bcf229832d78f0f05abf0e4e67f7ff30))
+* **timesheet:** :bug: fixed previous days not being styled correctly when a new month starts ([a783f1f](https://github.com/davids-ensemble/tj-jira-panel/commit/a783f1fadd6ed6d5e658211ad5193a2f8e1e67ac))
+
 ## [2.5.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.4.1...v2.5.0) (2024-10-10)
 
 
