@@ -2,7 +2,7 @@ import { Page, expect, test } from '@playwright/test';
 
 import { version } from '@root/package.json';
 import '@root/src/playwright.setup';
-import { Server } from '@utils/tj';
+import { Server, getWeekDays } from '@utils/tj';
 
 import { mockAPI } from './../../../__mocks__/playwright';
 
@@ -105,7 +105,7 @@ test.describe('tj-jira-panel', () => {
       await expect(page.getByLabel('Name')).toHaveValue(`[${jiraId}] ${jiraSummary}`);
       await expect(page.getByLabel('Parent task')).toBeVisible();
       await expect(page.getByLabel('Start date')).toBeVisible();
-      await expect(page.getByLabel('Start date')).toHaveValue(new Date().toISOString().split('T')[0]);
+      await expect(page.getByLabel('Start date')).toHaveValue(getWeekDays()[0].iso);
       await expect(page.getByRole('button', { name: 'Create' })).toBeVisible();
     });
     test('should show only the selected parent tasks', async ({ page }) => {
