@@ -1,21 +1,16 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 
 import { Loader } from '@fc';
-import { Task, User } from '@utils/tj';
+import { Day, Task, User, getWeekDays } from '@utils/tj';
 
 import type { Notification } from '../../../notifications-provider/types';
-
-interface Day {
-  date: Date;
-  dayOfWeek: number;
-  label: string;
-  iso: string;
-}
 
 const longWeekdayFormatter = new Intl.DateTimeFormat('en', {
   weekday: 'long',
   day: 'numeric',
 });
+
+const now = new Date();
 
 /**
  * A component that displays the timesheet for a given task allowing the user to record hours.
@@ -37,33 +32,8 @@ export class TJNewTaskForm {
   @Prop() task!: Task;
 
   @State() recordedHours = this.task.recordedHours;
-  @State() days: Day[] = this.getWeekDays(new Date());
+  @State() days: Day[] = getWeekDays();
   @State() loadingHours = this.task.recordedHours ? false : true;
-
-  /**
-   * Returns an array of Day objects representing the week days of the current week.
-   * @param date - The date you want to get the week days for.
-   * @returns An array of Day objects representing the week days.
-   */
-  getWeekDays(date: Date): Day[] {
-    const formatter = new Intl.DateTimeFormat('en', { weekday: 'short' });
-    const days: Day[] = [];
-    const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
-    // Calculate the date of the Monday of the current week.
-    const diff = date.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
-    const monday = new Date(date.setDate(diff));
-    for (let i = 0; i < 7; i += 1) {
-      const day = new Date(monday);
-      day.setDate(monday.getDate() + i);
-      days.push({
-        date: day,
-        dayOfWeek: day.getDay(),
-        label: formatter.format(day),
-        iso: day.toISOString().split('T')[0],
-      });
-    }
-    return days;
-  }
 
   async saveHours(hours: string, day: string) {
     try {
@@ -90,7 +60,7 @@ export class TJNewTaskForm {
     const newDate = new Date(this.days[0].date.getTime());
     const offset = type === 'next' ? 7 : -7;
     newDate.setDate(newDate.getDate() + offset);
-    this.days = this.getWeekDays(newDate);
+    this.days = getWeekDays(newDate);
   };
 
   @Watch('days')
@@ -114,9 +84,9 @@ export class TJNewTaskForm {
                 <th>
                   <div
                     class={[
-                      day.date.getDate() < new Date().getDate() && 'previousDay',
-                      day.date.getDate() === new Date().getDate() && 'currentDay',
-                      (this.task?.startDate ?? new Date()) > day.date && 'disabled',
+                      day.date.getDate() < now.getDate() && 'previousDay',
+                      day.date.getDate() === now.getDate() && 'currentDay',
+                      (this.task?.startDate ?? now) > day.date && 'disabled',
                     ].join(' ')}
                   >
                     <span>{day.label}</span>
@@ -135,7 +105,7 @@ export class TJNewTaskForm {
                       type="text"
                       key={`${day.iso}-week-${Math.ceil(day.date.getDate() / 7)}`}
                       aria-label={`Hours recorded on ${longWeekdayFormatter.format(day.date)}`}
-                      disabled={(this.task?.startDate ?? new Date()) > day.date}
+                      disabled={(this.task?.startDate ?? now) > day.date}
                       value={this.recordedHours[day.iso]}
                       onFocus={(e: FocusEvent) => {
                         (e.target as HTMLInputElement).select();
@@ -162,7 +132,7 @@ export class TJNewTaskForm {
             </button>
           )}
           <span class="week-navigation__spacer"></span>
-          {this.days[6].date < new Date() && (
+          {this.days[6].date < now && (
             <button data-type="next" class="week-navigation__button" onClick={this.onWeekChange}>
               Next week &gt;
             </button>

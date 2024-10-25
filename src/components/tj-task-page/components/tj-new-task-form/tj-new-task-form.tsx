@@ -1,7 +1,7 @@
 import { Component, Event, EventEmitter, Prop, State, h } from '@stencil/core';
 
 import { Loader } from '@fc';
-import { Task, User } from '@utils/tj';
+import { Task, User, getWeekDays } from '@utils/tj';
 
 import type { Notification } from '../../../notifications-provider/types';
 
@@ -10,6 +10,8 @@ const cleanDescription = (value: string) =>
     ?.replace(/^(\s*\\n+\s*)+/, '')
     .replace(/(\s*\\n+\s*)+$/, '')
     .trim();
+
+const monday = getWeekDays()[0];
 
 /**
  * A form that allows the user to create a new task for the given Jira issue.
@@ -131,7 +133,7 @@ export class TJNewTaskForm {
             </label>
             <label>
               Start date
-              <input type="date" name="date" value={new Date().toISOString().split('T')[0]} />
+              <input type="date" name="date" value={monday.iso} />
             </label>
             <label class="row">
               <input type="checkbox" checked={this.shouldShowDescription} onChange={this.onDescriptionCheckboxChange} />
