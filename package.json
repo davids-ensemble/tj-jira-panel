@@ -45,6 +45,11 @@
     "serve": "^14.2.4",
     "typescript": "^5.6.3"
   },
+  "pnpm": {
+    "overrides": {
+      "cross-spawn": "7.0.6"
+    }
+  },
   "engines": {
     "node": ">=21.0.0"
   },
