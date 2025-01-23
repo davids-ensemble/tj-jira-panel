@@ -95,3 +95,22 @@ input[disabled] {
   margin: 4px 0 0 0;
   color: var(--accent-color);
 }
+
+.header-container {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.task-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.edit-button {
+  cursor: pointer;
+  color: #6b778c;
+  align-self: center;
+  padding: 4px;
+}

@@ -4,6 +4,7 @@ import { Loader } from '@fc';
 import { Day, Task, User, getWeekDays } from '@utils/tj';
 
 import type { Notification } from '../../../notifications-provider/types';
+import { Icon } from './Icons';
 
 const longWeekdayFormatter = new Intl.DateTimeFormat('en', {
   weekday: 'long',
@@ -76,8 +77,13 @@ export class TJNewTaskForm {
   render() {
     return (
       <Host>
-        {this.task.parentTask && <span class="parent">{this.task.parentTask.name}</span>}
-        <p data-active={this.task.active}>{this.task.name}</p>
+        <div class="header-container">
+          <div class="task-info">
+            {this.task.parentTask && <span class="parent">{this.task.parentTask.name}</span>}
+            <p data-active={this.task.active}>{this.task.name}</p>
+          </div>
+          <Icon type="edit" role="button" aria-label="Edit task" tabindex={0} class="edit-button" size={18} />
+        </div>
         <table>
           <thead>
             <tr>
