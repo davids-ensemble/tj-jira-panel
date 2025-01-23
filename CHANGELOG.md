@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.6.1](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.6.0...v2.6.1) (2025-01-23)
+
+
+### Bug Fixes
+
+* **security:** 🚔 fixed a vulnerability in `cookie` by upgrading `msw` to 2.7.0 ([a209cea](https://github.com/davids-ensemble/tj-jira-panel/commit/a209cea6046a1bf7a5266e63d812397e628d8fd7))
+* **security:** 🚔 fixed a vulnerability in `cross-spawn` by upgrading it to 7.0.6 ([a209cea](https://github.com/davids-ensemble/tj-jira-panel/commit/a209cea6046a1bf7a5266e63d812397e628d8fd7))
+* **security:** 🚔 fixed a vulnerability in `path-to-regexp` by upgrading `serve` to 14.2.4 ([a209cea](https://github.com/davids-ensemble/tj-jira-panel/commit/a209cea6046a1bf7a5266e63d812397e628d8fd7))
+
 ## [2.6.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.5.0...v2.6.0) (2024-10-25)
 
 
