@@ -1,5 +1,8 @@
 import { Component, Event, EventEmitter, Prop, State, h } from '@stencil/core';
 
+import { Notification } from '@root/src/components';
+import { User } from '@utils/tj';
+
 const cleanDescription = (value: string) =>
   value
     ?.replace(/^(\s*\\n+\s*)+/, '')
@@ -19,15 +22,45 @@ export interface TaskFormData {
   scoped: true,
 })
 export class TjTaskForm {
+  /**
+   * Emitted when a notification needs to be displayed. Requires the component to be inside a `notifications-provider`.
+   */
+  @Event() notification: EventEmitter<Notification>;
+  /**
+   * Emitted when the form is submitted.
+   */
+  @Event() formSubmit: EventEmitter<TaskFormData>;
+  /**
+   * Emitted when the form is loaded.
+   */
+  @Event() loaded: EventEmitter<void>;
+
   @Prop({ attribute: 'jira-id' }) jiraID!: string;
   @Prop() jiraSummary!: string;
   @Prop() jiraDescription: string | undefined;
-  @Prop() parentTasks!: Record<string, string>;
   @Prop() startDate!: string;
 
   @State() shouldShowDescription = false;
+  @State() parentTasks: Record<string, string> | null = null;
 
-  @Event() formSubmit: EventEmitter<TaskFormData>;
+  async componentWillLoad() {
+    try {
+      const allTasks = await User.getAllTasks();
+      if (User.selectedTasks.length > 0) {
+        this.parentTasks = Object.fromEntries(
+          Object.entries(allTasks).filter(([id]) => User.selectedTasks.includes(id)),
+        );
+      } else {
+        this.parentTasks = allTasks;
+      }
+      this.loaded.emit();
+    } catch (error) {
+      this.notification.emit({
+        type: 'error',
+        message: error.message,
+      });
+    }
+  }
 
   onFormSubmit = (e: Event) => {
     e.preventDefault();

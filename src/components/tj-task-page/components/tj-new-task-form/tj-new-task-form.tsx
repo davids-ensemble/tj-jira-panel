@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Host, Listen, Prop, State, h } from '@stencil/core';
 
 import { Loader } from '@fc';
 import { Task, User, getWeekDays } from '@utils/tj';
@@ -40,25 +40,10 @@ export class TJNewTaskForm {
   @Prop() jiraDescription: string | undefined;
 
   @State() isLoading = true;
-  @State() parentTasks: Record<string, string> | null = null;
 
-  async componentWillLoad() {
-    try {
-      const allTasks = await User.getAllTasks();
-      if (User.selectedTasks.length > 0) {
-        this.parentTasks = Object.fromEntries(
-          Object.entries(allTasks).filter(([id]) => User.selectedTasks.includes(id)),
-        );
-      } else {
-        this.parentTasks = allTasks;
-      }
-      this.isLoading = false;
-    } catch (error) {
-      this.notification.emit({
-        type: 'error',
-        message: error.message,
-      });
-    }
+  @Listen('loaded')
+  loadedHandler() {
+    this.isLoading = false;
   }
 
   @Listen('formSubmit')
@@ -80,21 +65,23 @@ export class TJNewTaskForm {
 
   render() {
     return (
-      <Loader isLoading={this.isLoading}>
-        <p class="title">
-          <strong>No task found for {this.jiraID}</strong>
-        </p>
-        <fieldset>
-          <legend>Create a new task</legend>
-          <tj-task-form
-            jiraID={this.jiraID}
-            jiraSummary={this.jiraSummary}
-            jiraDescription={this.jiraDescription}
-            parentTasks={this.parentTasks}
-            startDate={monday.iso}
-          />
-        </fieldset>
-      </Loader>
+      <Host>
+        <Loader isLoading={this.isLoading} />
+        <div style={{ display: this.isLoading ? 'none' : 'block' }}>
+          <p class="title">
+            <strong>No task found for {this.jiraID}</strong>
+          </p>
+          <fieldset>
+            <legend>Create a new task</legend>
+            <tj-task-form
+              jiraID={this.jiraID}
+              jiraSummary={this.jiraSummary}
+              jiraDescription={this.jiraDescription}
+              startDate={monday.iso}
+            />
+          </fieldset>
+        </div>
+      </Host>
     );
   }
 }
