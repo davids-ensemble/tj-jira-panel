@@ -37,8 +37,9 @@ export class TjTaskForm {
   @Event() loaded: EventEmitter<void>;
 
   @Prop() name!: string;
-  @Prop() description: string | undefined;
+  @Prop() parentId: string | undefined;
   @Prop() startDate!: string;
+  @Prop() description: string | undefined;
   @Prop() showDescription: boolean = false;
 
   @State() shouldShowDescription = this.showDescription;
@@ -105,7 +106,9 @@ export class TjTaskForm {
           </span>
           <select name="parent">
             {Object.entries(this.parentTasks ?? {}).map(([id, name]) => (
-              <option value={id}>{name}</option>
+              <option value={id} selected={id === this.parentId}>
+                {name}
+              </option>
             ))}
           </select>
         </label>

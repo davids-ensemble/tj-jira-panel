@@ -9,12 +9,14 @@ export class Task {
   startDate: Date;
   recordedHours: Record<string, string>;
   parentTask?: Task;
+  description: string;
 
   constructor(task: Element, timesheet?: Document) {
     this.id = task.attributes.getNamedItem('id')?.value;
     this.name = task.querySelector('name')?.textContent;
     this.active = task.querySelector('active')?.textContent === 'true';
     this.startDate = new Date(task.querySelector('startDate')?.textContent ?? '');
+    this.description = task.querySelector('descriptionHtml')?.textContent ?? '';
     this.recordedHours = Array.from(task.querySelectorAll('recordedHours > workDay')).reduce(
       (acc: Record<string, string>, item) => {
         const date = item.attributes.getNamedItem('day')?.value;

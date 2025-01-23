@@ -34,6 +34,12 @@ export namespace Components {
      */
     interface NotificationsProvider {
     }
+    interface TjEditTaskForm {
+        /**
+          * The task for which to display the edit form.
+         */
+        "task": Task;
+    }
     /**
      * The footer of the panel.
      * Displays the version of the server and the extension and provides a button to open/close the settings.
@@ -109,10 +115,10 @@ export namespace Components {
         "isLoggedIn": boolean;
     }
     interface TjTaskForm {
-        "jiraDescription": string | undefined;
-        "jiraID": string;
-        "jiraSummary": string;
-        "parentTasks": Record<string, string>;
+        "description": string | undefined;
+        "name": string;
+        "parentId": string | undefined;
+        "showDescription": boolean;
         "startDate": string;
     }
     /**
@@ -203,6 +209,12 @@ declare global {
     var HTMLNotificationsProviderElement: {
         prototype: HTMLNotificationsProviderElement;
         new (): HTMLNotificationsProviderElement;
+    };
+    interface HTMLTjEditTaskFormElement extends Components.TjEditTaskForm, HTMLStencilElement {
+    }
+    var HTMLTjEditTaskFormElement: {
+        prototype: HTMLTjEditTaskFormElement;
+        new (): HTMLTjEditTaskFormElement;
     };
     interface HTMLTjFooterElementEventMap {
         "showSettings": void;
@@ -310,7 +322,9 @@ declare global {
         new (): HTMLTjSettingsElement;
     };
     interface HTMLTjTaskFormElementEventMap {
+        "notification": Notification;
         "formSubmit": TaskFormData;
+        "loaded": void;
     }
     interface HTMLTjTaskFormElement extends Components.TjTaskForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLTjTaskFormElementEventMap>(type: K, listener: (this: HTMLTjTaskFormElement, ev: TjTaskFormCustomEvent<HTMLTjTaskFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -348,6 +362,7 @@ declare global {
     };
     interface HTMLTjTaskTimesheetElementEventMap {
         "notification": Notification;
+        "editTask": void;
     }
     /**
      * A component that displays the timesheet for a given task allowing the user to record hours.
@@ -379,6 +394,7 @@ declare global {
         "contextual-help": HTMLContextualHelpElement;
         "notification-toast": HTMLNotificationToastElement;
         "notifications-provider": HTMLNotificationsProviderElement;
+        "tj-edit-task-form": HTMLTjEditTaskFormElement;
         "tj-footer": HTMLTjFooterElement;
         "tj-heading": HTMLTjHeadingElement;
         "tj-jira-panel": HTMLTjJiraPanelElement;
@@ -412,6 +428,12 @@ declare namespace LocalJSX {
      * The `notifications-provider` component is a provider for notifications. It listens for `notification` events and renders `notification-toast` components for each notification.
      */
     interface NotificationsProvider {
+    }
+    interface TjEditTaskForm {
+        /**
+          * The task for which to display the edit form.
+         */
+        "task": Task;
     }
     /**
      * The footer of the panel.
@@ -516,11 +538,22 @@ declare namespace LocalJSX {
         "isLoggedIn"?: boolean;
     }
     interface TjTaskForm {
-        "jiraDescription"?: string | undefined;
-        "jiraID": string;
-        "jiraSummary": string;
+        "description"?: string | undefined;
+        "name": string;
+        /**
+          * Emitted when the form is submitted.
+         */
         "onFormSubmit"?: (event: TjTaskFormCustomEvent<TaskFormData>) => void;
-        "parentTasks": Record<string, string>;
+        /**
+          * Emitted when the form is loaded.
+         */
+        "onLoaded"?: (event: TjTaskFormCustomEvent<void>) => void;
+        /**
+          * Emitted when a notification needs to be displayed. Requires the component to be inside a `notifications-provider`.
+         */
+        "onNotification"?: (event: TjTaskFormCustomEvent<Notification>) => void;
+        "parentId"?: string | undefined;
+        "showDescription"?: boolean;
         "startDate": string;
     }
     /**
@@ -549,6 +582,10 @@ declare namespace LocalJSX {
      */
     interface TjTaskTimesheet {
         /**
+          * Emitted when the user clicks the edit button.
+         */
+        "onEditTask"?: (event: TjTaskTimesheetCustomEvent<void>) => void;
+        /**
           * Emitted when a notification needs to be displayed. Requires the component to be inside a `notifications-provider`.
          */
         "onNotification"?: (event: TjTaskTimesheetCustomEvent<Notification>) => void;
@@ -570,6 +607,7 @@ declare namespace LocalJSX {
         "contextual-help": ContextualHelp;
         "notification-toast": NotificationToast;
         "notifications-provider": NotificationsProvider;
+        "tj-edit-task-form": TjEditTaskForm;
         "tj-footer": TjFooter;
         "tj-heading": TjHeading;
         "tj-jira-panel": TjJiraPanel;
@@ -596,6 +634,7 @@ declare module "@stencil/core" {
              * The `notifications-provider` component is a provider for notifications. It listens for `notification` events and renders `notification-toast` components for each notification.
              */
             "notifications-provider": LocalJSX.NotificationsProvider & JSXBase.HTMLAttributes<HTMLNotificationsProviderElement>;
+            "tj-edit-task-form": LocalJSX.TjEditTaskForm & JSXBase.HTMLAttributes<HTMLTjEditTaskFormElement>;
             /**
              * The footer of the panel.
              * Displays the version of the server and the extension and provides a button to open/close the settings.

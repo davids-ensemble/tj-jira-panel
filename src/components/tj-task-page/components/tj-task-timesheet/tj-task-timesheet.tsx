@@ -27,6 +27,10 @@ export class TJNewTaskForm {
    * Emitted when a notification needs to be displayed. Requires the component to be inside a `notifications-provider`.
    */
   @Event() notification: EventEmitter<Notification>;
+  /**
+   * Emitted when the user clicks the edit button.
+   */
+  @Event() editTask: EventEmitter<void>;
 
   /**
    * The task for which to display the timesheet.
@@ -82,7 +86,15 @@ export class TJNewTaskForm {
             {this.task.parentTask && <span class="parent">{this.task.parentTask.name}</span>}
             <p data-active={this.task.active}>{this.task.name}</p>
           </div>
-          <Icon type="edit" role="button" aria-label="Edit task" tabindex={0} class="edit-button" size={18} />
+          <Icon
+            type="edit"
+            role="button"
+            aria-label="Edit task"
+            tabindex={0}
+            class="edit-button"
+            size={18}
+            onClick={() => this.editTask.emit()}
+          />
         </div>
         <table>
           <thead>
