@@ -74,9 +74,8 @@ export class TJNewTaskForm {
           <fieldset>
             <legend>Create a new task</legend>
             <tj-task-form
-              jiraID={this.jiraID}
-              jiraSummary={this.jiraSummary}
-              jiraDescription={this.jiraDescription}
+              name={`[${this.jiraID}] ${this.jiraSummary}`}
+              description={this.jiraDescription}
               startDate={monday.iso}
             />
           </fieldset>

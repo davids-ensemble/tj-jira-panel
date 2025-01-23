@@ -1,7 +1,8 @@
 import { Component, Event, EventEmitter, Prop, State, h } from '@stencil/core';
 
-import { Notification } from '@root/src/components';
 import { User } from '@utils/tj';
+
+import type { Notification } from '../../../notifications-provider/types';
 
 const cleanDescription = (value: string) =>
   value
@@ -35,12 +36,12 @@ export class TjTaskForm {
    */
   @Event() loaded: EventEmitter<void>;
 
-  @Prop({ attribute: 'jira-id' }) jiraID!: string;
-  @Prop() jiraSummary!: string;
-  @Prop() jiraDescription: string | undefined;
+  @Prop() name!: string;
+  @Prop() description: string | undefined;
   @Prop() startDate!: string;
+  @Prop() showDescription: boolean = false;
 
-  @State() shouldShowDescription = false;
+  @State() shouldShowDescription = this.showDescription;
   @State() parentTasks: Record<string, string> | null = null;
 
   async componentWillLoad() {
@@ -89,7 +90,7 @@ export class TjTaskForm {
             onKeyPress={(e: KeyboardEvent) => {
               e.stopImmediatePropagation();
             }}
-            value={`[${this.jiraID}] ${this.jiraSummary}`}
+            value={this.name}
           />
         </label>
         <label>
@@ -119,7 +120,7 @@ export class TjTaskForm {
         {this.shouldShowDescription && (
           <label>
             Description
-            <textarea rows={5} name="description" value={cleanDescription(this.jiraDescription)}></textarea>
+            <textarea rows={5} name="description" value={cleanDescription(this.description)}></textarea>
           </label>
         )}
         <button type="submit">Create</button>
