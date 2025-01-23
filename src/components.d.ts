@@ -8,9 +8,11 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Variant } from "./components/contextual-help/contextual-help";
 import { Notification } from "./components/notifications-provider/types";
 import { Task } from "./utils/tj/index";
+import { TaskFormData } from "./components/tj-task-page/components/tj-task-form/tj-task-form";
 export { Variant } from "./components/contextual-help/contextual-help";
 export { Notification } from "./components/notifications-provider/types";
 export { Task } from "./utils/tj/index";
+export { TaskFormData } from "./components/tj-task-page/components/tj-task-form/tj-task-form";
 export namespace Components {
     /**
      * Component providing a button that triggers a popover with contextual help content.
@@ -106,6 +108,13 @@ export namespace Components {
          */
         "isLoggedIn": boolean;
     }
+    interface TjTaskForm {
+        "jiraDescription": string | undefined;
+        "jiraID": string;
+        "jiraSummary": string;
+        "parentTasks": Record<string, string>;
+        "startDate": string;
+    }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.
      */
@@ -157,6 +166,10 @@ export interface TjLoginFormCustomEvent<T> extends CustomEvent<T> {
 export interface TjNewTaskFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTjNewTaskFormElement;
+}
+export interface TjTaskFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTjTaskFormElement;
 }
 export interface TjTaskPageCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -296,6 +309,23 @@ declare global {
         prototype: HTMLTjSettingsElement;
         new (): HTMLTjSettingsElement;
     };
+    interface HTMLTjTaskFormElementEventMap {
+        "formSubmit": TaskFormData;
+    }
+    interface HTMLTjTaskFormElement extends Components.TjTaskForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTjTaskFormElementEventMap>(type: K, listener: (this: HTMLTjTaskFormElement, ev: TjTaskFormCustomEvent<HTMLTjTaskFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTjTaskFormElementEventMap>(type: K, listener: (this: HTMLTjTaskFormElement, ev: TjTaskFormCustomEvent<HTMLTjTaskFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLTjTaskFormElement: {
+        prototype: HTMLTjTaskFormElement;
+        new (): HTMLTjTaskFormElement;
+    };
     interface HTMLTjTaskPageElementEventMap {
         "notification": Notification;
     }
@@ -356,6 +386,7 @@ declare global {
         "tj-new-task-form": HTMLTjNewTaskFormElement;
         "tj-parent-tasks-page": HTMLTjParentTasksPageElement;
         "tj-settings": HTMLTjSettingsElement;
+        "tj-task-form": HTMLTjTaskFormElement;
         "tj-task-page": HTMLTjTaskPageElement;
         "tj-task-timesheet": HTMLTjTaskTimesheetElement;
         "tj-update-banner": HTMLTjUpdateBannerElement;
@@ -484,6 +515,14 @@ declare namespace LocalJSX {
          */
         "isLoggedIn"?: boolean;
     }
+    interface TjTaskForm {
+        "jiraDescription"?: string | undefined;
+        "jiraID": string;
+        "jiraSummary": string;
+        "onFormSubmit"?: (event: TjTaskFormCustomEvent<TaskFormData>) => void;
+        "parentTasks": Record<string, string>;
+        "startDate": string;
+    }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.
      */
@@ -538,6 +577,7 @@ declare namespace LocalJSX {
         "tj-new-task-form": TjNewTaskForm;
         "tj-parent-tasks-page": TjParentTasksPage;
         "tj-settings": TjSettings;
+        "tj-task-form": TjTaskForm;
         "tj-task-page": TjTaskPage;
         "tj-task-timesheet": TjTaskTimesheet;
         "tj-update-banner": TjUpdateBanner;
@@ -579,6 +619,7 @@ declare module "@stencil/core" {
              * Component for the settings page.
              */
             "tj-settings": LocalJSX.TjSettings & JSXBase.HTMLAttributes<HTMLTjSettingsElement>;
+            "tj-task-form": LocalJSX.TjTaskForm & JSXBase.HTMLAttributes<HTMLTjTaskFormElement>;
             /**
              * Main component that decides whether to show the task timesheet or the new task form.
              */

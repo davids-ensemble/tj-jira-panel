@@ -1,0 +1,45 @@
+form {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+}
+
+label.row input {
+  width: auto;
+}
+
+input,
+select,
+textarea {
+  box-sizing: border-box;
+  border: 1px solid gray;
+  border-radius: 0.25rem;
+  padding: 4px 8px;
+  font-size: 14px;
+  width: 100%;
+}
+
+button {
+  background-color: var(--primary-color);
+  border: 0;
+  color: white;
+  text-transform: uppercase;
+  border-radius: 0.25rem;
+  max-width: 100px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  margin-bottom: 2px;
+}

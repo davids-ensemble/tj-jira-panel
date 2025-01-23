@@ -29,13 +29,13 @@ Component providing a button that triggers a popover with contextual help conten
 
 ### Used by
 
- - [tj-new-task-form](../tj-task-page/components/tj-new-task-form)
+ - [tj-task-form](../tj-task-page/components/tj-task-form)
  - [tj-update-banner](../tj-jira-panel/components/update-banner)
 
 ### Graph
 ```mermaid
 graph TD;
-  tj-new-task-form --> contextual-help
+  tj-task-form --> contextual-help
   tj-update-banner --> contextual-help
   style contextual-help fill:#f9f,stroke:#333,stroke-width:4px
 ```

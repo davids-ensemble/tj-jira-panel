@@ -1,15 +1,10 @@
-import { Component, Event, EventEmitter, Prop, State, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Listen, Prop, State, h } from '@stencil/core';
 
 import { Loader } from '@fc';
 import { Task, User, getWeekDays } from '@utils/tj';
 
 import type { Notification } from '../../../notifications-provider/types';
-
-const cleanDescription = (value: string) =>
-  value
-    ?.replace(/^(\s*\\n+\s*)+/, '')
-    .replace(/(\s*\\n+\s*)+$/, '')
-    .trim();
+import { TaskFormData } from '../tj-task-form/tj-task-form';
 
 const monday = getWeekDays()[0];
 
@@ -46,7 +41,6 @@ export class TJNewTaskForm {
 
   @State() isLoading = true;
   @State() parentTasks: Record<string, string> | null = null;
-  @State() shouldShowDescription = false;
 
   async componentWillLoad() {
     try {
@@ -67,20 +61,13 @@ export class TJNewTaskForm {
     }
   }
 
-  onFormSubmit = async (e: Event) => {
+  @Listen('formSubmit')
+  async createTask(e: CustomEvent<TaskFormData>) {
     this.isLoading = true;
-    e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-    const name = formData.get('name') as string;
-    const parentId = formData.get('parent') as string;
-    const date = formData.get('date') as string;
-    const description = (formData.get('description') as string) || '<p> </p>';
-    const cleanedDescription = cleanDescription(description);
-
+    const { name, parentId, date, description } = e.detail;
     try {
       const parent = await User.getTaskById(parentId);
-      const task = await parent.createSubTask(name, date, cleanedDescription);
+      const task = await parent.createSubTask(name, date, description);
       this.taskCreated.emit(task);
     } catch (error) {
       this.notification.emit({
@@ -89,11 +76,7 @@ export class TJNewTaskForm {
       });
       this.isLoading = false;
     }
-  };
-
-  onDescriptionCheckboxChange = (e: Event) => {
-    this.shouldShowDescription = (e.target as HTMLInputElement).checked;
-  };
+  }
 
   render() {
     return (
@@ -103,50 +86,13 @@ export class TJNewTaskForm {
         </p>
         <fieldset>
           <legend>Create a new task</legend>
-          <form action="" onSubmit={this.onFormSubmit}>
-            <label>
-              Name
-              <input
-                type="text"
-                name="name"
-                onKeyPress={(e: KeyboardEvent) => {
-                  e.stopImmediatePropagation();
-                }}
-                value={`[${this.jiraID}] ${this.jiraSummary}`}
-              />
-            </label>
-            <label>
-              <span class="row">
-                Parent task
-                <contextual-help variant="info">
-                  <h6 slot="heading">Choose your tasks</h6>
-                  <p slot="content">
-                    You can select the tasks you want to see in this dropdown from Settings &gt; Parent tasks
-                  </p>
-                </contextual-help>
-              </span>
-              <select name="parent">
-                {Object.entries(this.parentTasks ?? {}).map(([id, name]) => (
-                  <option value={id}>{name}</option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Start date
-              <input type="date" name="date" value={monday.iso} />
-            </label>
-            <label class="row">
-              <input type="checkbox" checked={this.shouldShowDescription} onChange={this.onDescriptionCheckboxChange} />
-              Include task description
-            </label>
-            {this.shouldShowDescription && (
-              <label>
-                Description
-                <textarea rows={5} name="description" value={cleanDescription(this.jiraDescription)}></textarea>
-              </label>
-            )}
-            <button type="submit">Create</button>
-          </form>
+          <tj-task-form
+            jiraID={this.jiraID}
+            jiraSummary={this.jiraSummary}
+            jiraDescription={this.jiraDescription}
+            parentTasks={this.parentTasks}
+            startDate={monday.iso}
+          />
         </fieldset>
       </Loader>
     );
