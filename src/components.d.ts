@@ -120,7 +120,7 @@ export namespace Components {
         "parentId": string | undefined;
         "showDescription": boolean;
         "startDate": string;
-        "status": 'active' | 'inactive' | undefined;
+        "state": 'active' | 'closed' | undefined;
     }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.
@@ -575,7 +575,7 @@ declare namespace LocalJSX {
         "parentId"?: string | undefined;
         "showDescription"?: boolean;
         "startDate": string;
-        "status"?: 'active' | 'inactive' | undefined;
+        "state"?: 'active' | 'closed' | undefined;
     }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.

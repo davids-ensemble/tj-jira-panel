@@ -15,7 +15,7 @@ export interface TaskFormData {
   parentId: string;
   date: string;
   description: string;
-  status?: 'active' | 'inactive';
+  state?: 'active' | 'closed';
 }
 
 @Component({
@@ -41,7 +41,7 @@ export class TjTaskForm {
   @Prop() parentId: string | undefined;
   @Prop() startDate!: string;
   @Prop() description: string | undefined;
-  @Prop() status: 'active' | 'inactive' | undefined;
+  @Prop() state: 'active' | 'closed' | undefined;
   @Prop() showDescription: boolean = false;
 
   @State() shouldShowDescription = this.showDescription;
@@ -96,15 +96,15 @@ export class TjTaskForm {
             value={this.name}
           />
         </label>
-        {this.status && (
+        {this.state && (
           <label>
             Status
             <select name="status">
-              <option value="active" selected={this.status === 'active'}>
+              <option value="active" selected={this.state === 'active'}>
                 Active
               </option>
-              <option value="inactive" selected={this.status === 'inactive'}>
-                Inactive
+              <option value="closed" selected={this.state === 'closed'}>
+                Closed
               </option>
             </select>
           </label>

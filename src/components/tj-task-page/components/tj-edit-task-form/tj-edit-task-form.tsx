@@ -39,7 +39,7 @@ export class TjEditTaskForm {
             startDate={this.task.startDate.toISOString().split('T')[0]}
             showDescription={this.task.description.trim().length > 0}
             parentId={this.task.parentTask?.id}
-            status={this.task.active ? 'active' : 'inactive'}
+            state={this.task.active ? 'active' : 'closed'}
           />
         </fieldset>
         <button class="backButton" onClick={() => this.cancelEditTask.emit()}>
