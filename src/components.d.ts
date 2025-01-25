@@ -120,6 +120,7 @@ export namespace Components {
         "parentId": string | undefined;
         "showDescription": boolean;
         "startDate": string;
+        "status": 'active' | 'inactive' | undefined;
     }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.
@@ -156,6 +157,10 @@ export namespace Components {
          */
         "scriptVersion": string | undefined;
     }
+}
+export interface TjEditTaskFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTjEditTaskFormElement;
 }
 export interface TjFooterCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -210,7 +215,18 @@ declare global {
         prototype: HTMLNotificationsProviderElement;
         new (): HTMLNotificationsProviderElement;
     };
+    interface HTMLTjEditTaskFormElementEventMap {
+        "cancelEditTask": void;
+    }
     interface HTMLTjEditTaskFormElement extends Components.TjEditTaskForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTjEditTaskFormElementEventMap>(type: K, listener: (this: HTMLTjEditTaskFormElement, ev: TjEditTaskFormCustomEvent<HTMLTjEditTaskFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTjEditTaskFormElementEventMap>(type: K, listener: (this: HTMLTjEditTaskFormElement, ev: TjEditTaskFormCustomEvent<HTMLTjEditTaskFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTjEditTaskFormElement: {
         prototype: HTMLTjEditTaskFormElement;
@@ -431,6 +447,10 @@ declare namespace LocalJSX {
     }
     interface TjEditTaskForm {
         /**
+          * Emitted when the form is cancelled.
+         */
+        "onCancelEditTask"?: (event: TjEditTaskFormCustomEvent<void>) => void;
+        /**
           * The task for which to display the edit form.
          */
         "task": Task;
@@ -555,6 +575,7 @@ declare namespace LocalJSX {
         "parentId"?: string | undefined;
         "showDescription"?: boolean;
         "startDate": string;
+        "status"?: 'active' | 'inactive' | undefined;
     }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.

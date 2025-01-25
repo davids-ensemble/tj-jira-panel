@@ -1,4 +1,4 @@
-import { Component, Host, Listen, Prop, State, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Host, Listen, Prop, State, h } from '@stencil/core';
 
 import { Loader } from '@fc';
 import { Task } from '@utils/tj';
@@ -9,6 +9,11 @@ import { Task } from '@utils/tj';
   scoped: true,
 })
 export class TjEditTaskForm {
+  /**
+   * Emitted when the form is cancelled.
+   */
+  @Event() cancelEditTask: EventEmitter<void>;
+
   /**
    * The task for which to display the edit form.
    */
@@ -34,8 +39,12 @@ export class TjEditTaskForm {
             startDate={this.task.startDate.toISOString().split('T')[0]}
             showDescription={this.task.description.trim().length > 0}
             parentId={this.task.parentTask?.id}
+            status={this.task.active ? 'active' : 'inactive'}
           />
         </fieldset>
+        <button class="backButton" onClick={() => this.cancelEditTask.emit()}>
+          Back
+        </button>
       </Host>
     );
   }
