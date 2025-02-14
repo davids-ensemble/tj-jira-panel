@@ -15,7 +15,7 @@ export interface TaskFormData {
   parentId: string;
   date: string;
   description: string;
-  state?: 'active' | 'closed';
+  active?: boolean;
 }
 
 @Component({
@@ -43,6 +43,7 @@ export class TjTaskForm {
   @Prop() description: string | undefined;
   @Prop() state: 'active' | 'closed' | undefined;
   @Prop() showDescription: boolean = false;
+  @Prop() buttonLabel: string = 'Create';
 
   @State() shouldShowDescription = this.showDescription;
   @State() parentTasks: Record<string, string> | null = null;
@@ -75,7 +76,9 @@ export class TjTaskForm {
     const date = formData.get('date') as string;
     const description = (formData.get('description') as string) || '<p> </p>';
     const cleanedDescription = cleanDescription(description);
-    this.formSubmit.emit({ name, parentId, date, description: cleanedDescription });
+    const state = (formData.get('status') as 'active' | 'closed') || 'active';
+    const active = state === 'active';
+    this.formSubmit.emit({ name, parentId, date, description: cleanedDescription, active });
   };
 
   onDescriptionCheckboxChange = (e: Event) => {
@@ -141,7 +144,7 @@ export class TjTaskForm {
             <textarea rows={5} name="description" value={cleanDescription(this.description)}></textarea>
           </label>
         )}
-        <button type="submit">Create</button>
+        <button type="submit">{this.buttonLabel}</button>
       </form>
     );
   }

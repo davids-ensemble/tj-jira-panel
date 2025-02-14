@@ -115,6 +115,7 @@ export namespace Components {
         "isLoggedIn": boolean;
     }
     interface TjTaskForm {
+        "buttonLabel": string;
         "description": string | undefined;
         "name": string;
         "parentId": string | undefined;
@@ -216,6 +217,7 @@ declare global {
         new (): HTMLNotificationsProviderElement;
     };
     interface HTMLTjEditTaskFormElementEventMap {
+        "notification": Notification;
         "cancelEditTask": void;
     }
     interface HTMLTjEditTaskFormElement extends Components.TjEditTaskForm, HTMLStencilElement {
@@ -451,6 +453,10 @@ declare namespace LocalJSX {
          */
         "onCancelEditTask"?: (event: TjEditTaskFormCustomEvent<void>) => void;
         /**
+          * Emitted when a notification needs to be displayed. Requires the component to be inside a `notifications-provider`.
+         */
+        "onNotification"?: (event: TjEditTaskFormCustomEvent<Notification>) => void;
+        /**
           * The task for which to display the edit form.
          */
         "task": Task;
@@ -558,6 +564,7 @@ declare namespace LocalJSX {
         "isLoggedIn"?: boolean;
     }
     interface TjTaskForm {
+        "buttonLabel"?: string;
         "description"?: string | undefined;
         "name": string;
         /**

@@ -1,7 +1,10 @@
 import { Component, Event, EventEmitter, Host, Listen, Prop, State, h } from '@stencil/core';
 
 import { Loader } from '@fc';
-import { Task } from '@utils/tj';
+import { Task, UpdateTaskPayload } from '@utils/tj';
+
+import type { Notification } from '../../../notifications-provider/types';
+import { TaskFormData } from '../tj-task-form/tj-task-form';
 
 @Component({
   tag: 'tj-edit-task-form',
@@ -9,6 +12,10 @@ import { Task } from '@utils/tj';
   scoped: true,
 })
 export class TjEditTaskForm {
+  /**
+   * Emitted when a notification needs to be displayed. Requires the component to be inside a `notifications-provider`.
+   */
+  @Event() notification: EventEmitter<Notification>;
   /**
    * Emitted when the form is cancelled.
    */
@@ -24,7 +31,26 @@ export class TjEditTaskForm {
   @Listen('loaded')
   loadedHandler() {
     this.isLoading = false;
-    console.log(this.task);
+  }
+
+  @Listen('formSubmit')
+  async updateTask(e: CustomEvent<TaskFormData>) {
+    this.isLoading = true;
+    try {
+      await this.task.update(e.detail as UpdateTaskPayload);
+      this.notification.emit({
+        type: 'success',
+        message: 'Task updated successfully.',
+      });
+      this.cancelEditTask.emit();
+    } catch (error) {
+      this.notification.emit({
+        type: 'error',
+        message: error.message,
+      });
+      console.error(error);
+      this.isLoading = false;
+    }
   }
 
   render() {
@@ -40,6 +66,7 @@ export class TjEditTaskForm {
             showDescription={this.task.description.trim().length > 0}
             parentId={this.task.parentTask?.id}
             state={this.task.active ? 'active' : 'closed'}
+            buttonLabel="Update"
           />
         </fieldset>
         <button class="backButton" onClick={() => this.cancelEditTask.emit()}>

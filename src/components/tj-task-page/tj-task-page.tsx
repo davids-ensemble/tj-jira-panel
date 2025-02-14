@@ -57,7 +57,6 @@ export class TJTaskPage {
 
   @Listen('editTask')
   editTaskHandler() {
-    console.log('editTask');
     this.showEditForm = true;
   }
 
