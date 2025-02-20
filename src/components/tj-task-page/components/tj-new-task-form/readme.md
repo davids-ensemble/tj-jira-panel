@@ -34,12 +34,13 @@ A form that allows the user to create a new task for the given Jira issue.
 
 ### Depends on
 
-- [contextual-help](../../../contextual-help)
+- [tj-task-form](../tj-task-form)
 
 ### Graph
 ```mermaid
 graph TD;
-  tj-new-task-form --> contextual-help
+  tj-new-task-form --> tj-task-form
+  tj-task-form --> contextual-help
   tj-task-page --> tj-new-task-form
   style tj-new-task-form fill:#f9f,stroke:#333,stroke-width:4px
 ```

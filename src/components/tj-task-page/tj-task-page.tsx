@@ -33,6 +33,7 @@ export class TJTaskPage {
 
   @State() isLoading = true;
   @State() task: Task | null;
+  @State() showEditForm = false;
 
   async componentWillLoad() {
     this.isLoading = false;
@@ -54,6 +55,16 @@ export class TJTaskPage {
     this.task = event.detail;
   }
 
+  @Listen('editTask')
+  editTaskHandler() {
+    this.showEditForm = true;
+  }
+
+  @Listen('cancelEditTask')
+  cancelEditTaskHandler() {
+    this.showEditForm = false;
+  }
+
   render() {
     return (
       <Host>
@@ -62,7 +73,11 @@ export class TJTaskPage {
             shouldBreak
             cases={[
               {
-                condition: this.task !== null,
+                condition: this.task !== null && this.showEditForm,
+                renderComponent: () => <tj-edit-task-form task={this.task} />,
+              },
+              {
+                condition: this.task !== null && !this.showEditForm,
                 renderComponent: () => <tj-task-timesheet task={this.task} />,
               },
               {

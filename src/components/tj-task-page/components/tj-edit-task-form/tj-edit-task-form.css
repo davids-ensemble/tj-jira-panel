@@ -1,0 +1,10 @@
+.backButton {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  padding: 0;
+  margin: 4px 0;
+  color: var(--accent-color);
+}

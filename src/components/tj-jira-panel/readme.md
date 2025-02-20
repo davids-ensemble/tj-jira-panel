@@ -38,7 +38,8 @@ graph TD;
   notifications-provider --> notification-toast
   tj-task-page --> tj-task-timesheet
   tj-task-page --> tj-new-task-form
-  tj-new-task-form --> contextual-help
+  tj-new-task-form --> tj-task-form
+  tj-task-form --> contextual-help
   tj-settings --> tj-parent-tasks-page
   tj-footer --> tj-update-banner
   tj-update-banner --> contextual-help

@@ -8,9 +8,11 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Variant } from "./components/contextual-help/contextual-help";
 import { Notification } from "./components/notifications-provider/types";
 import { Task } from "./utils/tj/index";
+import { TaskFormData } from "./components/tj-task-page/components/tj-task-form/tj-task-form";
 export { Variant } from "./components/contextual-help/contextual-help";
 export { Notification } from "./components/notifications-provider/types";
 export { Task } from "./utils/tj/index";
+export { TaskFormData } from "./components/tj-task-page/components/tj-task-form/tj-task-form";
 export namespace Components {
     /**
      * Component providing a button that triggers a popover with contextual help content.
@@ -31,6 +33,12 @@ export namespace Components {
      * The `notifications-provider` component is a provider for notifications. It listens for `notification` events and renders `notification-toast` components for each notification.
      */
     interface NotificationsProvider {
+    }
+    interface TjEditTaskForm {
+        /**
+          * The task for which to display the edit form.
+         */
+        "task": Task;
     }
     /**
      * The footer of the panel.
@@ -106,6 +114,15 @@ export namespace Components {
          */
         "isLoggedIn": boolean;
     }
+    interface TjTaskForm {
+        "buttonLabel": string;
+        "description": string | undefined;
+        "name": string;
+        "parentId": string | undefined;
+        "showDescription": boolean;
+        "startDate": string;
+        "state": 'active' | 'closed' | undefined;
+    }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.
      */
@@ -142,6 +159,10 @@ export namespace Components {
         "scriptVersion": string | undefined;
     }
 }
+export interface TjEditTaskFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTjEditTaskFormElement;
+}
 export interface TjFooterCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTjFooterElement;
@@ -157,6 +178,10 @@ export interface TjLoginFormCustomEvent<T> extends CustomEvent<T> {
 export interface TjNewTaskFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTjNewTaskFormElement;
+}
+export interface TjTaskFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTjTaskFormElement;
 }
 export interface TjTaskPageCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -190,6 +215,24 @@ declare global {
     var HTMLNotificationsProviderElement: {
         prototype: HTMLNotificationsProviderElement;
         new (): HTMLNotificationsProviderElement;
+    };
+    interface HTMLTjEditTaskFormElementEventMap {
+        "notification": Notification;
+        "cancelEditTask": void;
+    }
+    interface HTMLTjEditTaskFormElement extends Components.TjEditTaskForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTjEditTaskFormElementEventMap>(type: K, listener: (this: HTMLTjEditTaskFormElement, ev: TjEditTaskFormCustomEvent<HTMLTjEditTaskFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTjEditTaskFormElementEventMap>(type: K, listener: (this: HTMLTjEditTaskFormElement, ev: TjEditTaskFormCustomEvent<HTMLTjEditTaskFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLTjEditTaskFormElement: {
+        prototype: HTMLTjEditTaskFormElement;
+        new (): HTMLTjEditTaskFormElement;
     };
     interface HTMLTjFooterElementEventMap {
         "showSettings": void;
@@ -296,6 +339,25 @@ declare global {
         prototype: HTMLTjSettingsElement;
         new (): HTMLTjSettingsElement;
     };
+    interface HTMLTjTaskFormElementEventMap {
+        "notification": Notification;
+        "formSubmit": TaskFormData;
+        "loaded": void;
+    }
+    interface HTMLTjTaskFormElement extends Components.TjTaskForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTjTaskFormElementEventMap>(type: K, listener: (this: HTMLTjTaskFormElement, ev: TjTaskFormCustomEvent<HTMLTjTaskFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTjTaskFormElementEventMap>(type: K, listener: (this: HTMLTjTaskFormElement, ev: TjTaskFormCustomEvent<HTMLTjTaskFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLTjTaskFormElement: {
+        prototype: HTMLTjTaskFormElement;
+        new (): HTMLTjTaskFormElement;
+    };
     interface HTMLTjTaskPageElementEventMap {
         "notification": Notification;
     }
@@ -318,6 +380,7 @@ declare global {
     };
     interface HTMLTjTaskTimesheetElementEventMap {
         "notification": Notification;
+        "editTask": void;
     }
     /**
      * A component that displays the timesheet for a given task allowing the user to record hours.
@@ -349,6 +412,7 @@ declare global {
         "contextual-help": HTMLContextualHelpElement;
         "notification-toast": HTMLNotificationToastElement;
         "notifications-provider": HTMLNotificationsProviderElement;
+        "tj-edit-task-form": HTMLTjEditTaskFormElement;
         "tj-footer": HTMLTjFooterElement;
         "tj-heading": HTMLTjHeadingElement;
         "tj-jira-panel": HTMLTjJiraPanelElement;
@@ -356,6 +420,7 @@ declare global {
         "tj-new-task-form": HTMLTjNewTaskFormElement;
         "tj-parent-tasks-page": HTMLTjParentTasksPageElement;
         "tj-settings": HTMLTjSettingsElement;
+        "tj-task-form": HTMLTjTaskFormElement;
         "tj-task-page": HTMLTjTaskPageElement;
         "tj-task-timesheet": HTMLTjTaskTimesheetElement;
         "tj-update-banner": HTMLTjUpdateBannerElement;
@@ -381,6 +446,20 @@ declare namespace LocalJSX {
      * The `notifications-provider` component is a provider for notifications. It listens for `notification` events and renders `notification-toast` components for each notification.
      */
     interface NotificationsProvider {
+    }
+    interface TjEditTaskForm {
+        /**
+          * Emitted when the form is cancelled.
+         */
+        "onCancelEditTask"?: (event: TjEditTaskFormCustomEvent<void>) => void;
+        /**
+          * Emitted when a notification needs to be displayed. Requires the component to be inside a `notifications-provider`.
+         */
+        "onNotification"?: (event: TjEditTaskFormCustomEvent<Notification>) => void;
+        /**
+          * The task for which to display the edit form.
+         */
+        "task": Task;
     }
     /**
      * The footer of the panel.
@@ -484,6 +563,27 @@ declare namespace LocalJSX {
          */
         "isLoggedIn"?: boolean;
     }
+    interface TjTaskForm {
+        "buttonLabel"?: string;
+        "description"?: string | undefined;
+        "name": string;
+        /**
+          * Emitted when the form is submitted.
+         */
+        "onFormSubmit"?: (event: TjTaskFormCustomEvent<TaskFormData>) => void;
+        /**
+          * Emitted when the form is loaded.
+         */
+        "onLoaded"?: (event: TjTaskFormCustomEvent<void>) => void;
+        /**
+          * Emitted when a notification needs to be displayed. Requires the component to be inside a `notifications-provider`.
+         */
+        "onNotification"?: (event: TjTaskFormCustomEvent<Notification>) => void;
+        "parentId"?: string | undefined;
+        "showDescription"?: boolean;
+        "startDate": string;
+        "state"?: 'active' | 'closed' | undefined;
+    }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.
      */
@@ -510,6 +610,10 @@ declare namespace LocalJSX {
      */
     interface TjTaskTimesheet {
         /**
+          * Emitted when the user clicks the edit button.
+         */
+        "onEditTask"?: (event: TjTaskTimesheetCustomEvent<void>) => void;
+        /**
           * Emitted when a notification needs to be displayed. Requires the component to be inside a `notifications-provider`.
          */
         "onNotification"?: (event: TjTaskTimesheetCustomEvent<Notification>) => void;
@@ -531,6 +635,7 @@ declare namespace LocalJSX {
         "contextual-help": ContextualHelp;
         "notification-toast": NotificationToast;
         "notifications-provider": NotificationsProvider;
+        "tj-edit-task-form": TjEditTaskForm;
         "tj-footer": TjFooter;
         "tj-heading": TjHeading;
         "tj-jira-panel": TjJiraPanel;
@@ -538,6 +643,7 @@ declare namespace LocalJSX {
         "tj-new-task-form": TjNewTaskForm;
         "tj-parent-tasks-page": TjParentTasksPage;
         "tj-settings": TjSettings;
+        "tj-task-form": TjTaskForm;
         "tj-task-page": TjTaskPage;
         "tj-task-timesheet": TjTaskTimesheet;
         "tj-update-banner": TjUpdateBanner;
@@ -556,6 +662,7 @@ declare module "@stencil/core" {
              * The `notifications-provider` component is a provider for notifications. It listens for `notification` events and renders `notification-toast` components for each notification.
              */
             "notifications-provider": LocalJSX.NotificationsProvider & JSXBase.HTMLAttributes<HTMLNotificationsProviderElement>;
+            "tj-edit-task-form": LocalJSX.TjEditTaskForm & JSXBase.HTMLAttributes<HTMLTjEditTaskFormElement>;
             /**
              * The footer of the panel.
              * Displays the version of the server and the extension and provides a button to open/close the settings.
@@ -579,6 +686,7 @@ declare module "@stencil/core" {
              * Component for the settings page.
              */
             "tj-settings": LocalJSX.TjSettings & JSXBase.HTMLAttributes<HTMLTjSettingsElement>;
+            "tj-task-form": LocalJSX.TjTaskForm & JSXBase.HTMLAttributes<HTMLTjTaskFormElement>;
             /**
              * Main component that decides whether to show the task timesheet or the new task form.
              */
