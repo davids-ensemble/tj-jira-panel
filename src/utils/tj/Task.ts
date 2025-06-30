@@ -1,7 +1,7 @@
 import { User } from './User';
 import { escapeNonAlphanumericCharacters } from './utils';
 
-export interface UpdateTaskPayload extends Pick<Task, 'name' | 'active' | 'description'> {
+export interface UpdateTaskPayload extends Pick<Task, 'name' | 'active' | 'description' | 'workKind'> {
   parentId: string;
   date: string;
 }
@@ -15,6 +15,7 @@ export class Task {
   recordedHours: Record<string, string>;
   parentTask?: Task;
   description: string;
+  workKind: string;
 
   constructor(task: Element, timesheet?: Document) {
     this.id = task.attributes.getNamedItem('id')?.value;
@@ -23,6 +24,7 @@ export class Task {
     this.active = task.querySelector('active')?.textContent === 'true';
     this.startDate = new Date(task.querySelector('startDate')?.textContent ?? '');
     this.description = task.querySelector('descriptionHtml')?.textContent ?? '';
+    this.workKind = task.querySelector('workKind')?.textContent ?? 'DEVELOPMENT';
     this.recordedHours = Array.from(task.querySelectorAll('recordedHours > workDay')).reduce(
       (acc: Record<string, string>, item) => {
         const date = item.attributes.getNamedItem('day')?.value;
@@ -46,7 +48,7 @@ export class Task {
     }
   }
 
-  async createSubTask(name: string, date: string, description = '<p> </p>') {
+  async createSubTask(name: string, date: string, description = '<p> </p>', workKind = 'DEVELOPMENT') {
     const body = `
 <addSubTask id="0" version="0">
   <id>0</id>
@@ -57,7 +59,7 @@ export class Task {
   <startDate>${date}</startDate>
   <parentTaskId>${this.id}</parentTaskId>
   <kind>WORK</kind>
-  <workKind>DEVELOPMENT</workKind>
+  <workKind>${workKind}</workKind>
   <billable>true</billable>
   <assignedUser id="${User.userId}" userName="${User.username}"/>
 </addSubTask>
@@ -102,7 +104,7 @@ export class Task {
   }
 
   private async updateTaskMetadata(payload: UpdateTaskPayload) {
-    const { name, description, date } = payload;
+    const { name, description, date, workKind } = payload;
     const body = `
 <updateTask id="${this.id}" version="${this.version}">
   <id>${this.id}</id>
@@ -111,7 +113,7 @@ export class Task {
   <descriptionHtmlText>${escapeNonAlphanumericCharacters(description)}</descriptionHtmlText>
   <startDate>${date}</startDate>
   <kind>WORK</kind>
-  <workKind>DEVELOPMENT</workKind>
+  <workKind>${workKind}</workKind>
   <billable>true</billable>
   <assignedUser id="${User.userId}" userName="${User.username}"/>
 </updateTask>
@@ -121,6 +123,7 @@ export class Task {
     this.name = dom.querySelector('name')?.textContent;
     this.description = dom.querySelector('descriptionHtml')?.textContent ?? '';
     this.startDate = new Date(dom.querySelector('startDate')?.textContent ?? '');
+    this.workKind = dom.querySelector('workKind')?.textContent ?? 'DEVELOPMENT';
   }
 
   private async moveTask(parentId: string) {

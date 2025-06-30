@@ -48,7 +48,10 @@
   "pnpm": {
     "overrides": {
       "cross-spawn": "7.0.6"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "msw"
+    ]
   },
   "engines": {
     "node": ">=21.0.0"

@@ -122,6 +122,7 @@ export namespace Components {
         "showDescription": boolean;
         "startDate": string;
         "state": 'active' | 'closed' | undefined;
+        "workKind": string;
     }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.
@@ -583,6 +584,7 @@ declare namespace LocalJSX {
         "showDescription"?: boolean;
         "startDate": string;
         "state"?: 'active' | 'closed' | undefined;
+        "workKind"?: string;
     }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.

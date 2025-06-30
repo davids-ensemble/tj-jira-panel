@@ -49,10 +49,10 @@ export class TJNewTaskForm {
   @Listen('formSubmit')
   async createTask(e: CustomEvent<TaskFormData>) {
     this.isLoading = true;
-    const { name, parentId, date, description } = e.detail;
+    const { name, parentId, date, description, workKind } = e.detail;
     try {
       const parent = await User.getTaskById(parentId);
-      const task = await parent.createSubTask(name, date, description);
+      const task = await parent.createSubTask(name, date, description, workKind);
       this.taskCreated.emit(task);
     } catch (error) {
       this.notification.emit({
