@@ -10,14 +10,15 @@ interface Setting {
   label: string;
 }
 
-export const SettingsMenu: FunctionalComponent<SettingsMenuProps> = ({
-  isLoggedIn,
-  changePath,
-}) => {
+export const SettingsMenu: FunctionalComponent<SettingsMenuProps> = ({ isLoggedIn, changePath }) => {
   const userSettings = [
     {
       path: 'parent-tasks',
       label: 'Parent tasks',
+    },
+    {
+      path: 'work-kind',
+      label: 'Work kind',
     },
   ];
   const panelSettings = [

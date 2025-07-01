@@ -15,6 +15,23 @@ describe('User', () => {
     expect(User.selectedTasks).toEqual(tasks);
   });
 
+  it('should correctly set defaultWorkKind', () => {
+    const workKind = 'QA';
+    User.defaultWorkKind = workKind;
+    expect(localStorage.getItem('tj_default_work_kind')).toEqual(workKind);
+  });
+
+  it('should correctly get defaultWorkKind', () => {
+    const workKind = 'QA';
+    localStorage.setItem('tj_default_work_kind', workKind);
+    expect(User.defaultWorkKind).toEqual(workKind);
+  });
+
+  it('should default to DEVELOPMENT when defaultWorkKind is not set', () => {
+    localStorage.removeItem('tj_default_work_kind');
+    expect(User.defaultWorkKind).toEqual('DEVELOPMENT');
+  });
+
   it('should correctly login', async () => {
     const username = 'testuser';
     const password = 'testpassword';

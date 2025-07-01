@@ -34,6 +34,14 @@ export class User {
     localStorage.setItem('tj_selected_tasks_tjiv2', JSON.stringify(value));
   }
 
+  public static get defaultWorkKind(): string {
+    return localStorage.getItem('tj_default_work_kind') ?? 'DEVELOPMENT';
+  }
+
+  public static set defaultWorkKind(value: string) {
+    localStorage.setItem('tj_default_work_kind', value);
+  }
+
   public static async login({ username, password }: LoginParams) {
     const escapedPassword = escapeNonAlphanumericCharacters(password);
     const body = `<login><userName>${username}</userName><password>${escapedPassword}</password></login>`;

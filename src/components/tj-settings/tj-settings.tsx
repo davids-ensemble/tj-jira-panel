@@ -47,6 +47,10 @@ export class TJSettings {
               renderComponent: () => <tj-parent-tasks-page></tj-parent-tasks-page>,
             },
             {
+              condition: this.path === 'work-kind',
+              renderComponent: () => <tj-work-kind-page></tj-work-kind-page>,
+            },
+            {
               condition: this.path !== 'menu',
               renderComponent: () => (
                 <button data-path="menu" class="menuButton" onClick={this.changePath}>

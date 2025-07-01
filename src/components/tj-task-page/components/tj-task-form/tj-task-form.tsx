@@ -42,7 +42,7 @@ export class TjTaskForm {
   @Prop() parentId: string | undefined;
   @Prop() startDate!: string;
   @Prop() description: string | undefined;
-  @Prop() workKind: string = 'DEVELOPMENT';
+  @Prop() workKind: string = User.defaultWorkKind;
   @Prop() state: 'active' | 'closed' | undefined;
   @Prop() showDescription: boolean = false;
   @Prop() buttonLabel: string = 'Create';
@@ -77,7 +77,7 @@ export class TjTaskForm {
     const parentId = formData.get('parent') as string;
     const date = formData.get('date') as string;
     const description = (formData.get('description') as string) || '<p> </p>';
-    const workKind = (formData.get('workKind') as string) || 'DEVELOPMENT';
+    const workKind = (formData.get('workKind') as string) || User.defaultWorkKind;
     const cleanedDescription = cleanDescription(description);
     const state = (formData.get('status') as 'active' | 'closed') || 'active';
     const active = state === 'active';
@@ -134,7 +134,13 @@ export class TjTaskForm {
           </select>
         </label>
         <label>
-          Work kind
+          <span class="row">
+            Work kind
+            <contextual-help variant="info">
+              <h6 slot="heading">Default work kind</h6>
+              <p slot="content">You can set your default work kind from Settings &gt; Work kind</p>
+            </contextual-help>
+          </span>
           <select name="workKind">
             <option value="DEVELOPMENT" selected={this.workKind === 'DEVELOPMENT'}>
               Development
