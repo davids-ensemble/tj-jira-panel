@@ -7,26 +7,32 @@
 
 ## Properties
 
-| Property                   | Attribute          | Description | Type                       | Default     |
-| -------------------------- | ------------------ | ----------- | -------------------------- | ----------- |
-| `jiraDescription`          | `jira-description` |             | `string`                   | `undefined` |
-| `jiraID` _(required)_      | `jira-id`          |             | `string`                   | `undefined` |
-| `jiraSummary` _(required)_ | `jira-summary`     |             | `string`                   | `undefined` |
-| `monday` _(required)_      | `monday`           |             | `string`                   | `undefined` |
-| `parentTasks` _(required)_ | --                 |             | `{ [x: string]: string; }` | `undefined` |
+| Property                 | Attribute          | Description | Type                   | Default                |
+| ------------------------ | ------------------ | ----------- | ---------------------- | ---------------------- |
+| `buttonLabel`            | `button-label`     |             | `string`               | `'Create'`             |
+| `description`            | `description`      |             | `string`               | `undefined`            |
+| `name` _(required)_      | `name`             |             | `string`               | `undefined`            |
+| `parentId`               | `parent-id`        |             | `string`               | `undefined`            |
+| `showDescription`        | `show-description` |             | `boolean`              | `false`                |
+| `startDate` _(required)_ | `start-date`       |             | `string`               | `undefined`            |
+| `state`                  | `state`            |             | `"active" \| "closed"` | `undefined`            |
+| `workKind`               | `work-kind`        |             | `string`               | `User.defaultWorkKind` |
 
 
 ## Events
 
-| Event        | Description | Type                    |
-| ------------ | ----------- | ----------------------- |
-| `formSubmit` |             | `CustomEvent<FormData>` |
+| Event          | Description                                                                                                        | Type                        |
+| -------------- | ------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| `formSubmit`   | Emitted when the form is submitted.                                                                                | `CustomEvent<TaskFormData>` |
+| `loaded`       | Emitted when the form is loaded.                                                                                   | `CustomEvent<void>`         |
+| `notification` | Emitted when a notification needs to be displayed. Requires the component to be inside a `notifications-provider`. | `CustomEvent<Notification>` |
 
 
 ## Dependencies
 
 ### Used by
 
+ - [tj-edit-task-form](../tj-edit-task-form)
  - [tj-new-task-form](../tj-new-task-form)
 
 ### Depends on
@@ -37,6 +43,7 @@
 ```mermaid
 graph TD;
   tj-task-form --> contextual-help
+  tj-edit-task-form --> tj-task-form
   tj-new-task-form --> tj-task-form
   style tj-task-form fill:#f9f,stroke:#333,stroke-width:4px
 ```

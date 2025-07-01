@@ -25,11 +25,13 @@ Component for the settings page.
 ### Depends on
 
 - tj-parent-tasks-page
+- tj-work-kind-page
 
 ### Graph
 ```mermaid
 graph TD;
   tj-settings --> tj-parent-tasks-page
+  tj-settings --> tj-work-kind-page
   tj-jira-panel --> tj-settings
   style tj-settings fill:#f9f,stroke:#333,stroke-width:4px
 ```
