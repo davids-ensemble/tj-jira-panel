@@ -4,6 +4,17 @@ on:
   push:
     # Publish semver tags as releases.
     tags: ['v*.*.*']
+  workflow_dispatch:
+    inputs:
+      distribution_tag:
+        description: 'Distribution tag for npm publish'
+        required: true
+        default: 'latest'
+        type: choice
+        options:
+          - latest
+          - beta
+          - alpha
 
 permissions:
   actions: write # Necessary to cancel workflow executions
@@ -39,7 +50,7 @@ jobs:
       - name: Build
         run: pnpm build
       - name: Publish to npm
-        run: pnpm publish --provenance --no-git-checks --access public
+        run: pnpm publish --provenance --no-git-checks --access public --tag ${{ github.event.inputs.distribution_tag || 'latest' }}
         # run: pnpm publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
