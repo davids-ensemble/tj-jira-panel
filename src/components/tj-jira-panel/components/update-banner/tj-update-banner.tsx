@@ -1,6 +1,7 @@
 import { Component, Prop, State, h } from '@stencil/core';
 
 import { version } from '@root/package.json';
+import { LOCAL_STORAGE_KEYS } from '@utils/tj';
 
 /**
  * A banner that displays when a new version of the component is available.
@@ -20,7 +21,7 @@ export class TJUpdateBanner {
   isButtonDisabled = !this.scriptVersion || new Date(this.scriptVersion) < new Date('2024-05-18');
 
   async componentWillLoad() {
-    localStorage.setItem('tj_version', version);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.VERSION, version);
     const response = await fetch(
       `https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/package.json?bypassDiskCache=${Date.now()}`,
     );
@@ -29,7 +30,7 @@ export class TJUpdateBanner {
   }
 
   updateAndRefresh = async () => {
-    localStorage.setItem('tj_version', this.latestVersion);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.VERSION, this.latestVersion);
     window.location.reload();
   };
 

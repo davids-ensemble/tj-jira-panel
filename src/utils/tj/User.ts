@@ -1,6 +1,6 @@
 import { Server } from './Server';
 import { Task } from './Task';
-import { checkForError, escapeNonAlphanumericCharacters } from './utils';
+import { LOCAL_STORAGE_KEYS, checkForError, escapeNonAlphanumericCharacters } from './utils';
 
 export interface LoginParams {
   username: string;
@@ -14,7 +14,7 @@ interface AuthObject {
 }
 
 export class User {
-  private static authObject: AuthObject = JSON.parse(localStorage.getItem('tj_user') ?? '{}');
+  private static authObject: AuthObject = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.USER) ?? '{}');
 
   public static get username(): string {
     return User.authObject.username;
@@ -27,19 +27,19 @@ export class User {
   }
 
   public static get selectedTasks() {
-    return JSON.parse(localStorage.getItem('tj_selected_tasks_tjiv2') ?? '[]');
+    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.SELECTED_TASKS) ?? '[]');
   }
 
   public static set selectedTasks(value: string[]) {
-    localStorage.setItem('tj_selected_tasks_tjiv2', JSON.stringify(value));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.SELECTED_TASKS, JSON.stringify(value));
   }
 
   public static get defaultWorkKind(): string {
-    return localStorage.getItem('tj_default_work_kind') ?? 'DEVELOPMENT';
+    return localStorage.getItem(LOCAL_STORAGE_KEYS.DEFAULT_WORK_KIND) ?? 'DEVELOPMENT';
   }
 
   public static set defaultWorkKind(value: string) {
-    localStorage.setItem('tj_default_work_kind', value);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.DEFAULT_WORK_KIND, value);
   }
 
   public static async login({ username, password }: LoginParams) {
@@ -61,7 +61,7 @@ export class User {
       username,
     };
     User.authObject = result;
-    localStorage.setItem('tj_user', JSON.stringify(result));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.USER, JSON.stringify(result));
     return result;
   }
 

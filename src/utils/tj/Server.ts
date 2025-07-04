@@ -1,4 +1,4 @@
-import { checkForError } from './utils';
+import { LOCAL_STORAGE_KEYS, checkForError } from './utils';
 
 interface ServerConfig {
   version: string;
@@ -7,8 +7,7 @@ interface ServerConfig {
 }
 
 export class Server {
-  private static _url: string =
-    localStorage.getItem('tj_url') ?? 'https://tj.ensemblesoftware.ro/data';
+  private static _url: string = localStorage.getItem(LOCAL_STORAGE_KEYS.URL) ?? 'https://tj.ensemblesoftware.ro/data';
   private static _serverConfig: ServerConfig | null = null;
 
   public static get url(): string {
@@ -16,7 +15,7 @@ export class Server {
   }
   public static set url(url: string) {
     Server._url = url;
-    localStorage.setItem('tj_url', url);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.URL, url);
   }
 
   public static get serverConfig(): ServerConfig | null {
@@ -36,8 +35,7 @@ export class Server {
     const result = {
       version: dom.querySelector('serverVersion')?.textContent ?? 'unknown',
       url: dom.querySelector('serverUrl')?.textContent,
-      supportsGeneratedSummaries:
-        dom.querySelector('supportsGeneratedSummaries')?.textContent === 'true',
+      supportsGeneratedSummaries: dom.querySelector('supportsGeneratedSummaries')?.textContent === 'true',
     };
     Server._serverConfig = result;
     return result;
