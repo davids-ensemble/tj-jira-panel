@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.7.0...v2.8.0) (2025-07-04)
+
+
+### Features
+
+* ✨ added a work kind picker ([#26](https://github.com/davids-ensemble/tj-jira-panel/issues/26)) ([0dacb9c](https://github.com/davids-ensemble/tj-jira-panel/commit/0dacb9c9c1f5354a325f43dc5b286169f92ad559))
+
 ## [2.7.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.6.0...v2.7.0) (2025-02-20)
 
 
