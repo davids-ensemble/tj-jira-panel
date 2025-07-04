@@ -20,6 +20,7 @@ A component that displays the timesheet for a given task allowing the user to re
 
 | Event          | Description                                                                                                        | Type                        |
 | -------------- | ------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| `editTask`     | Emitted when the user clicks the edit button.                                                                      | `CustomEvent<void>`         |
 | `notification` | Emitted when a notification needs to be displayed. Requires the component to be inside a `notifications-provider`. | `CustomEvent<Notification>` |
 
 

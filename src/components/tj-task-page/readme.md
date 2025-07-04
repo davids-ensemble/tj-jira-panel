@@ -33,16 +33,19 @@ Main component that decides whether to show the task timesheet or the new task f
 
 ### Depends on
 
+- [tj-edit-task-form](./components/tj-edit-task-form)
 - [tj-task-timesheet](./components/tj-task-timesheet)
 - [tj-new-task-form](./components/tj-new-task-form)
 
 ### Graph
 ```mermaid
 graph TD;
+  tj-task-page --> tj-edit-task-form
   tj-task-page --> tj-task-timesheet
   tj-task-page --> tj-new-task-form
-  tj-new-task-form --> tj-task-form
+  tj-edit-task-form --> tj-task-form
   tj-task-form --> contextual-help
+  tj-new-task-form --> tj-task-form
   tj-jira-panel --> tj-task-page
   style tj-task-page fill:#f9f,stroke:#333,stroke-width:4px
 ```

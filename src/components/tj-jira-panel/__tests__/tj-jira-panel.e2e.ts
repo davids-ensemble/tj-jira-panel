@@ -69,6 +69,17 @@ test.describe('tj-jira-panel', () => {
       await expect(page.getByLabel('Task 3')).toBeVisible();
       await expect(page.getByRole('button', { name: 'Unselect all' })).toBeVisible();
     });
+    test('should show work kind settings when logged in', async ({ page }) => {
+      await login(page);
+      await page.getByRole('button', { name: /open settings/i }).click();
+      await expect(page.getByRole('button', { name: /work kind/i })).toBeVisible();
+      await page.getByRole('button', { name: /work kind/i }).click();
+      await expect(page.getByText('Choose your default work kind:')).toBeVisible();
+      await expect(page.getByText('This will be pre-selected when creating new tasks.')).toBeVisible();
+      await expect(page.getByLabel('Development')).toBeVisible();
+      await expect(page.getByLabel('QA')).toBeVisible();
+      await expect(page.getByLabel('Development')).toBeChecked();
+    });
   });
 
   // MARK: Login Form
@@ -90,6 +101,29 @@ test.describe('tj-jira-panel', () => {
     });
   });
 
+  // MARK: Work Kind Settings
+  test.describe('work kind settings', () => {
+    test.beforeEach(async ({ page }) => {
+      await login(page);
+      await page.getByRole('button', { name: /open settings/i }).click();
+      await page.getByRole('button', { name: /work kind/i }).click();
+    });
+    test('should allow changing the default work kind', async ({ page }) => {
+      await expect(page.getByLabel('Development')).toBeChecked();
+      await page.getByLabel('QA').click();
+      await expect(page.getByLabel('QA')).toBeChecked();
+      await expect(page.getByLabel('Development')).not.toBeChecked();
+    });
+    test('should persist the work kind setting across navigation', async ({ page }) => {
+      await page.getByLabel('QA').click();
+      await page.getByRole('button', { name: /close settings/i }).click();
+      await page.getByRole('button', { name: /open settings/i }).click();
+      await page.getByRole('button', { name: /work kind/i }).click();
+      await expect(page.getByLabel('QA')).toBeChecked();
+      await expect(page.getByLabel('Development')).not.toBeChecked();
+    });
+  });
+
   // MARK: New Task Form
   test.describe('new task form', () => {
     const jiraId = 'JIRA-222';
@@ -108,6 +142,26 @@ test.describe('tj-jira-panel', () => {
       await expect(page.getByLabel('Start date')).toHaveValue(getWeekDays()[0].iso);
       await expect(page.getByRole('button', { name: 'Create' })).toBeVisible();
     });
+    test('should show work kind dropdown with default selection', async ({ page }) => {
+      await expect(page.getByLabel('Work kind')).toBeVisible();
+      await expect(page.getByLabel('Work kind')).toHaveValue('DEVELOPMENT');
+    });
+    test('should allow changing work kind in new task form', async ({ page }) => {
+      await page.getByLabel('Work kind').selectOption('QA');
+      await expect(page.getByLabel('Work kind')).toHaveValue('QA');
+    });
+    test('should use the default work kind setting from settings', async ({ page }) => {
+      // Set default work kind to QA in settings
+      await page.getByRole('button', { name: /open settings/i }).click();
+      await page.getByRole('button', { name: /work kind/i }).click();
+      await page.getByLabel('QA').click();
+      await page.getByRole('button', { name: /close settings/i }).click();
+
+      // Navigate to a new task form
+      await page.goto(`/playwright?jiraId=JIRA-999&jiraSummary=new task`);
+      await login(page);
+      await expect(page.getByLabel('Work kind')).toHaveValue('QA');
+    });
     test('should show only the selected parent tasks', async ({ page }) => {
       await page.getByRole('button', { name: /open settings/i }).click();
       await page.getByRole('button', { name: /parent tasks/i }).click();
@@ -118,7 +172,13 @@ test.describe('tj-jira-panel', () => {
         ['Task 3', '[JIRA-333] doing 333 tests'].join(''),
       );
     });
-    test('should create a new task', async ({ page }) => {
+    test('should show contextual help for work kind', async ({ page }) => {
+      // Click on the help icon next to "Work kind" to show the help content
+      await page.locator('contextual-help').nth(1).click();
+      await expect(page.getByText('You can set your default work kind from Settings > Work kind')).toBeVisible();
+    });
+    test('should create a new task with selected work kind', async ({ page }) => {
+      await page.getByLabel('Work kind').selectOption('QA');
       await page.getByLabel('Parent task').selectOption({ label: 'Task 3' });
       await page.getByRole('button', { name: 'Create' }).click();
       await expect(page.getByRole('table')).toBeVisible();

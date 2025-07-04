@@ -15,10 +15,10 @@ export const checkForError = (dom: Document) => {
  * Migrates the selected tasks from the old format to the new format.
  */
 export const migrateV1SelectedTasks = () => {
-  if (localStorage.getItem('tj_selected_tasks')) {
-    const selectedTasks = localStorage.getItem('tj_selected_tasks').split(',');
-    localStorage.removeItem('tj_selected_tasks');
-    localStorage.setItem('tj_selected_tasks_tjiv2', JSON.stringify(selectedTasks));
+  if (localStorage.getItem(LOCAL_STORAGE_KEYS.OLD_SELECTED_TASKS)) {
+    const selectedTasks = localStorage.getItem(LOCAL_STORAGE_KEYS.OLD_SELECTED_TASKS).split(',');
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.OLD_SELECTED_TASKS);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.SELECTED_TASKS, JSON.stringify(selectedTasks));
   }
 };
 
@@ -66,4 +66,13 @@ export const getWeekDays = (date: Date = new Date()): Day[] => {
     });
   }
   return days;
+};
+
+export const LOCAL_STORAGE_KEYS = {
+  USER: 'tj_user',
+  OLD_SELECTED_TASKS: 'tj_selected_tasks',
+  SELECTED_TASKS: 'tj_selected_tasks_tjiv2',
+  DEFAULT_WORK_KIND: 'tj_default_work_kind',
+  VERSION: 'tj_version',
+  URL: 'tj_url',
 };

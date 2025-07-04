@@ -1,4 +1,5 @@
 import { Server } from '../Server';
+import { LOCAL_STORAGE_KEYS } from '../utils';
 
 describe('Server', () => {
   afterEach(() => {
@@ -9,7 +10,7 @@ describe('Server', () => {
     const url = 'https://test.url';
     Server.url = url;
     expect(Server.url).toEqual(url);
-    expect(localStorage.getItem('tj_url')).toEqual(url);
+    expect(localStorage.getItem(LOCAL_STORAGE_KEYS.URL)).toEqual(url);
   });
 
   it('should fetch server config', async () => {

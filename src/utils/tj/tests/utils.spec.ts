@@ -1,4 +1,4 @@
-import { checkForError, getWeekDays, migrateV1SelectedTasks } from '../utils';
+import { LOCAL_STORAGE_KEYS, checkForError, getWeekDays, migrateV1SelectedTasks } from '../utils';
 
 describe('checkForError', () => {
   it('should throw an error if an error element is found', () => {
@@ -20,16 +20,16 @@ describe('checkForError', () => {
 describe('migrateV1SelectedTasks', () => {
   it('should migrate selected tasks from v1 to v2', () => {
     const selectedTasks = ['task1', 'task2', 'task3'];
-    localStorage.setItem('tj_selected_tasks', selectedTasks.join(','));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.OLD_SELECTED_TASKS, selectedTasks.join(','));
     migrateV1SelectedTasks();
-    expect(localStorage.getItem('tj_selected_tasks')).toBeNull();
-    expect(localStorage.getItem('tj_selected_tasks_tjiv2')).toEqual(JSON.stringify(selectedTasks));
+    expect(localStorage.getItem(LOCAL_STORAGE_KEYS.OLD_SELECTED_TASKS)).toBeNull();
+    expect(localStorage.getItem(LOCAL_STORAGE_KEYS.SELECTED_TASKS)).toEqual(JSON.stringify(selectedTasks));
   });
 
   it('should not do anything if v1 selected tasks do not exist', () => {
     migrateV1SelectedTasks();
-    expect(localStorage.getItem('tj_selected_tasks')).toBeNull();
-    expect(localStorage.getItem('tj_selected_tasks_tjiv2')).toBeNull();
+    expect(localStorage.getItem(LOCAL_STORAGE_KEYS.OLD_SELECTED_TASKS)).toBeNull();
+    expect(localStorage.getItem(LOCAL_STORAGE_KEYS.SELECTED_TASKS)).toBeNull();
   });
 });
 

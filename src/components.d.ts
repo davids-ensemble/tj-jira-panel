@@ -122,6 +122,7 @@ export namespace Components {
         "showDescription": boolean;
         "startDate": string;
         "state": 'active' | 'closed' | undefined;
+        "workKind": string;
     }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.
@@ -157,6 +158,8 @@ export namespace Components {
           * The version of the script used to inject the panel.
          */
         "scriptVersion": string | undefined;
+    }
+    interface TjWorkKindPage {
     }
 }
 export interface TjEditTaskFormCustomEvent<T> extends CustomEvent<T> {
@@ -408,6 +411,12 @@ declare global {
         prototype: HTMLTjUpdateBannerElement;
         new (): HTMLTjUpdateBannerElement;
     };
+    interface HTMLTjWorkKindPageElement extends Components.TjWorkKindPage, HTMLStencilElement {
+    }
+    var HTMLTjWorkKindPageElement: {
+        prototype: HTMLTjWorkKindPageElement;
+        new (): HTMLTjWorkKindPageElement;
+    };
     interface HTMLElementTagNameMap {
         "contextual-help": HTMLContextualHelpElement;
         "notification-toast": HTMLNotificationToastElement;
@@ -424,6 +433,7 @@ declare global {
         "tj-task-page": HTMLTjTaskPageElement;
         "tj-task-timesheet": HTMLTjTaskTimesheetElement;
         "tj-update-banner": HTMLTjUpdateBannerElement;
+        "tj-work-kind-page": HTMLTjWorkKindPageElement;
     }
 }
 declare namespace LocalJSX {
@@ -583,6 +593,7 @@ declare namespace LocalJSX {
         "showDescription"?: boolean;
         "startDate": string;
         "state"?: 'active' | 'closed' | undefined;
+        "workKind"?: string;
     }
     /**
      * Main component that decides whether to show the task timesheet or the new task form.
@@ -631,6 +642,8 @@ declare namespace LocalJSX {
          */
         "scriptVersion"?: string | undefined;
     }
+    interface TjWorkKindPage {
+    }
     interface IntrinsicElements {
         "contextual-help": ContextualHelp;
         "notification-toast": NotificationToast;
@@ -647,6 +660,7 @@ declare namespace LocalJSX {
         "tj-task-page": TjTaskPage;
         "tj-task-timesheet": TjTaskTimesheet;
         "tj-update-banner": TjUpdateBanner;
+        "tj-work-kind-page": TjWorkKindPage;
     }
 }
 export { LocalJSX as JSX };
@@ -699,6 +713,7 @@ declare module "@stencil/core" {
              * A banner that displays when a new version of the component is available.
              */
             "tj-update-banner": LocalJSX.TjUpdateBanner & JSXBase.HTMLAttributes<HTMLTjUpdateBannerElement>;
+            "tj-work-kind-page": LocalJSX.TjWorkKindPage & JSXBase.HTMLAttributes<HTMLTjWorkKindPageElement>;
         }
     }
 }

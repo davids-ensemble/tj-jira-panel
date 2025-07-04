@@ -36,11 +36,14 @@ graph TD;
   tj-jira-panel --> tj-settings
   tj-jira-panel --> tj-footer
   notifications-provider --> notification-toast
+  tj-task-page --> tj-edit-task-form
   tj-task-page --> tj-task-timesheet
   tj-task-page --> tj-new-task-form
-  tj-new-task-form --> tj-task-form
+  tj-edit-task-form --> tj-task-form
   tj-task-form --> contextual-help
+  tj-new-task-form --> tj-task-form
   tj-settings --> tj-parent-tasks-page
+  tj-settings --> tj-work-kind-page
   tj-footer --> tj-update-banner
   tj-update-banner --> contextual-help
   style tj-jira-panel fill:#f9f,stroke:#333,stroke-width:4px

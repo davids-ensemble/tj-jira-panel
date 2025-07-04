@@ -65,6 +65,7 @@ export class TjEditTaskForm {
             startDate={this.task.startDate.toISOString().split('T')[0]}
             showDescription={this.task.description.trim().length > 0}
             parentId={this.task.parentTask?.id}
+            workKind={this.task.workKind}
             state={this.task.active ? 'active' : 'closed'}
             buttonLabel="Update"
           />
