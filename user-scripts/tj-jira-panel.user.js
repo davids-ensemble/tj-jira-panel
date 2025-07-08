@@ -1,16 +1,23 @@
 // ==UserScript==
 // @name         TJ Web Panel Injector
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/davids-ensemble
 // @version      2024-05-27
-// @description  Inserts a TJ web panel into Adobe's jira
+// @description  Inserts a TJ web panel into Jira Cloud and Data Center/Server
 // @author       davids-ensemble
 // @match        https://jira.corp.adobe.com/*
+// @match        https://*.atlassian.net/browse/*
+// @match        https://*.atlassian.net/jira/*
+// @run-at       document-start
+// @grant        none
+// @updateURL    https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/tj-jira-panel.user.js
+// @downloadURL  https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/tj-jira-panel.user.js
 // ==/UserScript==
 
-const SCRIPT_VERSION = '2024-06-27';
+const SCRIPT_VERSION = '2025-07-08';
 let jiraId = '';
 let jiraSummary = '';
 let jiraDescription = '';
+let isJiraCloud = false;
 
 const waitForElement = async selector => {
   while (document.querySelector(selector) === null) {
@@ -19,23 +26,63 @@ const waitForElement = async selector => {
   return document.querySelector(selector);
 };
 
+const getJiraIssueId = () => {
+  if (isJiraCloud) {
+    return document.querySelector('[data-testid="issue.views.issue-base.foundation.breadcrumbs.current-issue.item"]')
+      ?.textContent;
+  } else {
+    return document.getElementById('key-val')?.textContent;
+  }
+};
+
+const getJiraSummary = () => {
+  if (isJiraCloud) {
+    return document.querySelector('[data-testid="issue.views.issue-base.foundation.summary.heading"]')?.textContent;
+  } else {
+    return document.getElementById('summary-val')?.textContent;
+  }
+};
+
+const getJiraDescription = () => {
+  if (isJiraCloud) {
+    return document.querySelector('[data-testid="issue.views.field.rich-text.description"] .ak-renderer-document')
+      ?.innerHTML;
+  } else {
+    return document.querySelector('#description-val .user-content-block')?.innerHTML;
+  }
+};
+
+const getInsertLocation = async () => {
+  if (isJiraCloud) {
+    return waitForElement('[data-testid="issue.views.issue-details.issue-layout.sections.footnote"]');
+  } else {
+    return waitForElement('#viewissuesidebar');
+  }
+};
+
 const insertTjSection = async () => {
-  const issueSidebar = await waitForElement('#viewissuesidebar');
-  jiraId = document.getElementById('key-val')?.textContent;
-  jiraSummary = document.getElementById('summary-val')?.textContent;
-  jiraDescription = document.querySelector('#description-val .user-content-block')?.innerHTML;
+  const issueSidebar = await getInsertLocation();
+  jiraId = getJiraIssueId();
+  jiraSummary = getJiraSummary();
+  jiraDescription = getJiraDescription();
   const tjWebComp = document.createElement('tj-jira-panel');
   tjWebComp.setAttribute('jira-id', jiraId);
   tjWebComp.setAttribute('jira-summary', jiraSummary);
   tjWebComp.setAttribute('jira-description', jiraDescription);
   tjWebComp.setAttribute('script-version', SCRIPT_VERSION);
-  issueSidebar.appendChild(tjWebComp);
+  if (isJiraCloud) {
+    tjWebComp.setAttribute('theme', 'jira-cloud');
+    issueSidebar.before(tjWebComp);
+  } else {
+    tjWebComp.setAttribute('theme', 'jira-server');
+    issueSidebar.appendChild(tjWebComp);
+  }
 };
 
 const insertWebElementScript = () => {
   const script = document.createElement('script');
   const version = localStorage.getItem('tj_version');
-  let url = 'https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/dist/tj-jira-panel/tj-jira-panel.esm.js';
+  let url = 'https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel@beta/dist/tj-jira-panel/tj-jira-panel.esm.js';
   if (version) {
     url += `?v=${version}`;
   }
@@ -47,11 +94,12 @@ const insertWebElementScript = () => {
 
 (async () => {
   await waitForElement('head');
+  isJiraCloud = window.location.href.includes('atlassian.net');
   insertWebElementScript();
   setInterval(() => {
-    const jiraIssue = document.getElementById('key-val')?.textContent;
+    const jiraIssue = getJiraIssueId();
     const exists = document.querySelector('tj-jira-panel') !== null;
-    if (jiraIssue && jiraIssue !== jiraId && !exists) {
+    if ((jiraIssue && jiraIssue !== jiraId && !exists) || (jiraIssue && !exists)) {
       // URL changed
       jiraId = jiraIssue;
       insertTjSection();
