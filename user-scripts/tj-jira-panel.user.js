@@ -9,8 +9,8 @@
 // @match        https://*.atlassian.net/jira/*
 // @run-at       document-start
 // @grant        none
-// @updateURL    https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/tj-jira-panel.user.js
-// @downloadURL  https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/tj-jira-panel.user.js
+// @updateURL    https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/user-scripts/tj-jira-panel.user.js
+// @downloadURL  https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/user-scripts/tj-jira-panel.user.js
 // ==/UserScript==
 
 const SCRIPT_VERSION = '2025-07-08';
