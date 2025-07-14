@@ -26,7 +26,7 @@
     "e2e": "pnpm build && playwright test",
     "generate": "stencil generate",
     "docs": "pnpm build --docs",
-    "serve": "serve dist -C -p 9898",
+    "serve-package": "serve dist -C -p 9898",
     "prerelease": "commit-and-tag-version --prerelease"
   },
   "dependencies": {
