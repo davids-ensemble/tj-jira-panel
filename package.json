@@ -26,7 +26,8 @@
     "e2e": "pnpm build && playwright test",
     "generate": "stencil generate",
     "docs": "pnpm build --docs",
-    "serve": "serve dist -C -p 9898"
+    "serve": "serve dist -C -p 9898",
+    "prerelease": "commit-and-tag-version --prerelease"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.11",
@@ -58,6 +59,11 @@
   },
   "engines": {
     "node": ">=21.0.0"
+  },
+  "commit-and-tag-version": {
+    "skip": {
+      "changelog": true
+    }
   },
   "license": "MIT"
 }
