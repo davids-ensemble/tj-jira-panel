@@ -2,8 +2,7 @@ name: CD
 
 on:
   push:
-    # Publish semver tags as releases.
-    tags: ['v*.*.*']
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
   workflow_dispatch:
     inputs:
       distribution_tag:
