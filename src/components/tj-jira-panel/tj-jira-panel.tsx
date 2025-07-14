@@ -6,7 +6,7 @@ import { User, migrateV1SelectedTasks } from '@utils/tj';
 @Component({
   tag: 'tj-jira-panel',
   styleUrl: 'tj-jira-panel.css',
-  shadow: true,
+  scoped: true,
 })
 export class TJJiraPanel {
   /**
@@ -25,6 +25,8 @@ export class TJJiraPanel {
    * The Jira description of the task.
    */
   @Prop() jiraDescription: string | undefined;
+
+  @Prop() theme: 'jira-cloud' | 'jira-server' = 'jira-server';
 
   @State() isLoggedIn = false;
   @State() isLoading = true;
@@ -72,7 +74,7 @@ export class TJJiraPanel {
   render() {
     return (
       <notifications-provider>
-        <tj-heading isExpanded={this.isExpanded}></tj-heading>
+        <tj-heading isExpanded={this.isExpanded} isJiraCloud={this.theme === 'jira-cloud'}></tj-heading>
         <Loader isLoading={this.isLoading}>
           <main id="tj-panel" aria-hidden={this.isExpanded ? 'false' : 'true'}>
             <Switch

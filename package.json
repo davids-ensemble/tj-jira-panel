@@ -25,7 +25,8 @@
     "test": "stencil test --spec",
     "e2e": "pnpm build && playwright test",
     "generate": "stencil generate",
-    "docs": "pnpm build --docs"
+    "docs": "pnpm build --docs",
+    "serve": "serve dist -C -p 9898"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.11",

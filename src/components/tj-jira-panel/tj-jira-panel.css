@@ -3,6 +3,7 @@
 :host {
   display: block;
   font-family:
+    Atlassian Sans,
     -apple-system,
     BlinkMacSystemFont,
     Segoe UI,
@@ -18,6 +19,16 @@
   box-sizing: border-box;
   --primary-color: #005273;
   --accent-color: #2479aa;
+  --heading-color: #6a737b;
+
+  &[theme='jira-cloud'] {
+    border: 1px solid var(--ds-border, #0b120e24);
+    border-radius: 2px;
+    margin-top: 0px;
+    margin-bottom: 8px;
+    --panel-inline-padding: 12px;
+    --panel-block-padding: 8px;
+  }
 }
 
 #tj-panel {
@@ -25,7 +36,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: var(--panel-block-padding, 5px) var(--panel-inline-padding, 20px);
   width: 100%;
   box-sizing: border-box;
 

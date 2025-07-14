@@ -1,16 +1,17 @@
-div {
+.wrapper {
   display: flex;
   height: 20px;
   align-items: center;
   gap: 6px;
-  margin-bottom: 5px;
 }
 
-button {
+.toggle_button.theme__jira-server {
   --btn-bg: rgba(9, 30, 66, 0.08);
   --btn-text: #344563;
-  width: 14px;
-  height: 14px;
+  --btn-size: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M3.29175 4.793c-.389.392-.389 1.027 0 1.419l2.939 2.965c.218.215.5.322.779.322s.556-.107.769-.322l2.93-2.955c.388-.392.388-1.027 0-1.419-.389-.392-1.018-.392-1.406 0l-2.298 2.317-2.307-2.327c-.194-.195-.449-.293-.703-.293-.255 0-.51.098-.703.293z' fill='%23344563' %3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+  width: var(--btn-size);
+  height: var(--btn-size);
   padding: 0;
   border: 0;
   border-radius: 3px;
@@ -29,9 +30,46 @@ button {
   }
 }
 
-h4 {
+h4,
+.title {
   margin: 0;
   font-weight: 600;
   line-height: 20px;
-  color: rgb(106, 115, 123);
+  color: var(--title-color, var(--aui-body-text));
+}
+
+.theme__jira-cloud {
+  &.toggle_button {
+    box-sizing: border-box;
+    width: 100%;
+    height: 48px;
+    padding-inline: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--ds-surface-overlay-hovered, #f0f1f2);
+    }
+  }
+
+  &[aria-expanded='true'] {
+    --icon-rotation: 90deg;
+  }
+
+  .title {
+    --title-color: var(--ds-text, #292a2e);
+    font-size: 1rem;
+    line-height: 1.25rem;
+  }
+
+  .arrow_icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='-8 -8 32 32' role='presentation' class='_1reo15vq _18m915vq _syaz1r31 _lcxvglyw _s7n4yfq0 _vc881r31 _1bsb1ejb _4t3i1ejb'%3E%3Cpath fill='currentcolor' d='m6.03 1.47 6 6a.75.75 0 0 1 .052 1.004l-.052.056-6 6-1.06-1.06L10.44 8 4.97 2.53z'%3E%3C/path%3E%3C/svg%3E");
+    width: 24px;
+    height: 24px;
+    transform: rotate(var(--icon-rotation, 0deg));
+  }
 }
