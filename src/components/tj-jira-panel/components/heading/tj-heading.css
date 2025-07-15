@@ -40,14 +40,14 @@ h4,
 
 .theme__jira-cloud {
   &.toggle_button {
-    box-sizing: border-box;
+    position: sticky;
     width: 100%;
     height: 48px;
-    padding-inline: 8px;
+    padding-inline: var(--ds-space-100, 8px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: transparent;
+    background-color: var(--ds-surface-overlay, #ffffff);
     border: 0;
     cursor: pointer;
 
@@ -56,8 +56,8 @@ h4,
     }
   }
 
-  &[aria-expanded='true'] {
-    --icon-rotation: 90deg;
+  &[aria-expanded='false'] {
+    --icon-rotation: -90deg;
   }
 
   .title {
@@ -67,7 +67,7 @@ h4,
   }
 
   .arrow_icon {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='-8 -8 32 32' role='presentation' class='_1reo15vq _18m915vq _syaz1r31 _lcxvglyw _s7n4yfq0 _vc881r31 _1bsb1ejb _4t3i1ejb'%3E%3Cpath fill='currentcolor' d='m6.03 1.47 6 6a.75.75 0 0 1 .052 1.004l-.052.056-6 6-1.06-1.06L10.44 8 4.97 2.53z'%3E%3C/path%3E%3C/svg%3E");
+    color: var(--ds-icon-subtle, #626f86);
     width: 24px;
     height: 24px;
     transform: rotate(var(--icon-rotation, 0deg));
