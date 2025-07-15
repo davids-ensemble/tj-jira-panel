@@ -28,6 +28,7 @@
     margin-bottom: var(--ds-space-100, 8px);
     --panel-inline-padding: 12px;
     --panel-block-padding: 8px;
+    --tji-contextual-help-border-width: 0;
   }
 }
 

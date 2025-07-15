@@ -33,7 +33,7 @@
 h4,
 .title {
   margin: 0;
-  font-weight: 600;
+  font-weight: var(--ds-font-weight-medium, 600);
   line-height: 20px;
   color: var(--title-color, var(--aui-body-text));
 }
