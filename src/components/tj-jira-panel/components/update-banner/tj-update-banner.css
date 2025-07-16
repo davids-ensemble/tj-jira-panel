@@ -1,29 +1,62 @@
-.updateContainer {
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotateBorder {
+  to {
+    --angle: 360deg;
+  }
+}
+
+.gradientBorder {
+  --angle: 0deg;
+  background: conic-gradient(
+    from var(--angle),
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82,
+    #f79533
+  );
+  animation: 5s rotateBorder linear infinite;
+  padding: 2px;
+}
+
+.updateBanner {
   width: 200px;
-  border: 1px solid rgb(195, 195, 195);
-  border-radius: 8px;
   overflow: hidden;
   font-size: 14px;
+  border-radius: 8px;
 
   &:hover {
-    border: 0;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    .updateContent {
+      max-height: 100px;
+      transition: 0.5s ease-in;
+      padding-block: 8px;
+    }
   }
+}
 
-  &:hover .updateContent {
-    max-height: 100px;
-    transition: 0.5s ease-in;
-    padding: 8px;
-  }
+.updateContainer {
+  overflow: hidden;
+  border-radius: 6px;
 }
 
 .updateHeader {
   text-align: center;
-  border-radius: 8px 8px 0 0;
+  border-radius: 6px 6px 0 0;
   padding: 4px 0;
-  background: #f8f8f8;
+  background: var(--tji-update-header-background);
   font-weight: normal;
   margin: 0;
+  font-size: 14px;
+  cursor: default;
 }
 
 .updateContent {
@@ -33,6 +66,9 @@
   align-items: center;
   transition: 0.5s ease-out;
   gap: 8px;
+  padding-inline: 8px;
+  background: var(--tji-background-color);
+  border-radius: 0px 0px 6px 6px;
 }
 
 .updateContent a.releaseNotesLink {

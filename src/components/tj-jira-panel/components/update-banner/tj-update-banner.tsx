@@ -36,28 +36,30 @@ export class TJUpdateBanner {
 
   render() {
     return version !== this.latestVersion ? (
-      <div class="updateContainer">
-        <h4 class="updateHeader">New TJI Version Available</h4>
-        <div class="updateContent">
-          <a
-            class="releaseNotesLink"
-            href={`https://github.com/davids-ensemble/tj-jira-panel/releases/tag/${this.latestVersion}`}
-            target="_blank"
-          >
-            See release notes
-          </a>
-          <div class="updateButtonContainer">
-            <button class="updateButton" onClick={this.updateAndRefresh} disabled={this.isButtonDisabled}>
-              Update and Refresh
-            </button>
-            {this.isButtonDisabled && (
-              <contextual-help variant="help">
-                <h6 slot="heading">Outdated script version</h6>
-                <p slot="content">
-                  In order to use this feature you need to update to at least user-script version 2024-05-18.
-                </p>
-              </contextual-help>
-            )}
+      <div class="updateBanner gradientBorder">
+        <div class="updateContainer">
+          <h4 class="updateHeader">New TJI Version Available</h4>
+          <div class="updateContent">
+            <a
+              class="releaseNotesLink"
+              href={`https://github.com/davids-ensemble/tj-jira-panel/releases/tag/${this.latestVersion}`}
+              target="_blank"
+            >
+              See release notes
+            </a>
+            <div class="updateButtonContainer">
+              <button class="updateButton" onClick={this.updateAndRefresh} disabled={this.isButtonDisabled}>
+                Update and Refresh
+              </button>
+              {this.isButtonDisabled && (
+                <contextual-help variant="help">
+                  <h6 slot="heading">Outdated script version</h6>
+                  <p slot="content">
+                    In order to use this feature you need to update to at least user-script version 2024-05-18.
+                  </p>
+                </contextual-help>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -17,8 +17,13 @@
   margin-top: 30px;
   font-size: 14px;
   box-sizing: border-box;
+
+  /* Theme variables */
   --primary-color: #005273;
   --accent-color: #2479aa;
+  --tji-background-color: light-dark(#fff, black);
+  --tji-update-container-box-shadow-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+  --tji-update-header-background: light-dark(#f8f8f8, #f8f8f8);
 
   &[theme='jira-cloud'] {
     overflow: hidden;
@@ -26,9 +31,11 @@
     border-radius: 4px;
     margin-top: 0px;
     margin-bottom: var(--ds-space-100, 8px);
-    --panel-inline-padding: 12px;
-    --panel-block-padding: 8px;
+    --tji-background-color: var(--ds-surface, #fff);
+    --tji-panel-inline-padding: 12px;
+    --tji-panel-block-padding: 8px;
     --tji-contextual-help-border-width: 0;
+    --tji-update-header-background: light-dark(#f8f8f8, var(--ds-surface-overlay, #f8f8f8));
   }
 }
 
@@ -37,7 +44,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: var(--panel-block-padding, 5px) var(--panel-inline-padding, 20px);
+  padding: var(--tji-panel-block-padding, 5px) var(--tji-panel-inline-padding, 20px);
   width: 100%;
   box-sizing: border-box;
 
