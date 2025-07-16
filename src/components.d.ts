@@ -62,6 +62,10 @@ export namespace Components {
           * Whether the panel is expanded or not. This is used to toggle the icon in the button.
          */
         "isExpanded": boolean;
+        /**
+          * Whether the panel is using jira-cloud theme or not.
+         */
+        "isJiraCloud": boolean;
     }
     interface TjJiraPanel {
         /**
@@ -80,6 +84,7 @@ export namespace Components {
           * The version of the script used to inject the panel.
          */
         "scriptVersion": string | undefined;
+        "theme": 'jira-cloud' | 'jira-server';
     }
     /**
      * A form to log into TJ.
@@ -502,6 +507,10 @@ declare namespace LocalJSX {
          */
         "isExpanded"?: boolean;
         /**
+          * Whether the panel is using jira-cloud theme or not.
+         */
+        "isJiraCloud"?: boolean;
+        /**
           * Emitted when the user presses the toggle button. This is used to expand or collapse the panel.
          */
         "onTogglePanel"?: (event: TjHeadingCustomEvent<void>) => void;
@@ -523,6 +532,7 @@ declare namespace LocalJSX {
           * The version of the script used to inject the panel.
          */
         "scriptVersion"?: string | undefined;
+        "theme"?: 'jira-cloud' | 'jira-server';
     }
     /**
      * A form to log into TJ.
