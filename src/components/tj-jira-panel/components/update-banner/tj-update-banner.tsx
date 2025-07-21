@@ -22,8 +22,9 @@ export class TJUpdateBanner {
 
   async componentWillLoad() {
     localStorage.setItem(LOCAL_STORAGE_KEYS.VERSION, version);
+    const isBetaVersion = version.includes('-beta');
     const response = await fetch(
-      `https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/package.json?bypassDiskCache=${Date.now()}`,
+      `https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel${isBetaVersion ? '@beta' : ''}/package.json?bypassDiskCache=${Date.now()}`,
     );
     const data = await response.json();
     this.latestVersion = data.version;
