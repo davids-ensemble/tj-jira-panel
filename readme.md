@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>TJ Panel for Adobe's Jira</h1>
+    <h1>TJ Panel for Jira</h1>
 </div>
 
 </br>
@@ -17,7 +17,7 @@
 
 ### Installation
 
-You have two options depending on the browser you use. You can install the script as a **[Userscript](https://en.wikipedia.org/wiki/Userscript)** in all popular browsers.
+You can install the script as a **[Userscript](https://en.wikipedia.org/wiki/Userscript)** in all popular browsers.
 
 #### Userscript
 
@@ -28,5 +28,8 @@ You have two options depending on the browser you use. You can install the scrip
    > - [Tampermonkey for Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/)<br>
    > - [Tampermonkey for Edge](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd)<br>
    > - [Userscripts for Safari (MacOS/iOS/iPadOS)](https://apps.apple.com/us/app/userscripts/id1463298887)<br>
+
+> [!IMPORTANT]
+> You may need to [enable Developer Mode](https://www.tampermonkey.net/faq.php?locale=en#Q209) in your browser, otherwise Tampermonkey may not work.
 
 2. Install **TJ Jira Panel** by clicking **[this link](../../raw/main/user-scripts/tj-jira-panel.user.js)**.

@@ -4,6 +4,7 @@ form {
   align-items: center;
   max-width: 200px;
   gap: 8px;
+  color: var(--tji-text-color-main);
 }
 
 input {
@@ -15,12 +16,16 @@ input {
 }
 
 button {
-  background-color: var(--primary-color);
+  background-color: var(--tji-button-background-color);
   border: 0;
-  color: white;
+  color: var(--tji-button-text-color);
   text-transform: uppercase;
   border-radius: 0.25rem;
   max-width: 100px;
   padding: 5px 10px;
   cursor: pointer;
+
+  &:hover {
+    background-color: var(--tji-button-background-color-hovered);
+  }
 }
