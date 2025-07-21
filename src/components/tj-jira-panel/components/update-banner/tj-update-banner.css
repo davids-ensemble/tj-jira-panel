@@ -57,6 +57,7 @@
   margin: 0;
   font-size: 14px;
   cursor: default;
+  color: var(--tji-text-color-main);
 }
 
 .updateContent {
@@ -72,7 +73,7 @@
 }
 
 .updateContent a.releaseNotesLink {
-  color: var(--primary-color);
+  color: var(--tji-accent-color);
 }
 .updateButtonContainer {
   width: 100%;
@@ -81,9 +82,9 @@
 }
 
 .updateButton {
-  background: var(--accent-color);
+  background: var(--tji-button-background-color);
   width: fit-content;
-  color: white;
+  color: var(--tji-button-text-color);
   border: none;
   border-radius: 4px;
   padding: 4px 8px;
@@ -93,5 +94,9 @@
   &:disabled {
     background: #ccc;
     cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--tji-button-background-color-hovered);
   }
 }
