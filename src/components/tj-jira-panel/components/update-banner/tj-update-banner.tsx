@@ -42,7 +42,7 @@ export class TJUpdateBanner {
           <div class="updateContent">
             <a
               class="releaseNotesLink"
-              href={`https://github.com/davids-ensemble/tj-jira-panel/releases/tag/${this.latestVersion}`}
+              href={`https://github.com/davids-ensemble/tj-jira-panel/releases/tag/v${this.latestVersion}`}
               target="_blank"
             >
               See release notes
