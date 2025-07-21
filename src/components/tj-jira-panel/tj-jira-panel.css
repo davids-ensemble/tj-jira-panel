@@ -23,13 +23,14 @@
   --accent-color: #2479aa;
   --tji-primary-color: #005273;
   --tji-accent-color: #2479aa;
-  --tji-background-color: light-dark(#fff, #181a1b);
-  --tji-update-container-box-shadow-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
-  --tji-update-header-background: light-dark(#f8f8f8, #26292b);
+  --tji-text-color-main: light-dark(var(--aui-body-text, black), white);
+  --tji-text-color-secondary: #6b778c;
   --tji-button-background-color: var(--tji-primary-color);
   --tji-button-background-color-hovered: var(--tji-accent-color);
   --tji-button-text-color: white;
-  --tji-text-color-main: light-dark(black, white);
+  --tji-background-color: light-dark(#fff, #181a1b);
+  --tji-update-container-box-shadow-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+  --tji-update-header-background: light-dark(#f8f8f8, #26292b);
 
   &[theme='jira-cloud'] {
     overflow: hidden;
@@ -37,18 +38,18 @@
     border-radius: 4px;
     margin-top: 0px;
     margin-bottom: var(--ds-space-100, 8px);
+    --tji-primary-color: var(--ds-text-selected, #0052cc);
+    --tji-accent-color: var(--ds-link, #0c66e4);
+    --tji-text-color-main: var(--ds-text, #172b4d);
+    --tji-text-color-secondary: var(--ds-text-subtle, #44546f);
     --tji-background-color: var(--ds-surface, #fff);
-    --tji-panel-inline-padding: 12px;
-    --tji-panel-block-padding: 8px;
-    --tji-contextual-help-border-width: 0;
-    --tji-update-header-background: light-dark(#f8f8f8, var(--ds-surface-overlay, #f8f8f8));
     --tji-button-background-color: var(--ds-background-brand-bold, #0052cc);
     --tji-button-background-color-hovered: var(--ds-background-brand-bold-hovered, #0065ff);
     --tji-button-text-color: var(--ds-text-inverse, #172b4d);
-    --tji-text-color-main: var(--ds-text, #172b4d);
-    --tji-text-color-secondary: var(--ds-text-subtle, #44546f);
-    --tji-primary-color: var(--ds-text-selected, #0052cc);
-    --tji-accent-color: var(--ds-link, #0c66e4);
+    --tji-update-header-background: light-dark(#f8f8f8, var(--ds-surface-overlay, #f8f8f8));
+    --tji-contextual-help-border-width: 0;
+    --tji-panel-inline-padding: 12px;
+    --tji-panel-block-padding: 8px;
   }
 }
 

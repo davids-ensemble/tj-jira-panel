@@ -35,7 +35,7 @@ h4,
   margin: 0;
   font-weight: var(--ds-font-weight-medium, 600);
   line-height: 20px;
-  color: var(--title-color, var(--aui-body-text));
+  color: var(--tji-text-color-main);
 }
 
 .theme__jira-cloud {
@@ -61,7 +61,6 @@ h4,
   }
 
   .title {
-    --title-color: var(--ds-text, #292a2e);
     font-size: 1rem;
     line-height: 1.25rem;
   }
