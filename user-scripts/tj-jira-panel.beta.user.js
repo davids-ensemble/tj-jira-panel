@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         TJ Web Panel Injector
+// @name         [BETA] TJ Web Panel Injector
 // @namespace    https://github.com/davids-ensemble
 // @version      2025-07-21
 // @description  Inserts a TJ web panel into Jira Cloud and Data Center/Server
@@ -9,8 +9,8 @@
 // @match        https://*.atlassian.net/jira/*
 // @run-at       document-start
 // @grant        none
-// @updateURL    https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/user-scripts/tj-jira-panel.user.js
-// @downloadURL  https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/user-scripts/tj-jira-panel.user.js
+// @updateURL    https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel@beta/user-scripts/tj-jira-panel.user.js
+// @downloadURL  https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel@beta/user-scripts/tj-jira-panel.user.js
 // ==/UserScript==
 
 const SCRIPT_VERSION = '2025-07-21';
@@ -82,7 +82,7 @@ const insertTjSection = async () => {
 const insertWebElementScript = () => {
   const script = document.createElement('script');
   const version = localStorage.getItem('tj_version');
-  let url = 'https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/dist/tj-jira-panel/tj-jira-panel.esm.js';
+  let url = 'https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel@beta/dist/tj-jira-panel/tj-jira-panel.esm.js';
   if (version) {
     url += `?v=${version}`;
   }
