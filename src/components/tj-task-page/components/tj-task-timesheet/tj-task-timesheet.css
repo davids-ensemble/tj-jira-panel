@@ -55,7 +55,7 @@ th div {
   }
 
   &.currentDay {
-    color: var(--accent-color);
+    color: var(--tji-accent-color);
     font-weight: 900;
   }
 
@@ -93,7 +93,7 @@ input[disabled] {
   text-align: right;
   padding: 0;
   margin: 4px 0 0 0;
-  color: var(--accent-color);
+  color: var(--tji-accent-color);
 }
 
 .header-container {

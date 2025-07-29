@@ -20,7 +20,6 @@
 
   /* Theme variables */
   --primary-color: #005273;
-  --accent-color: #2479aa;
   --tji-primary-color: #005273;
   --tji-accent-color: #2479aa;
   --tji-text-color-main: light-dark(var(--aui-body-text, black), white);
