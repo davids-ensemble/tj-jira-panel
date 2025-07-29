@@ -19,7 +19,6 @@
   box-sizing: border-box;
 
   /* Theme variables */
-  --primary-color: #005273;
   --tji-primary-color: #005273;
   --tji-accent-color: #2479aa;
   --tji-text-color-main: light-dark(var(--aui-body-text, black), white);
@@ -76,7 +75,7 @@
   .loader,
   .loader::before,
   .loader::after {
-    color: var(--primary-color);
+    color: var(--tji-primary-color);
     background-color: currentColor;
   }
 }
