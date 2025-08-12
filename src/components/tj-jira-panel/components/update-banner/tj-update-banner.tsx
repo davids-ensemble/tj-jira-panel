@@ -3,6 +3,35 @@ import { Component, Prop, State, h } from '@stencil/core';
 import { version } from '@root/package.json';
 import { LOCAL_STORAGE_KEYS } from '@utils/tj';
 
+type PackageMetadataResponse = {
+  type: string;
+  name: string;
+  /** An object mapping dist-tags to version numbers. Always empty for GitHub repos. */
+  tags: {
+    latest: string;
+    beta: string;
+    [key: string]: string;
+  };
+  /** A list of all versions sorted in descending order. */
+  versions: [
+    {
+      version: string;
+      links: {
+        /** A link to metadata for this version. */
+        self: string;
+        /** A link to entry point information for this version. Only for npm packages. */
+        entrypoints: string;
+        /** A link to stats for this version. */
+        stats: string;
+      };
+    },
+  ];
+  links: {
+    /** A link to stats for this package. */
+    stats: string;
+  };
+};
+
 /**
  * A banner that displays when a new version of the component is available.
  */
@@ -23,11 +52,9 @@ export class TJUpdateBanner {
   async componentWillLoad() {
     localStorage.setItem(LOCAL_STORAGE_KEYS.VERSION, version);
     const isBetaVersion = version.includes('-beta');
-    const response = await fetch(
-      `https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel${isBetaVersion ? '@beta' : ''}/package.json?bypassDiskCache=${Date.now()}`,
-    );
-    const data = await response.json();
-    this.latestVersion = data.version;
+    const response = await fetch('https://data.jsdelivr.com/v1/packages/npm/@ens-davids/tj-jira-panel');
+    const data = (await response.json()) as PackageMetadataResponse;
+    this.latestVersion = data.tags[isBetaVersion ? 'beta' : 'latest'];
   }
 
   updateAndRefresh = async () => {
