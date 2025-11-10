@@ -26,7 +26,6 @@ export class TJHeading {
    */
   @Event() togglePanel: EventEmitter<void>;
 
-  // TODO: Refactor this with summary/details
   render() {
     if (this.isJiraCloud) {
       return (
@@ -37,6 +36,7 @@ export class TJHeading {
           onClick={() => this.togglePanel.emit()}
           class="theme__jira-cloud toggle_button"
         >
+          <span class="title">TJ Integration</span>
           <span class="arrow_icon">
             <svg fill="none" viewBox="-8 -8 32 32" role="presentation">
               <path
@@ -45,7 +45,6 @@ export class TJHeading {
               ></path>
             </svg>
           </span>
-          <span class="title">TJ Integration</span>
         </button>
       );
     } else {

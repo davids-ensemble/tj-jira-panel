@@ -46,6 +46,7 @@ h4,
     display: flex;
     gap: var(--ds-space-050, 4px);
     align-items: center;
+    justify-content: space-between;
     background-color: var(--ds-surface-overlay, #ffffff);
     border: 0;
     cursor: pointer;
