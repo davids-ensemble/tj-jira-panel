@@ -29,23 +29,35 @@ export class TJHeading {
   render() {
     if (this.isJiraCloud) {
       return (
-        <button
+        <div
           aria-controls="tj-panel"
           aria-expanded={String(this.isExpanded)}
           aria-label="Toggle TJ panel"
-          onClick={() => this.togglePanel.emit()}
+          role="button"
+          onClick={e => {
+            // Don't toggle if click originated from settings-button and the panel is already expanded
+            const target = e.target as HTMLElement;
+            if (target.closest('settings-button') && this.isExpanded) {
+              return;
+            }
+            this.togglePanel.emit();
+          }}
           class="theme__jira-cloud toggle_button"
+          tabindex={0}
         >
           <span class="title">TJ Integration</span>
-          <span class="arrow_icon">
-            <svg fill="none" viewBox="-8 -8 32 32" role="presentation">
-              <path
-                fill="currentcolor"
-                d="m14.53 6.03-6 6a.75.75 0 0 1-1.004.052l-.056-.052-6-6 1.06-1.06L8 10.44l5.47-5.47z"
-              ></path>
-            </svg>
-          </span>
-        </button>
+          <div>
+            <settings-button size={20}></settings-button>
+            <span class="arrow_icon">
+              <svg fill="none" viewBox="-8 -8 32 32" role="presentation">
+                <path
+                  fill="currentcolor"
+                  d="m14.53 6.03-6 6a.75.75 0 0 1-1.004.052l-.056-.052-6-6 1.06-1.06L8 10.44l5.47-5.47z"
+                ></path>
+              </svg>
+            </span>
+          </div>
+        </div>
       );
     } else {
       return (

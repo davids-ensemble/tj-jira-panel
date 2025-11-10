@@ -50,9 +50,29 @@ h4,
     background-color: var(--ds-surface-overlay, #ffffff);
     border: 0;
     cursor: pointer;
+    box-sizing: border-box;
 
     &:hover {
       background-color: var(--ds-surface-overlay-hovered, #f0f1f2);
+    }
+  }
+
+  > div {
+    display: flex;
+    gap: var(--ds-space-100, 8px);
+    align-items: center;
+
+    settings-button {
+      height: 24px;
+      width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+
+      &:hover {
+        background-color: var(--ds-background-neutral-subtle-hovered, #091e4214);
+      }
     }
   }
 

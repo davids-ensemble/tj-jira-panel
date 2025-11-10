@@ -100,7 +100,11 @@ export class TJJiraPanel {
                 },
               ]}
             />
-            <tj-footer isLoggedIn={this.isLoggedIn} scriptVersion={this.scriptVersion}></tj-footer>
+            <tj-footer
+              isLoggedIn={this.isLoggedIn}
+              isJiraCloud={this.theme === 'jira-cloud'}
+              scriptVersion={this.scriptVersion}
+            ></tj-footer>
           </main>
         </Loader>
       </notifications-provider>

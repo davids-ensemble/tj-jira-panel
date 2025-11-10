@@ -1,0 +1,7 @@
+[role='button'] {
+  cursor: pointer;
+
+  &[aria-label='Close settings'] {
+    color: red;
+  }
+}

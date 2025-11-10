@@ -1,9 +1,7 @@
-import { Component, Event, EventEmitter, Prop, State, h } from '@stencil/core';
+import { Component, Prop, State, h } from '@stencil/core';
 
 import { version } from '@root/package.json';
 import { Server, User } from '@utils/tj';
-
-import { Icon } from './Icons';
 
 /**
  * The footer of the panel.
@@ -16,15 +14,6 @@ import { Icon } from './Icons';
 })
 export class TJFooter {
   /**
-   * Emitted when the user presses the settings button.
-   */
-  @Event() showSettings: EventEmitter<void>;
-  /**
-   * Emitted when the user presses the close settings button.
-   */
-  @Event() hideSettings: EventEmitter<void>;
-
-  /**
    * Whether the user is logged in. Certain information is only available when logged in.
    */
   @Prop() isLoggedIn: boolean;
@@ -32,9 +21,12 @@ export class TJFooter {
    * The version of the script used to inject the panel.
    */
   @Prop() scriptVersion: string | undefined;
+  /**
+   * Whether the panel is using jira-cloud theme or not.
+   */
+  @Prop() isJiraCloud: boolean;
 
   @State() serverVersion: string;
-  @State() isSettingsOpen = false;
 
   async componentWillLoad() {
     const config = await Server.fetchServerConfig();
@@ -44,19 +36,11 @@ export class TJFooter {
   render() {
     return (
       <footer>
-        <div>
-          <Icon
-            type={this.isSettingsOpen ? 'settings-x' : 'settings'}
-            size={24}
-            role="button"
-            aria-label={this.isSettingsOpen ? 'Close settings' : 'Open settings'}
-            tabindex={0}
-            onClick={() => {
-              this.isSettingsOpen ? this.hideSettings.emit() : this.showSettings.emit();
-              this.isSettingsOpen = !this.isSettingsOpen;
-            }}
-          />
-        </div>
+        {!this.isJiraCloud && (
+          <div>
+            <settings-button></settings-button>
+          </div>
+        )}
         <tj-update-banner scriptVersion={this.scriptVersion}></tj-update-banner>
         <div>
           <p>
