@@ -86,4 +86,5 @@ export const LOCAL_STORAGE_KEYS = {
   DEFAULT_WORK_KIND: 'tj_default_work_kind',
   VERSION: 'tj_version',
   URL: 'tj_url',
+  IS_EXPANDED: 'tj_is_expanded',
 };

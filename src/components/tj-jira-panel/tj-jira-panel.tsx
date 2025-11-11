@@ -1,7 +1,7 @@
 import { Component, Listen, Prop, State, h } from '@stencil/core';
 
 import { Loader, Switch } from '@fc';
-import { User, migrateV1SelectedTasks } from '@utils/tj';
+import { LOCAL_STORAGE_KEYS, User, migrateV1SelectedTasks } from '@utils/tj';
 
 @Component({
   tag: 'tj-jira-panel',
@@ -30,7 +30,10 @@ export class TJJiraPanel {
 
   @State() isLoggedIn = false;
   @State() isLoading = true;
-  @State() isExpanded = true;
+  @State() isExpanded =
+    localStorage.getItem(LOCAL_STORAGE_KEYS.IS_EXPANDED) !== null
+      ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.IS_EXPANDED)!)
+      : true;
   @State() path = 'login';
   @State() lastPath = 'login';
 
@@ -59,6 +62,7 @@ export class TJJiraPanel {
   @Listen('togglePanel')
   onTogglePanel() {
     this.isExpanded = !this.isExpanded;
+    localStorage.setItem(LOCAL_STORAGE_KEYS.IS_EXPANDED, String(this.isExpanded));
   }
 
   @Listen('showSettings')
