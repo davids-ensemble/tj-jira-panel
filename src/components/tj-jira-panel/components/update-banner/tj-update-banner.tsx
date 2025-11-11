@@ -54,7 +54,7 @@ export class TJUpdateBanner {
     const isBetaVersion = version.includes('-beta');
     const response = await fetch('https://data.jsdelivr.com/v1/packages/npm/@ens-davids/tj-jira-panel');
     const data = (await response.json()) as PackageMetadataResponse;
-    this.latestVersion = data.tags[isBetaVersion ? 'beta' : 'latest'];
+    this.latestVersion = data.tags[isBetaVersion ? 'beta' : 'latest'] || version;
   }
 
   updateAndRefresh = async () => {
