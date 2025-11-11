@@ -23,11 +23,22 @@ export const migrateV1SelectedTasks = () => {
 };
 
 export const escapeNonAlphanumericCharacters = (value: string) => {
+  // Remove emojis first
+  // This regex matches most emoji ranges including:
+  // - Emoticons (😀-🙏)
+  // - Miscellaneous Symbols and Pictographs (🌀-🗿)
+  // - Transport and Map Symbols (🚀-🛿)
+  // - Supplemental Symbols and Pictographs (🤐-🧿)
+  // - Symbols and Pictographs Extended-A (🩀-🩿)
+  // - And other emoji ranges
+  const emojiRegex = /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1FA00}-\u{1FAFF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
+  const withoutEmojis = value.replace(emojiRegex, '');
+
   // Define a regular expression to match non-alphanumeric characters
   const regex = /[^a-zA-Z0-9]/g;
 
   // Replace non-alphanumeric characters with their HTML entities
-  const escapedString = value.replace(regex, function (match) {
+  const escapedString = withoutEmojis.replace(regex, function (match) {
     return '&#' + match.charCodeAt(0) + ';';
   });
 
