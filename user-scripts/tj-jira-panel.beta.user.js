@@ -56,7 +56,10 @@ const getJiraDescription = () => {
 
 const getInsertLocation = async () => {
   if (isJiraCloud) {
-    return waitForElement('[data-testid="issue.views.issue-details.issue-layout.sections.footnote"]');
+    return Promise.any([
+      waitForElement('[data-testid="issue.views.issue-details.issue-layout.sections.footnote"]'),
+      waitForElement('[data-testid="issue.views.issue-details.issue-layout.footnote"]'),
+    ]);
   } else {
     return waitForElement('#viewissuesidebar');
   }
