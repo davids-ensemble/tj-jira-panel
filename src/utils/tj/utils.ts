@@ -88,3 +88,9 @@ export const LOCAL_STORAGE_KEYS = {
   URL: 'tj_url',
   IS_EXPANDED: 'tj_is_expanded',
 };
+
+export const DOMAIN_COUNTRIES = {
+  'com': 'NA',
+  'uk': 'UK',
+  'ro': 'RO',
+};

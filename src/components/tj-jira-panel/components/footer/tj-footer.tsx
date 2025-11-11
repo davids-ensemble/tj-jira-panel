@@ -27,10 +27,13 @@ export class TJFooter {
   @Prop() isJiraCloud: boolean;
 
   @State() serverVersion: string;
+  @State() serverCountry: string;
 
   async componentWillLoad() {
     const config = await Server.fetchServerConfig();
     this.serverVersion = config.version;
+    console.log(config);
+    this.serverCountry = config.country;
   }
 
   render() {
@@ -46,6 +49,7 @@ export class TJFooter {
           <p>
             {this.isLoggedIn ? `Logged in as ${User.username} (${User.userId}) @ ` : null}
             {this.serverVersion ? 'TJ v' + this.serverVersion : null}
+            {this.serverCountry ? ` (${this.serverCountry})` : null}
           </p>
           <a href={`https://github.com/davids-ensemble/tj-jira-panel/releases/tag/v${version}`} target="_blank">
             TJI v{version}
