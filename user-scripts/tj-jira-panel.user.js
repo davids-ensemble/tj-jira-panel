@@ -45,10 +45,12 @@ const getJiraSummary = () => {
 
 const getJiraDescription = () => {
   if (isJiraCloud) {
-    return document.querySelector('[data-testid="issue.views.field.rich-text.description"] .ak-renderer-document')
-      ?.innerHTML;
+    return (
+      document.querySelector('[data-testid="issue.views.field.rich-text.description"] .ak-renderer-document')
+        ?.innerHTML || ''
+    );
   } else {
-    return document.querySelector('#description-val .user-content-block')?.innerHTML;
+    return document.querySelector('#description-val .user-content-block')?.innerHTML || '';
   }
 };
 
