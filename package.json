@@ -1,6 +1,6 @@
 {
   "name": "@ens-davids/tj-jira-panel",
-  "version": "2.9.0-beta.3",
+  "version": "2.9.0-beta.4",
   "description": "Web Component for integrating TJ with Adobe's Jira",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
