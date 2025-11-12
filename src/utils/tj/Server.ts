@@ -3,6 +3,7 @@ import { DOMAIN_COUNTRIES, LOCAL_STORAGE_KEYS, checkForError } from './utils';
 interface ServerConfig {
   version: string;
   url: string;
+  country: 'NA' | 'UK' | 'RO';
   supportsGeneratedSummaries: boolean;
 }
 

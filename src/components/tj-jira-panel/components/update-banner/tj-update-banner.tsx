@@ -63,6 +63,10 @@ export class TJUpdateBanner {
   };
 
   render() {
+    if (!this.latestVersion) {
+      return null;
+    }
+
     return version !== this.latestVersion ? (
       <div class="updateBanner gradientBorder">
         <div class="updateContainer">

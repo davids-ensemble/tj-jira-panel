@@ -32,7 +32,6 @@ export class TJFooter {
   async componentWillLoad() {
     const config = await Server.fetchServerConfig();
     this.serverVersion = config.version;
-    console.log(config);
     this.serverCountry = config.country;
   }
 
