@@ -34,7 +34,7 @@ export class Server {
     const data = await response.text();
     const dom = new DOMParser().parseFromString(data, 'text/xml');
     const url = dom.querySelector('serverUrl')?.textContent;
-    const result = {
+    const result: ServerConfig = {
       version: dom.querySelector('serverVersion')?.textContent ?? 'unknown',
       url,
       country: DOMAIN_COUNTRIES[url.split('.').pop()],
