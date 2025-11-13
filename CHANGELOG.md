@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.9.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.8.0...v2.9.0) (2025-11-13)
+
+
+### Features
+
+* ✨ added custom theme for Jira Cloud ([24f03d5](https://github.com/davids-ensemble/tj-jira-panel/commit/24f03d5dc3aa714c7aed82da60b1e787de23e4da))
+* ✨ added TJ's country in the footer (RO, UK or NA) ([24f03d5](https://github.com/davids-ensemble/tj-jira-panel/commit/24f03d5dc3aa714c7aed82da60b1e787de23e4da))
+* ✨ changed update banner to handle beta versions ([24f03d5](https://github.com/davids-ensemble/tj-jira-panel/commit/24f03d5dc3aa714c7aed82da60b1e787de23e4da))
+* ✨ remember if user collapsed panel and restore TJI in that state ([24f03d5](https://github.com/davids-ensemble/tj-jira-panel/commit/24f03d5dc3aa714c7aed82da60b1e787de23e4da))
+* **script:** 🚸 added a beta version user-script ([24f03d5](https://github.com/davids-ensemble/tj-jira-panel/commit/24f03d5dc3aa714c7aed82da60b1e787de23e4da))
+* **script:** 🚸 added support for Jira Cloud ([24f03d5](https://github.com/davids-ensemble/tj-jira-panel/commit/24f03d5dc3aa714c7aed82da60b1e787de23e4da))
+
+
+### Bug Fixes
+
+* 🐛 fixed emojis preventing task creation/update (closes [#34](https://github.com/davids-ensemble/tj-jira-panel/issues/34)) ([24f03d5](https://github.com/davids-ensemble/tj-jira-panel/commit/24f03d5dc3aa714c7aed82da60b1e787de23e4da))
+* 🐛 fixed empty Jira description passing `undefined` to textbox ([24f03d5](https://github.com/davids-ensemble/tj-jira-panel/commit/24f03d5dc3aa714c7aed82da60b1e787de23e4da))
+* 🐛 fixed incorrect release notes link in update banner ([24f03d5](https://github.com/davids-ensemble/tj-jira-panel/commit/24f03d5dc3aa714c7aed82da60b1e787de23e4da))
+
 ## [2.8.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.7.0...v2.8.0) (2025-07-04)
 
 
