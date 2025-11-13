@@ -14,16 +14,9 @@ Displays the version of the server and the extension and provides a button to op
 
 | Property        | Attribute        | Description                                                                          | Type      | Default     |
 | --------------- | ---------------- | ------------------------------------------------------------------------------------ | --------- | ----------- |
+| `isJiraCloud`   | `is-jira-cloud`  | Whether the panel is using jira-cloud theme or not.                                  | `boolean` | `undefined` |
 | `isLoggedIn`    | `is-logged-in`   | Whether the user is logged in. Certain information is only available when logged in. | `boolean` | `undefined` |
 | `scriptVersion` | `script-version` | The version of the script used to inject the panel.                                  | `string`  | `undefined` |
-
-
-## Events
-
-| Event          | Description                                              | Type                |
-| -------------- | -------------------------------------------------------- | ------------------- |
-| `hideSettings` | Emitted when the user presses the close settings button. | `CustomEvent<void>` |
-| `showSettings` | Emitted when the user presses the settings button.       | `CustomEvent<void>` |
 
 
 ## Dependencies
@@ -34,11 +27,13 @@ Displays the version of the server and the extension and provides a button to op
 
 ### Depends on
 
+- [settings-button](../settings-button)
 - [tj-update-banner](../update-banner)
 
 ### Graph
 ```mermaid
 graph TD;
+  tj-footer --> settings-button
   tj-footer --> tj-update-banner
   tj-update-banner --> contextual-help
   tj-jira-panel --> tj-footer

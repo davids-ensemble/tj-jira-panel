@@ -1,8 +1,9 @@
-import { LOCAL_STORAGE_KEYS, checkForError } from './utils';
+import { DOMAIN_COUNTRIES, LOCAL_STORAGE_KEYS, checkForError } from './utils';
 
 interface ServerConfig {
   version: string;
   url: string;
+  country: 'NA' | 'UK' | 'RO';
   supportsGeneratedSummaries: boolean;
 }
 
@@ -32,9 +33,11 @@ export class Server {
     });
     const data = await response.text();
     const dom = new DOMParser().parseFromString(data, 'text/xml');
-    const result = {
+    const url = dom.querySelector('serverUrl')?.textContent;
+    const result: ServerConfig = {
       version: dom.querySelector('serverVersion')?.textContent ?? 'unknown',
-      url: dom.querySelector('serverUrl')?.textContent,
+      url,
+      country: DOMAIN_COUNTRIES[url.split('.').pop()],
       supportsGeneratedSummaries: dom.querySelector('supportsGeneratedSummaries')?.textContent === 'true',
     };
     Server._serverConfig = result;

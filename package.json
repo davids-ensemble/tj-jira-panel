@@ -1,6 +1,6 @@
 {
   "name": "@ens-davids/tj-jira-panel",
-  "version": "2.8.0",
+  "version": "2.9.0-beta.4",
   "description": "Web Component for integrating TJ with Adobe's Jira",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -16,7 +16,8 @@
   },
   "files": [
     "dist/",
-    "loader/"
+    "loader/",
+    "user-scripts/"
   ],
   "scripts": {
     "build": "stencil build",
@@ -24,26 +25,29 @@
     "test": "stencil test --spec",
     "e2e": "pnpm build && playwright test",
     "generate": "stencil generate",
-    "docs": "pnpm build --docs"
+    "docs": "pnpm build --docs",
+    "serve-package": "serve dist -C -p 9898",
+    "prerelease": "commit-and-tag-version --prerelease"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.6.11",
-    "@stencil/core": "^4.22.1",
+    "@floating-ui/dom": "^1.7.4",
+    "@stencil/core": "^4.38.3",
     "three-dots": "^0.3.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.0",
+    "@playwright/test": "^1.56.1",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "@types/jest": "^29.5.13",
-    "@types/node": "^22.7.5",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.19.1",
     "@types/node-localstorage": "^1.3.3",
-    "@xmldom/xmldom": "^0.8.10",
+    "@xmldom/xmldom": "^0.8.11",
+    "commit-and-tag-version": "^12.6.0",
     "jest": "^29.7.0",
     "jest-cli": "^29.7.0",
-    "msw": "^2.7.0",
+    "msw": "2.11.2",
     "node-localstorage": "^3.0.5",
-    "serve": "^14.2.4",
-    "typescript": "^5.6.3"
+    "serve": "^14.2.5",
+    "typescript": "^5.9.3"
   },
   "pnpm": {
     "overrides": {
@@ -55,6 +59,11 @@
   },
   "engines": {
     "node": ">=21.0.0"
+  },
+  "commit-and-tag-version": {
+    "skip": {
+      "changelog": true
+    }
   },
   "license": "MIT"
 }

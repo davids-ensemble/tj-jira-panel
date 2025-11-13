@@ -1,16 +1,17 @@
-div {
+.wrapper {
   display: flex;
   height: 20px;
   align-items: center;
   gap: 6px;
-  margin-bottom: 5px;
 }
 
-button {
+.toggle_button.theme__jira-server {
   --btn-bg: rgba(9, 30, 66, 0.08);
   --btn-text: #344563;
-  width: 14px;
-  height: 14px;
+  --btn-size: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M3.29175 4.793c-.389.392-.389 1.027 0 1.419l2.939 2.965c.218.215.5.322.779.322s.556-.107.769-.322l2.93-2.955c.388-.392.388-1.027 0-1.419-.389-.392-1.018-.392-1.406 0l-2.298 2.317-2.307-2.327c-.194-.195-.449-.293-.703-.293-.255 0-.51.098-.703.293z' fill='%23344563' %3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+  width: var(--btn-size);
+  height: var(--btn-size);
   padding: 0;
   border: 0;
   border-radius: 3px;
@@ -29,9 +30,65 @@ button {
   }
 }
 
-h4 {
+h4,
+.title {
   margin: 0;
-  font-weight: 600;
+  font-weight: var(--ds-font-weight-medium, 600);
   line-height: 20px;
-  color: rgb(106, 115, 123);
+  color: var(--tji-text-color-main);
+}
+
+.theme__jira-cloud {
+  &.toggle_button {
+    width: 100%;
+    height: 48px;
+    padding-inline: var(--ds-space-100, 8px);
+    display: flex;
+    gap: var(--ds-space-050, 4px);
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--ds-surface-overlay, #ffffff);
+    border: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &:hover {
+      background-color: var(--ds-surface-overlay-hovered, #f0f1f2);
+    }
+  }
+
+  > div {
+    display: flex;
+    gap: var(--ds-space-100, 8px);
+    align-items: center;
+
+    settings-button {
+      height: 24px;
+      width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+
+      &:hover {
+        background-color: var(--ds-background-neutral-subtle-hovered, #091e4214);
+      }
+    }
+  }
+
+  &[aria-expanded='false'] {
+    --icon-rotation: -90deg;
+  }
+
+  .title {
+    font-size: 1rem;
+    line-height: 1.25rem;
+  }
+
+  .arrow_icon {
+    color: var(--ds-icon-subtle, #626f86);
+    width: 24px;
+    height: 24px;
+    transform: rotate(var(--icon-rotation, 0deg));
+  }
 }

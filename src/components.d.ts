@@ -34,6 +34,13 @@ export namespace Components {
      */
     interface NotificationsProvider {
     }
+    interface SettingsButton {
+        /**
+          * The size of the icon.
+          * @default 24
+         */
+        "size": number;
+    }
     interface TjEditTaskForm {
         /**
           * The task for which to display the edit form.
@@ -45,6 +52,10 @@ export namespace Components {
      * Displays the version of the server and the extension and provides a button to open/close the settings.
      */
     interface TjFooter {
+        /**
+          * Whether the panel is using jira-cloud theme or not.
+         */
+        "isJiraCloud": boolean;
         /**
           * Whether the user is logged in. Certain information is only available when logged in.
          */
@@ -62,6 +73,10 @@ export namespace Components {
           * Whether the panel is expanded or not. This is used to toggle the icon in the button.
          */
         "isExpanded": boolean;
+        /**
+          * Whether the panel is using jira-cloud theme or not.
+         */
+        "isJiraCloud": boolean;
     }
     interface TjJiraPanel {
         /**
@@ -80,6 +95,10 @@ export namespace Components {
           * The version of the script used to inject the panel.
          */
         "scriptVersion": string | undefined;
+        /**
+          * @default 'jira-server'
+         */
+        "theme": 'jira-cloud' | 'jira-server';
     }
     /**
      * A form to log into TJ.
@@ -115,13 +134,22 @@ export namespace Components {
         "isLoggedIn": boolean;
     }
     interface TjTaskForm {
+        /**
+          * @default 'Create'
+         */
         "buttonLabel": string;
         "description": string | undefined;
         "name": string;
         "parentId": string | undefined;
+        /**
+          * @default false
+         */
         "showDescription": boolean;
         "startDate": string;
         "state": 'active' | 'closed' | undefined;
+        /**
+          * @default User.defaultWorkKind
+         */
         "workKind": string;
     }
     /**
@@ -156,19 +184,20 @@ export namespace Components {
     interface TjUpdateBanner {
         /**
           * The version of the script used to inject the panel.
+          * @default null
          */
         "scriptVersion": string | undefined;
     }
     interface TjWorkKindPage {
     }
 }
+export interface SettingsButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSettingsButtonElement;
+}
 export interface TjEditTaskFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTjEditTaskFormElement;
-}
-export interface TjFooterCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLTjFooterElement;
 }
 export interface TjHeadingCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -219,6 +248,24 @@ declare global {
         prototype: HTMLNotificationsProviderElement;
         new (): HTMLNotificationsProviderElement;
     };
+    interface HTMLSettingsButtonElementEventMap {
+        "showSettings": void;
+        "hideSettings": void;
+    }
+    interface HTMLSettingsButtonElement extends Components.SettingsButton, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSettingsButtonElementEventMap>(type: K, listener: (this: HTMLSettingsButtonElement, ev: SettingsButtonCustomEvent<HTMLSettingsButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSettingsButtonElementEventMap>(type: K, listener: (this: HTMLSettingsButtonElement, ev: SettingsButtonCustomEvent<HTMLSettingsButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSettingsButtonElement: {
+        prototype: HTMLSettingsButtonElement;
+        new (): HTMLSettingsButtonElement;
+    };
     interface HTMLTjEditTaskFormElementEventMap {
         "notification": Notification;
         "cancelEditTask": void;
@@ -237,23 +284,11 @@ declare global {
         prototype: HTMLTjEditTaskFormElement;
         new (): HTMLTjEditTaskFormElement;
     };
-    interface HTMLTjFooterElementEventMap {
-        "showSettings": void;
-        "hideSettings": void;
-    }
     /**
      * The footer of the panel.
      * Displays the version of the server and the extension and provides a button to open/close the settings.
      */
     interface HTMLTjFooterElement extends Components.TjFooter, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLTjFooterElementEventMap>(type: K, listener: (this: HTMLTjFooterElement, ev: TjFooterCustomEvent<HTMLTjFooterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLTjFooterElementEventMap>(type: K, listener: (this: HTMLTjFooterElement, ev: TjFooterCustomEvent<HTMLTjFooterElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTjFooterElement: {
         prototype: HTMLTjFooterElement;
@@ -421,6 +456,7 @@ declare global {
         "contextual-help": HTMLContextualHelpElement;
         "notification-toast": HTMLNotificationToastElement;
         "notifications-provider": HTMLNotificationsProviderElement;
+        "settings-button": HTMLSettingsButtonElement;
         "tj-edit-task-form": HTMLTjEditTaskFormElement;
         "tj-footer": HTMLTjFooterElement;
         "tj-heading": HTMLTjHeadingElement;
@@ -457,6 +493,21 @@ declare namespace LocalJSX {
      */
     interface NotificationsProvider {
     }
+    interface SettingsButton {
+        /**
+          * Emitted when the user presses the close settings button.
+         */
+        "onHideSettings"?: (event: SettingsButtonCustomEvent<void>) => void;
+        /**
+          * Emitted when the user presses the settings button.
+         */
+        "onShowSettings"?: (event: SettingsButtonCustomEvent<void>) => void;
+        /**
+          * The size of the icon.
+          * @default 24
+         */
+        "size"?: number;
+    }
     interface TjEditTaskForm {
         /**
           * Emitted when the form is cancelled.
@@ -477,17 +528,13 @@ declare namespace LocalJSX {
      */
     interface TjFooter {
         /**
+          * Whether the panel is using jira-cloud theme or not.
+         */
+        "isJiraCloud"?: boolean;
+        /**
           * Whether the user is logged in. Certain information is only available when logged in.
          */
         "isLoggedIn"?: boolean;
-        /**
-          * Emitted when the user presses the close settings button.
-         */
-        "onHideSettings"?: (event: TjFooterCustomEvent<void>) => void;
-        /**
-          * Emitted when the user presses the settings button.
-         */
-        "onShowSettings"?: (event: TjFooterCustomEvent<void>) => void;
         /**
           * The version of the script used to inject the panel.
          */
@@ -501,6 +548,10 @@ declare namespace LocalJSX {
           * Whether the panel is expanded or not. This is used to toggle the icon in the button.
          */
         "isExpanded"?: boolean;
+        /**
+          * Whether the panel is using jira-cloud theme or not.
+         */
+        "isJiraCloud"?: boolean;
         /**
           * Emitted when the user presses the toggle button. This is used to expand or collapse the panel.
          */
@@ -523,6 +574,10 @@ declare namespace LocalJSX {
           * The version of the script used to inject the panel.
          */
         "scriptVersion"?: string | undefined;
+        /**
+          * @default 'jira-server'
+         */
+        "theme"?: 'jira-cloud' | 'jira-server';
     }
     /**
      * A form to log into TJ.
@@ -574,6 +629,9 @@ declare namespace LocalJSX {
         "isLoggedIn"?: boolean;
     }
     interface TjTaskForm {
+        /**
+          * @default 'Create'
+         */
         "buttonLabel"?: string;
         "description"?: string | undefined;
         "name": string;
@@ -590,9 +648,15 @@ declare namespace LocalJSX {
          */
         "onNotification"?: (event: TjTaskFormCustomEvent<Notification>) => void;
         "parentId"?: string | undefined;
+        /**
+          * @default false
+         */
         "showDescription"?: boolean;
         "startDate": string;
         "state"?: 'active' | 'closed' | undefined;
+        /**
+          * @default User.defaultWorkKind
+         */
         "workKind"?: string;
     }
     /**
@@ -639,6 +703,7 @@ declare namespace LocalJSX {
     interface TjUpdateBanner {
         /**
           * The version of the script used to inject the panel.
+          * @default null
          */
         "scriptVersion"?: string | undefined;
     }
@@ -648,6 +713,7 @@ declare namespace LocalJSX {
         "contextual-help": ContextualHelp;
         "notification-toast": NotificationToast;
         "notifications-provider": NotificationsProvider;
+        "settings-button": SettingsButton;
         "tj-edit-task-form": TjEditTaskForm;
         "tj-footer": TjFooter;
         "tj-heading": TjHeading;
@@ -676,6 +742,7 @@ declare module "@stencil/core" {
              * The `notifications-provider` component is a provider for notifications. It listens for `notification` events and renders `notification-toast` components for each notification.
              */
             "notifications-provider": LocalJSX.NotificationsProvider & JSXBase.HTMLAttributes<HTMLNotificationsProviderElement>;
+            "settings-button": LocalJSX.SettingsButton & JSXBase.HTMLAttributes<HTMLSettingsButtonElement>;
             "tj-edit-task-form": LocalJSX.TjEditTaskForm & JSXBase.HTMLAttributes<HTMLTjEditTaskFormElement>;
             /**
              * The footer of the panel.

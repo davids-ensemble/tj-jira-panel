@@ -9,7 +9,7 @@
 button[popovertarget] {
   background: none;
   border: none;
-  color: #222;
+  color: var(--tji-text-color-secondary);
   padding: 0;
   display: flex;
   align-items: center;
@@ -19,7 +19,8 @@ button[popovertarget] {
 
   &:hover,
   &[aria-expanded='true'] {
-    background: #e6e6e6;
+    --default-active-color: light-dark(#e6e6e6, #262626);
+    background: var(--ds-background-neutral-subtle-hovered, var(--default-active-color));
   }
 }
 
@@ -34,21 +35,24 @@ div[popover] {
   padding: 24px;
   width: 250px;
   border-color: #b1b1b1;
-  border-width: 1px;
-  box-shadow: 0 1px 4px #00000026;
+  border-width: var(--tji-contextual-help-border-width, 1px);
+  box-shadow: var(--ds-shadow-overlay, 0 1px 4px #00000026);
+  background-color: var(--ds-surface-overlay, #fff);
 }
 
 ::slotted([slot='heading']) {
   margin: 0;
-  font-size: 16px;
+  font-size: 16px !important;
+  text-transform: inherit !important;
   font-weight: bold;
+  color: var(--tji-text-color-main) !important;
 }
 
 ::slotted([slot='content']) {
   margin: 0;
   margin-top: 8px;
   font-size: 14px;
-  color: #222;
+  color: var(--tji-text-color-main);
 }
 
 :popover-open {

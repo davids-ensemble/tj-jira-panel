@@ -23,7 +23,7 @@ p {
   text-align: left;
   padding: 0;
   margin: 0;
-  color: var(--accent-color);
+  color: var(--tji-accent-color);
 }
 
 .server {

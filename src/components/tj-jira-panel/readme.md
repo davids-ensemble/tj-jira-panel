@@ -7,12 +7,13 @@
 
 ## Properties
 
-| Property                   | Attribute          | Description                                         | Type     | Default     |
-| -------------------------- | ------------------ | --------------------------------------------------- | -------- | ----------- |
-| `jiraDescription`          | `jira-description` | The Jira description of the task.                   | `string` | `undefined` |
-| `jiraID` _(required)_      | `jira-id`          | The Jira ID of the task to display.                 | `string` | `undefined` |
-| `jiraSummary` _(required)_ | `jira-summary`     | The Jira summary of the task to display.            | `string` | `undefined` |
-| `scriptVersion`            | `script-version`   | The version of the script used to inject the panel. | `string` | `undefined` |
+| Property                   | Attribute          | Description                                         | Type                            | Default         |
+| -------------------------- | ------------------ | --------------------------------------------------- | ------------------------------- | --------------- |
+| `jiraDescription`          | `jira-description` | The Jira description of the task.                   | `string`                        | `undefined`     |
+| `jiraID` _(required)_      | `jira-id`          | The Jira ID of the task to display.                 | `string`                        | `undefined`     |
+| `jiraSummary` _(required)_ | `jira-summary`     | The Jira summary of the task to display.            | `string`                        | `undefined`     |
+| `scriptVersion`            | `script-version`   | The version of the script used to inject the panel. | `string`                        | `undefined`     |
+| `theme`                    | `theme`            |                                                     | `"jira-cloud" \| "jira-server"` | `'jira-server'` |
 
 
 ## Dependencies
@@ -36,6 +37,7 @@ graph TD;
   tj-jira-panel --> tj-settings
   tj-jira-panel --> tj-footer
   notifications-provider --> notification-toast
+  tj-heading --> settings-button
   tj-task-page --> tj-edit-task-form
   tj-task-page --> tj-task-timesheet
   tj-task-page --> tj-new-task-form
@@ -44,6 +46,7 @@ graph TD;
   tj-new-task-form --> tj-task-form
   tj-settings --> tj-parent-tasks-page
   tj-settings --> tj-work-kind-page
+  tj-footer --> settings-button
   tj-footer --> tj-update-banner
   tj-update-banner --> contextual-help
   style tj-jira-panel fill:#f9f,stroke:#333,stroke-width:4px

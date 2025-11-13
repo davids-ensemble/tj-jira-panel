@@ -1,15 +1,17 @@
 footer {
   margin-top: 10px;
-  color: #6b778c;
+  color: var(--tji-text-color-secondary);
   font-size: 8px;
   display: flex;
   justify-content: space-between;
 }
 
-footer div:last-child {
+footer > div:last-child {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   text-align: right;
+  line-height: 10px;
 }
 
 footer p {
@@ -17,19 +19,11 @@ footer p {
 }
 
 footer a {
-  margin: 2px;
-  color: #6b778c;
+  margin: 0 2px 2px 2px;
+  color: var(--tji-text-color-secondary);
   text-decoration: none;
 
   &:hover {
     text-decoration: underline;
-  }
-}
-
-[role='button'] {
-  cursor: pointer;
-
-  &[aria-label='Close settings'] {
-    color: red;
   }
 }

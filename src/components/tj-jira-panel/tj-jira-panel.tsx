@@ -1,12 +1,12 @@
 import { Component, Listen, Prop, State, h } from '@stencil/core';
 
 import { Loader, Switch } from '@fc';
-import { User, migrateV1SelectedTasks } from '@utils/tj';
+import { LOCAL_STORAGE_KEYS, User, migrateV1SelectedTasks } from '@utils/tj';
 
 @Component({
   tag: 'tj-jira-panel',
   styleUrl: 'tj-jira-panel.css',
-  shadow: true,
+  scoped: true,
 })
 export class TJJiraPanel {
   /**
@@ -26,9 +26,14 @@ export class TJJiraPanel {
    */
   @Prop() jiraDescription: string | undefined;
 
+  @Prop() theme: 'jira-cloud' | 'jira-server' = 'jira-server';
+
   @State() isLoggedIn = false;
   @State() isLoading = true;
-  @State() isExpanded = true;
+  @State() isExpanded =
+    localStorage.getItem(LOCAL_STORAGE_KEYS.IS_EXPANDED) !== null
+      ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.IS_EXPANDED)!)
+      : true;
   @State() path = 'login';
   @State() lastPath = 'login';
 
@@ -57,6 +62,7 @@ export class TJJiraPanel {
   @Listen('togglePanel')
   onTogglePanel() {
     this.isExpanded = !this.isExpanded;
+    localStorage.setItem(LOCAL_STORAGE_KEYS.IS_EXPANDED, String(this.isExpanded));
   }
 
   @Listen('showSettings')
@@ -72,7 +78,7 @@ export class TJJiraPanel {
   render() {
     return (
       <notifications-provider>
-        <tj-heading isExpanded={this.isExpanded}></tj-heading>
+        <tj-heading isExpanded={this.isExpanded} isJiraCloud={this.theme === 'jira-cloud'}></tj-heading>
         <Loader isLoading={this.isLoading}>
           <main id="tj-panel" aria-hidden={this.isExpanded ? 'false' : 'true'}>
             <Switch
@@ -98,7 +104,11 @@ export class TJJiraPanel {
                 },
               ]}
             />
-            <tj-footer isLoggedIn={this.isLoggedIn} scriptVersion={this.scriptVersion}></tj-footer>
+            <tj-footer
+              isLoggedIn={this.isLoggedIn}
+              isJiraCloud={this.theme === 'jira-cloud'}
+              scriptVersion={this.scriptVersion}
+            ></tj-footer>
           </main>
         </Loader>
       </notifications-provider>
