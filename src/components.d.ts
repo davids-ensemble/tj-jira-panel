@@ -37,6 +37,7 @@ export namespace Components {
     interface SettingsButton {
         /**
           * The size of the icon.
+          * @default 24
          */
         "size": number;
     }
@@ -94,6 +95,9 @@ export namespace Components {
           * The version of the script used to inject the panel.
          */
         "scriptVersion": string | undefined;
+        /**
+          * @default 'jira-server'
+         */
         "theme": 'jira-cloud' | 'jira-server';
     }
     /**
@@ -130,13 +134,22 @@ export namespace Components {
         "isLoggedIn": boolean;
     }
     interface TjTaskForm {
+        /**
+          * @default 'Create'
+         */
         "buttonLabel": string;
         "description": string | undefined;
         "name": string;
         "parentId": string | undefined;
+        /**
+          * @default false
+         */
         "showDescription": boolean;
         "startDate": string;
         "state": 'active' | 'closed' | undefined;
+        /**
+          * @default User.defaultWorkKind
+         */
         "workKind": string;
     }
     /**
@@ -171,6 +184,7 @@ export namespace Components {
     interface TjUpdateBanner {
         /**
           * The version of the script used to inject the panel.
+          * @default null
          */
         "scriptVersion": string | undefined;
     }
@@ -490,6 +504,7 @@ declare namespace LocalJSX {
         "onShowSettings"?: (event: SettingsButtonCustomEvent<void>) => void;
         /**
           * The size of the icon.
+          * @default 24
          */
         "size"?: number;
     }
@@ -559,6 +574,9 @@ declare namespace LocalJSX {
           * The version of the script used to inject the panel.
          */
         "scriptVersion"?: string | undefined;
+        /**
+          * @default 'jira-server'
+         */
         "theme"?: 'jira-cloud' | 'jira-server';
     }
     /**
@@ -611,6 +629,9 @@ declare namespace LocalJSX {
         "isLoggedIn"?: boolean;
     }
     interface TjTaskForm {
+        /**
+          * @default 'Create'
+         */
         "buttonLabel"?: string;
         "description"?: string | undefined;
         "name": string;
@@ -627,9 +648,15 @@ declare namespace LocalJSX {
          */
         "onNotification"?: (event: TjTaskFormCustomEvent<Notification>) => void;
         "parentId"?: string | undefined;
+        /**
+          * @default false
+         */
         "showDescription"?: boolean;
         "startDate": string;
         "state"?: 'active' | 'closed' | undefined;
+        /**
+          * @default User.defaultWorkKind
+         */
         "workKind"?: string;
     }
     /**
@@ -676,6 +703,7 @@ declare namespace LocalJSX {
     interface TjUpdateBanner {
         /**
           * The version of the script used to inject the panel.
+          * @default null
          */
         "scriptVersion"?: string | undefined;
     }
