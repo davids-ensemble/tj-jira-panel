@@ -49,6 +49,7 @@ describe('TJUnsubmittedBanner', () => {
     component.isLoggedIn = true;
     await component.componentWillLoad();
     expect((component as any).isSubmitted).toBeNull();
+    expect(component.timesheetSubmittedChange.emit).not.toHaveBeenCalled();
   });
 
   it('fetches when isLoggedIn transitions from false to true', async () => {
