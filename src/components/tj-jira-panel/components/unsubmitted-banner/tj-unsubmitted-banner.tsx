@@ -68,11 +68,16 @@ export class TJUnsubmittedBanner {
     }
 
     return (
-      <div class="banner">
-        <span class="message">⚠ Your timesheet for last week is not submitted.</span>
-        <button class="openButton" onClick={this.openTJ}>
-          Open TJ
-        </button>
+      <div class="unsubmittedBanner gradientBorder">
+        <div class="unsubmittedContainer">
+          <h4 class="unsubmittedHeader">Unsubmitted Timesheet</h4>
+          <div class="unsubmittedContent">
+            <span class="message">Your timesheet for last week is not submitted.</span>
+            <button class="openButton" onClick={this.openTJ}>
+              Open TJ
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

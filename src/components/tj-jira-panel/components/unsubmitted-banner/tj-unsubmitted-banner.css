@@ -1,31 +1,90 @@
-.banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  background: #fef3c7;
-  border-left: 3px solid #f59e0b;
-  border-radius: 4px;
-  padding: 6px 8px;
-  font-size: 12px;
-  color: #92400e;
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }
 
-.message {
-  flex: 1;
+@keyframes rotateBorder {
+  to {
+    --angle: 360deg;
+  }
+}
+
+.gradientBorder {
+  --angle: 0deg;
+  background: conic-gradient(
+    from var(--angle),
+    #f59e0b,
+    #d97706,
+    #f79533,
+    #fbbf24,
+    #f59e0b
+  );
+  animation: 5s rotateBorder linear infinite;
+  padding: 2px;
+}
+
+.unsubmittedBanner {
+  width: 200px;
+  overflow: hidden;
+  font-size: 14px;
+  border-radius: 8px;
+
+  &:hover {
+    .unsubmittedContent {
+      max-height: 100px;
+      transition: 0.5s ease-in;
+      padding-block: 8px;
+    }
+  }
+}
+
+.unsubmittedContainer {
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.unsubmittedHeader {
+  text-align: center;
+  border-radius: 6px 6px 0 0;
+  padding: 4px 0;
+  background: var(--tji-update-header-background);
+  font-weight: normal;
+  margin: 0;
+  font-size: 14px;
+  cursor: default;
+  color: var(--tji-text-color-main);
+}
+
+.unsubmittedContent {
+  max-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.5s ease-out;
+  gap: 8px;
+  padding-inline: 8px;
+  background: var(--tji-background-color);
+  border-radius: 0 0 6px 6px;
 }
 
 .openButton {
-  background: #f59e0b;
-  color: #ffffff;
+  background: var(--tji-button-background-color);
+  color: var(--tji-button-text-color);
   border: none;
   border-radius: 4px;
-  padding: 3px 8px;
-  font-size: 12px;
+  padding: 4px 8px;
   cursor: pointer;
-  white-space: nowrap;
+  width: 100%;
+  font-size: 14px;
 
   &:hover {
-    background: #d97706;
+    background: var(--tji-button-background-color-hovered);
   }
+}
+
+.message {
+  font-size: 12px;
+  text-align: center;
+  color: var(--tji-text-color-main);
 }
