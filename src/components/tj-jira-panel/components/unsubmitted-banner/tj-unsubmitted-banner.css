@@ -1,0 +1,31 @@
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #fef3c7;
+  border-left: 3px solid #f59e0b;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 12px;
+  color: #92400e;
+}
+
+.message {
+  flex: 1;
+}
+
+.openButton {
+  background: #f59e0b;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    background: #d97706;
+  }
+}
