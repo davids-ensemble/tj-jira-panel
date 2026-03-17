@@ -2,8 +2,9 @@ import { HttpResponse } from 'msw';
 
 import type { ResponseFunctionParameters } from '.';
 
-export const createTimesheetResponse = () => `
+export const createTimesheetResponse = (submitted = false) => `
 <result forAction="getTimesheet">
+  <submitted>${submitted}</submitted>
   <tasksAndHours>
     <task id="1">
       <name>[JIRA-123] Task 1</name>
