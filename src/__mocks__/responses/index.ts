@@ -21,9 +21,9 @@ const responses = {
 
 export const playwrightResponses = {
   login: createLoginResponse,
-  getTimesheet: createTimesheetResponse,
+  getTimesheet: (_params: ResponseFunctionParameters) => createTimesheetResponse(),
   addSubTask: createAddSubtaskResponse,
-  recordHoursForDay: createRecordHoursForDayResponse,
+  recordHoursForDay: (_params: ResponseFunctionParameters) => createRecordHoursForDayResponse(),
   getServerConfiguration: createServerConfigResponse,
 };
 
