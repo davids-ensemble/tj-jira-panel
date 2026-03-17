@@ -39,13 +39,14 @@ export class TJUnsubmittedBanner {
   }
 
   @Watch('isLoggedIn')
-  async onIsLoggedInChange(newValue: boolean) {
+  protected async onIsLoggedInChange(newValue: boolean) {
     if (newValue) {
       await this.checkSubmission();
     }
   }
 
   private async checkSubmission() {
+    this.isSubmitted = null;
     try {
       const prevWeekDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
       const dom = await User.getTimesheet(prevWeekDate);
