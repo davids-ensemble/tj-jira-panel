@@ -56,7 +56,7 @@ export class TJFooter {
           isLoggedIn={this.isLoggedIn}
           onTimesheetSubmittedChange={this.handleTimesheetSubmittedChange}
         ></tj-unsubmitted-banner>
-        <tj-update-banner scriptVersion={this.scriptVersion} hidden={this.timesheetUnsubmitted}></tj-update-banner>
+        {!this.timesheetUnsubmitted && <tj-update-banner scriptVersion={this.scriptVersion}></tj-update-banner>}
         <div>
           <p>
             {this.isLoggedIn ? `Logged in as ${User.username} (${User.userId}) @ ` : null}

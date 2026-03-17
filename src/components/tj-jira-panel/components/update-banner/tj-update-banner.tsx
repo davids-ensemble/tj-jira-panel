@@ -46,11 +46,6 @@ export class TJUpdateBanner {
    */
   @Prop() scriptVersion: string | undefined = null;
 
-  /**
-   * Whether to hide the update banner.
-   */
-  @Prop() hidden: boolean = false;
-
   @State() latestVersion: string;
   isButtonDisabled = !this.scriptVersion || new Date(this.scriptVersion) < new Date('2024-05-18');
 
@@ -68,7 +63,7 @@ export class TJUpdateBanner {
   };
 
   render() {
-    if (this.hidden || !this.latestVersion) {
+    if (!this.latestVersion) {
       return null;
     }
 

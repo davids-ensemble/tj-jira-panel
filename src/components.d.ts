@@ -194,11 +194,6 @@ export namespace Components {
      */
     interface TjUpdateBanner {
         /**
-          * Whether to hide the update banner.
-          * @default false
-         */
-        "hidden": boolean;
-        /**
           * The version of the script used to inject the panel.
           * @default null
          */
@@ -759,11 +754,6 @@ declare namespace LocalJSX {
      * A banner that displays when a new version of the component is available.
      */
     interface TjUpdateBanner {
-        /**
-          * Whether to hide the update banner.
-          * @default false
-         */
-        "hidden"?: boolean;
         /**
           * The version of the script used to inject the panel.
           * @default null
