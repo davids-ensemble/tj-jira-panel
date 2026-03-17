@@ -42,4 +42,14 @@ describe('Server', () => {
       body: expect.any(String),
     });
   });
+
+  it('should return the origin of the server url as baseUrl', () => {
+    Server.url = 'https://tj.ensemblesoftware.ro/data';
+    expect(Server.baseUrl).toEqual('https://tj.ensemblesoftware.ro');
+  });
+
+  it('should handle trailing slash in server url for baseUrl', () => {
+    Server.url = 'https://tj.ensemblesoftware.ro/data/';
+    expect(Server.baseUrl).toEqual('https://tj.ensemblesoftware.ro');
+  });
 });

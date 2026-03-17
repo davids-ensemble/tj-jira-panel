@@ -19,6 +19,10 @@ export class Server {
     localStorage.setItem(LOCAL_STORAGE_KEYS.URL, url);
   }
 
+  public static get baseUrl(): string {
+    return new URL(Server.url).origin;
+  }
+
   public static get serverConfig(): ServerConfig | null {
     return Server._serverConfig;
   }
