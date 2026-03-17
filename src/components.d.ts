@@ -179,9 +179,25 @@ export namespace Components {
         "task": Task;
     }
     /**
+     * A banner that warns the user when their previous week's timesheet has not been submitted.
+     * Only renders when the user is logged in and the timesheet is confirmed unsubmitted.
+     * Emits `timesheetSubmittedChange` so parent components can react to the submission state.
+     */
+    interface TjUnsubmittedBanner {
+        /**
+          * Whether the user is currently logged in. The timesheet check is skipped when false.
+         */
+        "isLoggedIn": boolean;
+    }
+    /**
      * A banner that displays when a new version of the component is available.
      */
     interface TjUpdateBanner {
+        /**
+          * Whether to hide the update banner.
+          * @default false
+         */
+        "hidden": boolean;
         /**
           * The version of the script used to inject the panel.
           * @default null
@@ -222,6 +238,10 @@ export interface TjTaskPageCustomEvent<T> extends CustomEvent<T> {
 export interface TjTaskTimesheetCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTjTaskTimesheetElement;
+}
+export interface TjUnsubmittedBannerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTjUnsubmittedBannerElement;
 }
 declare global {
     /**
@@ -437,6 +457,28 @@ declare global {
         prototype: HTMLTjTaskTimesheetElement;
         new (): HTMLTjTaskTimesheetElement;
     };
+    interface HTMLTjUnsubmittedBannerElementEventMap {
+        "timesheetSubmittedChange": boolean;
+    }
+    /**
+     * A banner that warns the user when their previous week's timesheet has not been submitted.
+     * Only renders when the user is logged in and the timesheet is confirmed unsubmitted.
+     * Emits `timesheetSubmittedChange` so parent components can react to the submission state.
+     */
+    interface HTMLTjUnsubmittedBannerElement extends Components.TjUnsubmittedBanner, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTjUnsubmittedBannerElementEventMap>(type: K, listener: (this: HTMLTjUnsubmittedBannerElement, ev: TjUnsubmittedBannerCustomEvent<HTMLTjUnsubmittedBannerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTjUnsubmittedBannerElementEventMap>(type: K, listener: (this: HTMLTjUnsubmittedBannerElement, ev: TjUnsubmittedBannerCustomEvent<HTMLTjUnsubmittedBannerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLTjUnsubmittedBannerElement: {
+        prototype: HTMLTjUnsubmittedBannerElement;
+        new (): HTMLTjUnsubmittedBannerElement;
+    };
     /**
      * A banner that displays when a new version of the component is available.
      */
@@ -468,6 +510,7 @@ declare global {
         "tj-task-form": HTMLTjTaskFormElement;
         "tj-task-page": HTMLTjTaskPageElement;
         "tj-task-timesheet": HTMLTjTaskTimesheetElement;
+        "tj-unsubmitted-banner": HTMLTjUnsubmittedBannerElement;
         "tj-update-banner": HTMLTjUpdateBannerElement;
         "tj-work-kind-page": HTMLTjWorkKindPageElement;
     }
@@ -698,9 +741,29 @@ declare namespace LocalJSX {
         "task": Task;
     }
     /**
+     * A banner that warns the user when their previous week's timesheet has not been submitted.
+     * Only renders when the user is logged in and the timesheet is confirmed unsubmitted.
+     * Emits `timesheetSubmittedChange` so parent components can react to the submission state.
+     */
+    interface TjUnsubmittedBanner {
+        /**
+          * Whether the user is currently logged in. The timesheet check is skipped when false.
+         */
+        "isLoggedIn"?: boolean;
+        /**
+          * Emitted after the timesheet API resolves with the submission status. Consumers can use this to suppress other banners.
+         */
+        "onTimesheetSubmittedChange"?: (event: TjUnsubmittedBannerCustomEvent<boolean>) => void;
+    }
+    /**
      * A banner that displays when a new version of the component is available.
      */
     interface TjUpdateBanner {
+        /**
+          * Whether to hide the update banner.
+          * @default false
+         */
+        "hidden"?: boolean;
         /**
           * The version of the script used to inject the panel.
           * @default null
@@ -725,6 +788,7 @@ declare namespace LocalJSX {
         "tj-task-form": TjTaskForm;
         "tj-task-page": TjTaskPage;
         "tj-task-timesheet": TjTaskTimesheet;
+        "tj-unsubmitted-banner": TjUnsubmittedBanner;
         "tj-update-banner": TjUpdateBanner;
         "tj-work-kind-page": TjWorkKindPage;
     }
@@ -776,6 +840,12 @@ declare module "@stencil/core" {
              * A component that displays the timesheet for a given task allowing the user to record hours.
              */
             "tj-task-timesheet": LocalJSX.TjTaskTimesheet & JSXBase.HTMLAttributes<HTMLTjTaskTimesheetElement>;
+            /**
+             * A banner that warns the user when their previous week's timesheet has not been submitted.
+             * Only renders when the user is logged in and the timesheet is confirmed unsubmitted.
+             * Emits `timesheetSubmittedChange` so parent components can react to the submission state.
+             */
+            "tj-unsubmitted-banner": LocalJSX.TjUnsubmittedBanner & JSXBase.HTMLAttributes<HTMLTjUnsubmittedBannerElement>;
             /**
              * A banner that displays when a new version of the component is available.
              */
