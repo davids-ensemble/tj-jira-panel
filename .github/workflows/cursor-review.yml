@@ -84,7 +84,7 @@ jobs:
           Format your response as markdown suitable for a GitHub PR comment. Be specific: reference file names and line numbers where relevant.
           PROMPT_EOF
 
-          REVIEW=$(cursor agent -p "$(cat "$PROMPT_FILE")")
+          REVIEW=$(agent -p "$(cat "$PROMPT_FILE")")
 
           {
             echo "result<<REVIEW_EOF"
