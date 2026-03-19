@@ -1,0 +1,44 @@
+name: Cursor PR Review
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  cursor-review:
+    name: Review PR with Cursor
+    runs-on: ubuntu-latest
+    if: |
+      github.event.issue.pull_request != null &&
+      github.event.comment.body == '/cursor-review'
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Check commenter is a collaborator
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ROLE=$(gh api "repos/${{ github.repository }}/collaborators/${{ github.event.comment.user.login }}/permission" \
+            -q .permission 2>/dev/null || echo "none")
+          if [[ "$ROLE" != "admin" && "$ROLE" != "maintain" && "$ROLE" != "write" ]]; then
+            echo "User '${{ github.event.comment.user.login }}' is not a collaborator (role: $ROLE). Skipping."
+            exit 1
+          fi
+          echo "Authorized: ${{ github.event.comment.user.login }} (role: $ROLE)"
+
+      - name: Echo trigger info
+        run: |
+          echo "Triggered by /cursor-review comment"
+          echo "PR number: ${{ github.event.issue.number }}"
+          echo "Comment author: ${{ github.event.comment.user.login }}"
+
+      - name: Post acknowledgement comment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment "${{ github.event.issue.number }}" \
+            --repo "${{ github.repository }}" \
+            --body "👋 Cursor review triggered (no-op mode). Real review coming soon."
