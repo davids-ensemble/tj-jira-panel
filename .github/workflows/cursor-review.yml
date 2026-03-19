@@ -29,16 +29,75 @@ jobs:
           fi
           echo "Authorized: ${{ github.event.comment.user.login }} (role: $ROLE)"
 
-      - name: Echo trigger info
-        run: |
-          echo "Triggered by /cursor-review comment"
-          echo "PR number: ${{ github.event.issue.number }}"
-          echo "Comment author: ${{ github.event.comment.user.login }}"
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ github.event.issue.number }}/head
+          fetch-depth: 0
 
-      - name: Post acknowledgement comment
+      - name: Install Cursor CLI
+        run: |
+          curl https://cursor.com/install -fsS | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Fetch PR info and diff
+        id: pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          PR_NUMBER="${{ github.event.issue.number }}"
+          PR_TITLE=$(gh pr view "$PR_NUMBER" --repo "${{ github.repository }}" --json title -q .title)
+          PR_BODY=$(gh pr view "$PR_NUMBER" --repo "${{ github.repository }}" --json body -q .body)
+          gh pr diff "$PR_NUMBER" --repo "${{ github.repository }}" > /tmp/pr.diff
+
+          echo "title=$PR_TITLE" >> "$GITHUB_OUTPUT"
+          {
+            echo "body<<BODY_EOF"
+            echo "$PR_BODY"
+            echo "BODY_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run Cursor review
+        id: review
+        env:
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+          PR_TITLE: ${{ steps.pr.outputs.title }}
+          PR_BODY: ${{ steps.pr.outputs.body }}
+        run: |
+          # Build prompt in a temp file to avoid shell injection from diff content
+          PROMPT_FILE=$(mktemp)
+          cat > "$PROMPT_FILE" <<'PROMPT_EOF'
+          You are an expert code reviewer. Review the following pull request and provide constructive, actionable feedback.
+          PROMPT_EOF
+
+          printf "\nPR Title: %s\n\nPR Description:\n%s\n\nDiff:\n" "$PR_TITLE" "$PR_BODY" >> "$PROMPT_FILE"
+          cat /tmp/pr.diff >> "$PROMPT_FILE"
+          cat >> "$PROMPT_FILE" <<'PROMPT_EOF'
+
+          Provide a thorough review covering:
+          - Correctness and logic errors
+          - Edge cases and error handling
+          - Security concerns
+          - Performance implications
+          - Code style and readability
+
+          Format your response as markdown suitable for a GitHub PR comment. Be specific: reference file names and line numbers where relevant.
+          PROMPT_EOF
+
+          REVIEW=$(cursor agent -p "$(cat "$PROMPT_FILE")")
+
+          {
+            echo "result<<REVIEW_EOF"
+            echo "$REVIEW"
+            echo "REVIEW_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post review comment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REVIEW_RESULT: ${{ steps.review.outputs.result }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
           gh pr comment "${{ github.event.issue.number }}" \
             --repo "${{ github.repository }}" \
-            --body "👋 Cursor review triggered (no-op mode). Real review coming soon."
+            --body "$(printf '## Cursor AI Review\n\n%s\n\n---\n*Triggered by `/cursor-review` · [View run](%s)*' "$REVIEW_RESULT" "$RUN_URL")"
