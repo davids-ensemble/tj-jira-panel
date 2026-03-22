@@ -87,10 +87,7 @@ const insertTjSection = async () => {
 const insertWebElementScript = () => {
   const script = document.createElement('script');
   const version = localStorage.getItem('tj_version');
-  let url = 'https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel/dist/tj-jira-panel/tj-jira-panel.esm.js';
-  if (version) {
-    url += `?v=${version}`;
-  }
+  const url = `https://cdn.jsdelivr.net/npm/@ens-davids/tj-jira-panel@${version ?? 'latest'}/dist/tj-jira-panel/tj-jira-panel.esm.js`;
   script.src = url;
   script.type = 'module';
   script.onload = insertTjSection;
