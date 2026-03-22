@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.1](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.9.0...v2.9.1) (2026-03-22)
+
+
+### Bug Fixes
+
+* **scripts:** 🐛 fixed unreliable version handling ([#43](https://github.com/davids-ensemble/tj-jira-panel/issues/43)) ([8c27292](https://github.com/davids-ensemble/tj-jira-panel/commit/8c27292272723d8d7cffb3c8407d88c765eda9e3))
+
 ## [2.9.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.8.0...v2.9.0) (2025-11-13)
 
 
