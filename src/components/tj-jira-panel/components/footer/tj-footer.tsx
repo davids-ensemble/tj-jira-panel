@@ -28,12 +28,21 @@ export class TJFooter {
 
   @State() serverVersion: string;
   @State() serverCountry: string;
+  /**
+   * Tracks whether the previous week's timesheet is unsubmitted.
+   * When true, the update banner is suppressed so only one banner shows at a time.
+   */
+  @State() timesheetUnsubmitted: boolean = false;
 
   async componentWillLoad() {
     const config = await Server.fetchServerConfig();
     this.serverVersion = config.version;
     this.serverCountry = config.country;
   }
+
+  handleTimesheetSubmittedChange = (e: CustomEvent<boolean>) => {
+    this.timesheetUnsubmitted = !e.detail;
+  };
 
   render() {
     return (
@@ -43,7 +52,11 @@ export class TJFooter {
             <settings-button></settings-button>
           </div>
         )}
-        <tj-update-banner scriptVersion={this.scriptVersion}></tj-update-banner>
+        <tj-unsubmitted-banner
+          isLoggedIn={this.isLoggedIn}
+          onTimesheetSubmittedChange={this.handleTimesheetSubmittedChange}
+        ></tj-unsubmitted-banner>
+        {!this.timesheetUnsubmitted && <tj-update-banner scriptVersion={this.scriptVersion}></tj-update-banner>}
         <div>
           <p>
             {this.isLoggedIn ? `Logged in as ${User.username} (${User.userId}) @ ` : null}
