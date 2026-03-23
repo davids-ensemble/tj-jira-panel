@@ -35,6 +35,7 @@ Displays the version of the server and the extension and provides a button to op
 graph TD;
   tj-footer --> settings-button
   tj-footer --> tj-update-banner
+  tj-update-banner --> tj-banner
   tj-update-banner --> contextual-help
   tj-jira-panel --> tj-footer
   style tj-footer fill:#f9f,stroke:#333,stroke-width:4px

@@ -41,6 +41,8 @@ export namespace Components {
          */
         "size": number;
     }
+    interface TjBanner {
+    }
     interface TjEditTaskForm {
         /**
           * The task for which to display the edit form.
@@ -281,6 +283,12 @@ declare global {
         prototype: HTMLSettingsButtonElement;
         new (): HTMLSettingsButtonElement;
     };
+    interface HTMLTjBannerElement extends Components.TjBanner, HTMLStencilElement {
+    }
+    var HTMLTjBannerElement: {
+        prototype: HTMLTjBannerElement;
+        new (): HTMLTjBannerElement;
+    };
     interface HTMLTjEditTaskFormElementEventMap {
         "notification": Notification;
         "cancelEditTask": void;
@@ -494,6 +502,7 @@ declare global {
         "notification-toast": HTMLNotificationToastElement;
         "notifications-provider": HTMLNotificationsProviderElement;
         "settings-button": HTMLSettingsButtonElement;
+        "tj-banner": HTMLTjBannerElement;
         "tj-edit-task-form": HTMLTjEditTaskFormElement;
         "tj-footer": HTMLTjFooterElement;
         "tj-heading": HTMLTjHeadingElement;
@@ -511,6 +520,8 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}` | `prop:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K | `prop:${K}`]?: never } | { [P in `prop:${K}`]: PropT } & { [P in K | `attr:${K}`]?: never };
+
     /**
      * Component providing a button that triggers a popover with contextual help content.
      */
@@ -545,6 +556,8 @@ declare namespace LocalJSX {
           * @default 24
          */
         "size"?: number;
+    }
+    interface TjBanner {
     }
     interface TjEditTaskForm {
         /**
@@ -762,24 +775,84 @@ declare namespace LocalJSX {
     }
     interface TjWorkKindPage {
     }
+
+    interface ContextualHelpAttributes {
+        "variant": Variant;
+    }
+    interface NotificationToastAttributes {
+        "identifier": string;
+        "message": string;
+        "type": Notification['type'];
+        "timeout": number;
+    }
+    interface SettingsButtonAttributes {
+        "size": number;
+    }
+    interface TjFooterAttributes {
+        "isLoggedIn": boolean;
+        "scriptVersion": string | undefined;
+        "isJiraCloud": boolean;
+    }
+    interface TjHeadingAttributes {
+        "isExpanded": boolean;
+        "isJiraCloud": boolean;
+    }
+    interface TjJiraPanelAttributes {
+        "jiraID": string;
+        "jiraSummary": string;
+        "scriptVersion": string | undefined;
+        "jiraDescription": string | undefined;
+        "theme": 'jira-cloud' | 'jira-server';
+    }
+    interface TjNewTaskFormAttributes {
+        "jiraID": string;
+        "jiraSummary": string;
+        "jiraDescription": string | undefined;
+    }
+    interface TjSettingsAttributes {
+        "isLoggedIn": boolean;
+    }
+    interface TjTaskFormAttributes {
+        "name": string;
+        "parentId": string | undefined;
+        "startDate": string;
+        "description": string | undefined;
+        "workKind": string;
+        "state": 'active' | 'closed' | undefined;
+        "showDescription": boolean;
+        "buttonLabel": string;
+    }
+    interface TjTaskPageAttributes {
+        "jiraID": string;
+        "jiraSummary": string;
+        "jiraDescription": string | undefined;
+    }
+    interface TjUnsubmittedBannerAttributes {
+        "isLoggedIn": boolean;
+    }
+    interface TjUpdateBannerAttributes {
+        "scriptVersion": string | undefined;
+    }
+
     interface IntrinsicElements {
-        "contextual-help": ContextualHelp;
-        "notification-toast": NotificationToast;
+        "contextual-help": Omit<ContextualHelp, keyof ContextualHelpAttributes> & { [K in keyof ContextualHelp & keyof ContextualHelpAttributes]?: ContextualHelp[K] } & { [K in keyof ContextualHelp & keyof ContextualHelpAttributes as `attr:${K}`]?: ContextualHelpAttributes[K] } & { [K in keyof ContextualHelp & keyof ContextualHelpAttributes as `prop:${K}`]?: ContextualHelp[K] } & OneOf<"variant", ContextualHelp["variant"], ContextualHelpAttributes["variant"]>;
+        "notification-toast": Omit<NotificationToast, keyof NotificationToastAttributes> & { [K in keyof NotificationToast & keyof NotificationToastAttributes]?: NotificationToast[K] } & { [K in keyof NotificationToast & keyof NotificationToastAttributes as `attr:${K}`]?: NotificationToastAttributes[K] } & { [K in keyof NotificationToast & keyof NotificationToastAttributes as `prop:${K}`]?: NotificationToast[K] } & OneOf<"identifier", NotificationToast["identifier"], NotificationToastAttributes["identifier"]> & OneOf<"message", NotificationToast["message"], NotificationToastAttributes["message"]> & OneOf<"type", NotificationToast["type"], NotificationToastAttributes["type"]> & OneOf<"timeout", NotificationToast["timeout"], NotificationToastAttributes["timeout"]>;
         "notifications-provider": NotificationsProvider;
-        "settings-button": SettingsButton;
+        "settings-button": Omit<SettingsButton, keyof SettingsButtonAttributes> & { [K in keyof SettingsButton & keyof SettingsButtonAttributes]?: SettingsButton[K] } & { [K in keyof SettingsButton & keyof SettingsButtonAttributes as `attr:${K}`]?: SettingsButtonAttributes[K] } & { [K in keyof SettingsButton & keyof SettingsButtonAttributes as `prop:${K}`]?: SettingsButton[K] };
+        "tj-banner": TjBanner;
         "tj-edit-task-form": TjEditTaskForm;
-        "tj-footer": TjFooter;
-        "tj-heading": TjHeading;
-        "tj-jira-panel": TjJiraPanel;
+        "tj-footer": Omit<TjFooter, keyof TjFooterAttributes> & { [K in keyof TjFooter & keyof TjFooterAttributes]?: TjFooter[K] } & { [K in keyof TjFooter & keyof TjFooterAttributes as `attr:${K}`]?: TjFooterAttributes[K] } & { [K in keyof TjFooter & keyof TjFooterAttributes as `prop:${K}`]?: TjFooter[K] };
+        "tj-heading": Omit<TjHeading, keyof TjHeadingAttributes> & { [K in keyof TjHeading & keyof TjHeadingAttributes]?: TjHeading[K] } & { [K in keyof TjHeading & keyof TjHeadingAttributes as `attr:${K}`]?: TjHeadingAttributes[K] } & { [K in keyof TjHeading & keyof TjHeadingAttributes as `prop:${K}`]?: TjHeading[K] };
+        "tj-jira-panel": Omit<TjJiraPanel, keyof TjJiraPanelAttributes> & { [K in keyof TjJiraPanel & keyof TjJiraPanelAttributes]?: TjJiraPanel[K] } & { [K in keyof TjJiraPanel & keyof TjJiraPanelAttributes as `attr:${K}`]?: TjJiraPanelAttributes[K] } & { [K in keyof TjJiraPanel & keyof TjJiraPanelAttributes as `prop:${K}`]?: TjJiraPanel[K] } & OneOf<"jiraID", TjJiraPanel["jiraID"], TjJiraPanelAttributes["jiraID"]> & OneOf<"jiraSummary", TjJiraPanel["jiraSummary"], TjJiraPanelAttributes["jiraSummary"]>;
         "tj-login-form": TjLoginForm;
-        "tj-new-task-form": TjNewTaskForm;
+        "tj-new-task-form": Omit<TjNewTaskForm, keyof TjNewTaskFormAttributes> & { [K in keyof TjNewTaskForm & keyof TjNewTaskFormAttributes]?: TjNewTaskForm[K] } & { [K in keyof TjNewTaskForm & keyof TjNewTaskFormAttributes as `attr:${K}`]?: TjNewTaskFormAttributes[K] } & { [K in keyof TjNewTaskForm & keyof TjNewTaskFormAttributes as `prop:${K}`]?: TjNewTaskForm[K] } & OneOf<"jiraID", TjNewTaskForm["jiraID"], TjNewTaskFormAttributes["jiraID"]> & OneOf<"jiraSummary", TjNewTaskForm["jiraSummary"], TjNewTaskFormAttributes["jiraSummary"]>;
         "tj-parent-tasks-page": TjParentTasksPage;
-        "tj-settings": TjSettings;
-        "tj-task-form": TjTaskForm;
-        "tj-task-page": TjTaskPage;
+        "tj-settings": Omit<TjSettings, keyof TjSettingsAttributes> & { [K in keyof TjSettings & keyof TjSettingsAttributes]?: TjSettings[K] } & { [K in keyof TjSettings & keyof TjSettingsAttributes as `attr:${K}`]?: TjSettingsAttributes[K] } & { [K in keyof TjSettings & keyof TjSettingsAttributes as `prop:${K}`]?: TjSettings[K] };
+        "tj-task-form": Omit<TjTaskForm, keyof TjTaskFormAttributes> & { [K in keyof TjTaskForm & keyof TjTaskFormAttributes]?: TjTaskForm[K] } & { [K in keyof TjTaskForm & keyof TjTaskFormAttributes as `attr:${K}`]?: TjTaskFormAttributes[K] } & { [K in keyof TjTaskForm & keyof TjTaskFormAttributes as `prop:${K}`]?: TjTaskForm[K] } & OneOf<"name", TjTaskForm["name"], TjTaskFormAttributes["name"]> & OneOf<"startDate", TjTaskForm["startDate"], TjTaskFormAttributes["startDate"]>;
+        "tj-task-page": Omit<TjTaskPage, keyof TjTaskPageAttributes> & { [K in keyof TjTaskPage & keyof TjTaskPageAttributes]?: TjTaskPage[K] } & { [K in keyof TjTaskPage & keyof TjTaskPageAttributes as `attr:${K}`]?: TjTaskPageAttributes[K] } & { [K in keyof TjTaskPage & keyof TjTaskPageAttributes as `prop:${K}`]?: TjTaskPage[K] } & OneOf<"jiraID", TjTaskPage["jiraID"], TjTaskPageAttributes["jiraID"]> & OneOf<"jiraSummary", TjTaskPage["jiraSummary"], TjTaskPageAttributes["jiraSummary"]>;
         "tj-task-timesheet": TjTaskTimesheet;
-        "tj-unsubmitted-banner": TjUnsubmittedBanner;
-        "tj-update-banner": TjUpdateBanner;
+        "tj-unsubmitted-banner": Omit<TjUnsubmittedBanner, keyof TjUnsubmittedBannerAttributes> & { [K in keyof TjUnsubmittedBanner & keyof TjUnsubmittedBannerAttributes]?: TjUnsubmittedBanner[K] } & { [K in keyof TjUnsubmittedBanner & keyof TjUnsubmittedBannerAttributes as `attr:${K}`]?: TjUnsubmittedBannerAttributes[K] } & { [K in keyof TjUnsubmittedBanner & keyof TjUnsubmittedBannerAttributes as `prop:${K}`]?: TjUnsubmittedBanner[K] };
+        "tj-update-banner": Omit<TjUpdateBanner, keyof TjUpdateBannerAttributes> & { [K in keyof TjUpdateBanner & keyof TjUpdateBannerAttributes]?: TjUpdateBanner[K] } & { [K in keyof TjUpdateBanner & keyof TjUpdateBannerAttributes as `attr:${K}`]?: TjUpdateBannerAttributes[K] } & { [K in keyof TjUpdateBanner & keyof TjUpdateBannerAttributes as `prop:${K}`]?: TjUpdateBanner[K] };
         "tj-work-kind-page": TjWorkKindPage;
     }
 }
@@ -790,57 +863,58 @@ declare module "@stencil/core" {
             /**
              * Component providing a button that triggers a popover with contextual help content.
              */
-            "contextual-help": LocalJSX.ContextualHelp & JSXBase.HTMLAttributes<HTMLContextualHelpElement>;
-            "notification-toast": LocalJSX.NotificationToast & JSXBase.HTMLAttributes<HTMLNotificationToastElement>;
+            "contextual-help": LocalJSX.IntrinsicElements["contextual-help"] & JSXBase.HTMLAttributes<HTMLContextualHelpElement>;
+            "notification-toast": LocalJSX.IntrinsicElements["notification-toast"] & JSXBase.HTMLAttributes<HTMLNotificationToastElement>;
             /**
              * The `notifications-provider` component is a provider for notifications. It listens for `notification` events and renders `notification-toast` components for each notification.
              */
-            "notifications-provider": LocalJSX.NotificationsProvider & JSXBase.HTMLAttributes<HTMLNotificationsProviderElement>;
-            "settings-button": LocalJSX.SettingsButton & JSXBase.HTMLAttributes<HTMLSettingsButtonElement>;
-            "tj-edit-task-form": LocalJSX.TjEditTaskForm & JSXBase.HTMLAttributes<HTMLTjEditTaskFormElement>;
+            "notifications-provider": LocalJSX.IntrinsicElements["notifications-provider"] & JSXBase.HTMLAttributes<HTMLNotificationsProviderElement>;
+            "settings-button": LocalJSX.IntrinsicElements["settings-button"] & JSXBase.HTMLAttributes<HTMLSettingsButtonElement>;
+            "tj-banner": LocalJSX.IntrinsicElements["tj-banner"] & JSXBase.HTMLAttributes<HTMLTjBannerElement>;
+            "tj-edit-task-form": LocalJSX.IntrinsicElements["tj-edit-task-form"] & JSXBase.HTMLAttributes<HTMLTjEditTaskFormElement>;
             /**
              * The footer of the panel.
              * Displays the version of the server and the extension and provides a button to open/close the settings.
              */
-            "tj-footer": LocalJSX.TjFooter & JSXBase.HTMLAttributes<HTMLTjFooterElement>;
+            "tj-footer": LocalJSX.IntrinsicElements["tj-footer"] & JSXBase.HTMLAttributes<HTMLTjFooterElement>;
             /**
              * The heading for the TJ panel. It contains the title and a button to toggle the panel.
              */
-            "tj-heading": LocalJSX.TjHeading & JSXBase.HTMLAttributes<HTMLTjHeadingElement>;
-            "tj-jira-panel": LocalJSX.TjJiraPanel & JSXBase.HTMLAttributes<HTMLTjJiraPanelElement>;
+            "tj-heading": LocalJSX.IntrinsicElements["tj-heading"] & JSXBase.HTMLAttributes<HTMLTjHeadingElement>;
+            "tj-jira-panel": LocalJSX.IntrinsicElements["tj-jira-panel"] & JSXBase.HTMLAttributes<HTMLTjJiraPanelElement>;
             /**
              * A form to log into TJ.
              */
-            "tj-login-form": LocalJSX.TjLoginForm & JSXBase.HTMLAttributes<HTMLTjLoginFormElement>;
+            "tj-login-form": LocalJSX.IntrinsicElements["tj-login-form"] & JSXBase.HTMLAttributes<HTMLTjLoginFormElement>;
             /**
              * A form that allows the user to create a new task for the given Jira issue.
              */
-            "tj-new-task-form": LocalJSX.TjNewTaskForm & JSXBase.HTMLAttributes<HTMLTjNewTaskFormElement>;
-            "tj-parent-tasks-page": LocalJSX.TjParentTasksPage & JSXBase.HTMLAttributes<HTMLTjParentTasksPageElement>;
+            "tj-new-task-form": LocalJSX.IntrinsicElements["tj-new-task-form"] & JSXBase.HTMLAttributes<HTMLTjNewTaskFormElement>;
+            "tj-parent-tasks-page": LocalJSX.IntrinsicElements["tj-parent-tasks-page"] & JSXBase.HTMLAttributes<HTMLTjParentTasksPageElement>;
             /**
              * Component for the settings page.
              */
-            "tj-settings": LocalJSX.TjSettings & JSXBase.HTMLAttributes<HTMLTjSettingsElement>;
-            "tj-task-form": LocalJSX.TjTaskForm & JSXBase.HTMLAttributes<HTMLTjTaskFormElement>;
+            "tj-settings": LocalJSX.IntrinsicElements["tj-settings"] & JSXBase.HTMLAttributes<HTMLTjSettingsElement>;
+            "tj-task-form": LocalJSX.IntrinsicElements["tj-task-form"] & JSXBase.HTMLAttributes<HTMLTjTaskFormElement>;
             /**
              * Main component that decides whether to show the task timesheet or the new task form.
              */
-            "tj-task-page": LocalJSX.TjTaskPage & JSXBase.HTMLAttributes<HTMLTjTaskPageElement>;
+            "tj-task-page": LocalJSX.IntrinsicElements["tj-task-page"] & JSXBase.HTMLAttributes<HTMLTjTaskPageElement>;
             /**
              * A component that displays the timesheet for a given task allowing the user to record hours.
              */
-            "tj-task-timesheet": LocalJSX.TjTaskTimesheet & JSXBase.HTMLAttributes<HTMLTjTaskTimesheetElement>;
+            "tj-task-timesheet": LocalJSX.IntrinsicElements["tj-task-timesheet"] & JSXBase.HTMLAttributes<HTMLTjTaskTimesheetElement>;
             /**
              * A banner that warns the user when their previous week's timesheet has not been submitted.
              * Only renders when the user is logged in and the timesheet is confirmed unsubmitted.
              * Emits `timesheetSubmittedChange` so parent components can react to the submission state.
              */
-            "tj-unsubmitted-banner": LocalJSX.TjUnsubmittedBanner & JSXBase.HTMLAttributes<HTMLTjUnsubmittedBannerElement>;
+            "tj-unsubmitted-banner": LocalJSX.IntrinsicElements["tj-unsubmitted-banner"] & JSXBase.HTMLAttributes<HTMLTjUnsubmittedBannerElement>;
             /**
              * A banner that displays when a new version of the component is available.
              */
-            "tj-update-banner": LocalJSX.TjUpdateBanner & JSXBase.HTMLAttributes<HTMLTjUpdateBannerElement>;
-            "tj-work-kind-page": LocalJSX.TjWorkKindPage & JSXBase.HTMLAttributes<HTMLTjWorkKindPageElement>;
+            "tj-update-banner": LocalJSX.IntrinsicElements["tj-update-banner"] & JSXBase.HTMLAttributes<HTMLTjUpdateBannerElement>;
+            "tj-work-kind-page": LocalJSX.IntrinsicElements["tj-work-kind-page"] & JSXBase.HTMLAttributes<HTMLTjWorkKindPageElement>;
         }
     }
 }

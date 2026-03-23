@@ -24,11 +24,13 @@ A banner that displays when a new version of the component is available.
 
 ### Depends on
 
+- [tj-banner](../banner)
 - [contextual-help](../../../contextual-help)
 
 ### Graph
 ```mermaid
 graph TD;
+  tj-update-banner --> tj-banner
   tj-update-banner --> contextual-help
   tj-footer --> tj-update-banner
   style tj-update-banner fill:#f9f,stroke:#333,stroke-width:4px

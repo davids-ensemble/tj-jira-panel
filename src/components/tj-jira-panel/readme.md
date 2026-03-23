@@ -48,6 +48,7 @@ graph TD;
   tj-settings --> tj-work-kind-page
   tj-footer --> settings-button
   tj-footer --> tj-update-banner
+  tj-update-banner --> tj-banner
   tj-update-banner --> contextual-help
   style tj-jira-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```
