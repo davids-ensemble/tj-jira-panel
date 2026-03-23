@@ -12,7 +12,7 @@
 
 .gradientBorder {
   --angle: 0deg;
-  background: var(--animated-banner-border);
+  background: conic-gradient(from var(--angle), var(--banner-colors));
   animation: 5s rotateBorder linear infinite;
   padding: 2px;
 }

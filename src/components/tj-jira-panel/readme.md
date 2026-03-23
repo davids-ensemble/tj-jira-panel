@@ -47,7 +47,9 @@ graph TD;
   tj-settings --> tj-parent-tasks-page
   tj-settings --> tj-work-kind-page
   tj-footer --> settings-button
+  tj-footer --> tj-unsubmitted-banner
   tj-footer --> tj-update-banner
+  tj-unsubmitted-banner --> tj-banner
   tj-update-banner --> tj-banner
   tj-update-banner --> contextual-help
   style tj-jira-panel fill:#f9f,stroke:#333,stroke-width:4px
