@@ -129,8 +129,8 @@ jobs:
               --body "$(printf '## Cursor AI Review\n\n%s%s' "$body" "$FOOTER")"
           }
 
-          # Extract JSON — strip any accidental markdown fences
-          JSON=$(echo "$REVIEW_RAW" | sed 's/^```json//;s/^```//' | tr -d '\r')
+          # Extract JSON — strip any accidental markdown fences (opening and closing)
+          JSON=$(echo "$REVIEW_RAW" | grep -v '^```' | tr -d '\r')
 
           # Validate it's parseable JSON with python3
           if ! python3 -c "import json,sys; json.load(sys.stdin)" <<< "$JSON" 2>/dev/null; then
@@ -139,13 +139,13 @@ jobs:
             exit 0
           fi
 
-          SUMMARY=$(python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('summary',''))" <<< "$JSON")
-          COMMENTS_JSON=$(python3 -c "import json,sys; d=json.load(sys.stdin); print(json.dumps(d.get('comments',[])))" <<< "$JSON")
-          COMMENT_COUNT=$(python3 -c "import json,sys; print(len(json.loads(sys.stdin.read())))" <<< "$COMMENTS_JSON")
+          python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('summary',''),end='')" <<< "$JSON" > /tmp/summary.txt
+          python3 -c "import json,sys; d=json.load(sys.stdin); print(json.dumps(d.get('comments',[])))" <<< "$JSON" > /tmp/comments.json
+          COMMENT_COUNT=$(python3 -c "import json,sys; print(len(json.load(sys.stdin)))" < /tmp/comments.json)
 
           if [[ "$COMMENT_COUNT" -eq 0 ]]; then
             echo "No inline comments returned — posting summary only."
-            post_fallback "$SUMMARY"
+            post_fallback "$(cat /tmp/summary.txt)"
             exit 0
           fi
 
@@ -185,13 +185,15 @@ jobs:
           PYEOF
 
           # Filter comments to only valid positions
-          python3 - <<PYEOF > /tmp/filtered_comments.json
+          python3 - <<'PYEOF' > /tmp/filtered_comments.json
           import json
 
           with open("/tmp/valid_positions.json") as f:
               valid = {(e["path"], e["line"], e["side"]) for e in json.load(f)}
 
-          comments = json.loads('''$COMMENTS_JSON''')
+          with open("/tmp/comments.json") as f:
+              comments = json.load(f)
+
           filtered = [
               c for c in comments
               if (c.get("path"), c.get("line"), c.get("side")) in valid
@@ -204,19 +206,22 @@ jobs:
 
           if [[ "$FILTERED_COUNT" -eq 0 ]]; then
             echo "No comments survived validation — posting summary only."
-            post_fallback "$SUMMARY"
+            post_fallback "$(cat /tmp/summary.txt)"
             exit 0
           fi
 
           # Build review payload and post via GitHub Reviews API
-          python3 - <<PYEOF > /tmp/review_payload.json
-          import json
+          python3 - <<'PYEOF' > /tmp/review_payload.json
+          import json, os
 
           with open("/tmp/filtered_comments.json") as f:
               comments = json.load(f)
 
-          summary = json.loads(r"""$(echo "$SUMMARY" | python3 -c "import json,sys; print(json.dumps(sys.stdin.read()))")""")
-          footer = "\n\n---\n*Triggered by \`/cursor-review\` · [View run]($RUN_URL)*"
+          with open("/tmp/summary.txt") as f:
+              summary = f.read()
+
+          run_url = os.environ["RUN_URL"]
+          footer = f"\n\n---\n*Triggered by `/cursor-review` · [View run]({run_url})*"
 
           payload = {
               "event": "COMMENT",
@@ -233,5 +238,5 @@ jobs:
             && echo "Review posted successfully." \
             || {
               echo "Reviews API call failed — falling back to plain comment."
-              post_fallback "$SUMMARY"
+              post_fallback "$(cat /tmp/summary.txt)"
             }
