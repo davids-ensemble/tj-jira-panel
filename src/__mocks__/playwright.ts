@@ -17,7 +17,7 @@ export const mockAPI = async (route: Route) => {
       contentType: 'application/json',
       body: playwrightResponses[requestType]({
         body: parsedBody,
-        headers: route.request().headers() as unknown as Headers,
+        headers: new Headers(route.request().headers()),
       }),
     });
   } else {

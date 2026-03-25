@@ -219,4 +219,29 @@ test.describe('tj-jira-panel', () => {
       await expect(page.getByText('You must enter a valid number of hours.')).toBeVisible();
     });
   });
+
+  // MARK: Unsubmitted Banner
+  test.describe('unsubmitted banner', () => {
+    test('should not show banner when not logged in', async ({ page }) => {
+      await expect(page.getByRole('heading', { name: 'Unsubmitted Timesheet' })).not.toBeVisible();
+    });
+
+    test('should show banner when logged in and timesheet is unsubmitted', async ({ page }) => {
+      await login(page);
+      await expect(page.getByRole('heading', { name: 'Unsubmitted Timesheet' })).toBeVisible();
+      await expect(page.getByText('Your timesheet for last week is not submitted.')).toBeVisible();
+    });
+
+    test('should not show banner when timesheet is submitted', async ({ page }) => {
+      await page.goto('/playwright?timesheetSubmitted=true');
+      await page.getByText('TJ Integration').waitFor({ state: 'visible' });
+      await login(page);
+      await expect(page.getByRole('heading', { name: 'Unsubmitted Timesheet' })).not.toBeVisible();
+    });
+
+    test('should show "Open TJ" button when banner is visible', async ({ page }) => {
+      await login(page);
+      await expect(page.getByRole('button', { name: 'Open TJ' })).toBeVisible();
+    });
+  });
 });
