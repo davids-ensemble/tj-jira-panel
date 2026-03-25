@@ -1,7 +1,9 @@
-import { Component, Prop, State, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Prop, State, h } from '@stencil/core';
 
 import { version } from '@root/package.json';
 import { LOCAL_STORAGE_KEYS } from '@utils/tj';
+
+import { BannerStateChangeEvent, BannerType } from '../footer/types';
 
 type PackageMetadataResponse = {
   type: string;
@@ -49,12 +51,20 @@ export class TJUpdateBanner {
   @State() latestVersion: string;
   isButtonDisabled = !this.scriptVersion || new Date(this.scriptVersion) < new Date('2024-05-18');
 
+  /**
+   * Emitted after the update API resolves with the latest version.
+   * Footer component uses this to track the banner state.
+   */
+  @Event()
+  bannerStateChange: EventEmitter<BannerStateChangeEvent>;
+
   async componentWillLoad() {
     localStorage.setItem(LOCAL_STORAGE_KEYS.VERSION, version);
     const isBetaVersion = version.includes('-beta');
     const response = await fetch('https://data.jsdelivr.com/v1/packages/npm/@ens-davids/tj-jira-panel');
     const data = (await response.json()) as PackageMetadataResponse;
     this.latestVersion = data.tags[isBetaVersion ? 'beta' : 'latest'] || version;
+    this.bannerStateChange.emit({ type: BannerType.PanelUpdate, isActive: version !== this.latestVersion });
   }
 
   updateAndRefresh = async () => {

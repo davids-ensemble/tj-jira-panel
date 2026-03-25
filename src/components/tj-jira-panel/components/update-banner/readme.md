@@ -16,6 +16,13 @@ A banner that displays when a new version of the component is available.
 | `scriptVersion` | `script-version` | The version of the script used to inject the panel. | `string` | `null`  |
 
 
+## Events
+
+| Event               | Description                                                                                                          | Type                                  |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| `bannerStateChange` | Emitted after the update API resolves with the latest version. Footer component uses this to track the banner state. | `CustomEvent<BannerStateChangeEvent>` |
+
+
 ## Dependencies
 
 ### Used by

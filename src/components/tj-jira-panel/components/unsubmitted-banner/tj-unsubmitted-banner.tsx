@@ -2,6 +2,8 @@ import { Component, Event, EventEmitter, Prop, State, Watch, h } from '@stencil/
 
 import { Server, User } from '@utils/tj';
 
+import { BannerStateChangeEvent, BannerType } from '../footer/types';
+
 /**
  * A banner that warns the user when their previous week's timesheet has not been submitted.
  * Only renders when the user is logged in and the timesheet is confirmed unsubmitted.
@@ -27,10 +29,10 @@ export class TJUnsubmittedBanner {
 
   /**
    * Emitted after the timesheet API resolves with the submission status.
-   * Consumers can use this to suppress other banners.
+   * Footer component uses this to track the banner state.
    */
-  @Event({ bubbles: true, composed: false })
-  timesheetSubmittedChange: EventEmitter<boolean>;
+  @Event()
+  bannerStateChange: EventEmitter<BannerStateChangeEvent>;
 
   async componentWillLoad() {
     if (this.isLoggedIn) {
@@ -52,7 +54,7 @@ export class TJUnsubmittedBanner {
       const dom = await User.getTimesheet(prevWeekDate);
       const submitted = dom.querySelector('submitted')?.textContent === 'true';
       this.isSubmitted = submitted;
-      this.timesheetSubmittedChange.emit(submitted);
+      this.bannerStateChange.emit({ type: BannerType.Unsubmitted, isActive: !submitted });
     } catch {
       // Silent failure: leave isSubmitted as null so the banner stays hidden
     }

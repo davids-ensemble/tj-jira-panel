@@ -20,9 +20,9 @@ Emits `timesheetSubmittedChange` so parent components can react to the submissio
 
 ## Events
 
-| Event                      | Description                                                                                                            | Type                   |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `timesheetSubmittedChange` | Emitted after the timesheet API resolves with the submission status. Consumers can use this to suppress other banners. | `CustomEvent<boolean>` |
+| Event               | Description                                                                                                                | Type                                  |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| `bannerStateChange` | Emitted after the timesheet API resolves with the submission status. Footer component uses this to track the banner state. | `CustomEvent<BannerStateChangeEvent>` |
 
 
 ## Dependencies

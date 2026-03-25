@@ -9,10 +9,12 @@ import { Variant } from "./components/contextual-help/contextual-help";
 import { Notification } from "./components/notifications-provider/types";
 import { Task } from "./utils/tj/index";
 import { TaskFormData } from "./components/tj-task-page/components/tj-task-form/tj-task-form";
+import { BannerStateChangeEvent } from "./components/tj-jira-panel/components/footer/types";
 export { Variant } from "./components/contextual-help/contextual-help";
 export { Notification } from "./components/notifications-provider/types";
 export { Task } from "./utils/tj/index";
 export { TaskFormData } from "./components/tj-task-page/components/tj-task-form/tj-task-form";
+export { BannerStateChangeEvent } from "./components/tj-jira-panel/components/footer/types";
 export namespace Components {
     /**
      * Component providing a button that triggers a popover with contextual help content.
@@ -240,6 +242,10 @@ export interface TjUnsubmittedBannerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTjUnsubmittedBannerElement;
 }
+export interface TjUpdateBannerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTjUpdateBannerElement;
+}
 declare global {
     /**
      * Component providing a button that triggers a popover with contextual help content.
@@ -461,7 +467,7 @@ declare global {
         new (): HTMLTjTaskTimesheetElement;
     };
     interface HTMLTjUnsubmittedBannerElementEventMap {
-        "timesheetSubmittedChange": boolean;
+        "bannerStateChange": BannerStateChangeEvent;
     }
     /**
      * A banner that warns the user when their previous week's timesheet has not been submitted.
@@ -482,10 +488,21 @@ declare global {
         prototype: HTMLTjUnsubmittedBannerElement;
         new (): HTMLTjUnsubmittedBannerElement;
     };
+    interface HTMLTjUpdateBannerElementEventMap {
+        "bannerStateChange": BannerStateChangeEvent;
+    }
     /**
      * A banner that displays when a new version of the component is available.
      */
     interface HTMLTjUpdateBannerElement extends Components.TjUpdateBanner, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTjUpdateBannerElementEventMap>(type: K, listener: (this: HTMLTjUpdateBannerElement, ev: TjUpdateBannerCustomEvent<HTMLTjUpdateBannerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTjUpdateBannerElementEventMap>(type: K, listener: (this: HTMLTjUpdateBannerElement, ev: TjUpdateBannerCustomEvent<HTMLTjUpdateBannerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTjUpdateBannerElement: {
         prototype: HTMLTjUpdateBannerElement;
@@ -759,14 +776,18 @@ declare namespace LocalJSX {
          */
         "isLoggedIn"?: boolean;
         /**
-          * Emitted after the timesheet API resolves with the submission status. Consumers can use this to suppress other banners.
+          * Emitted after the timesheet API resolves with the submission status. Footer component uses this to track the banner state.
          */
-        "onTimesheetSubmittedChange"?: (event: TjUnsubmittedBannerCustomEvent<boolean>) => void;
+        "onBannerStateChange"?: (event: TjUnsubmittedBannerCustomEvent<BannerStateChangeEvent>) => void;
     }
     /**
      * A banner that displays when a new version of the component is available.
      */
     interface TjUpdateBanner {
+        /**
+          * Emitted after the update API resolves with the latest version. Footer component uses this to track the banner state.
+         */
+        "onBannerStateChange"?: (event: TjUpdateBannerCustomEvent<BannerStateChangeEvent>) => void;
         /**
           * The version of the script used to inject the panel.
           * @default null

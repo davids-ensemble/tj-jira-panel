@@ -1,7 +1,11 @@
-import { Component, Prop, State, h } from '@stencil/core';
+import { Component, Listen, Prop, State, h } from '@stencil/core';
 
 import { version } from '@root/package.json';
 import { Server, User } from '@utils/tj';
+
+import { BannerStateChangeEvent, BannerType } from './types';
+
+const BANNER_PRIORITY = [BannerType.Unsubmitted, BannerType.PanelUpdate];
 
 /**
  * The footer of the panel.
@@ -28,11 +32,11 @@ export class TJFooter {
 
   @State() serverVersion: string;
   @State() serverCountry: string;
-  /**
-   * Tracks whether the previous week's timesheet is unsubmitted.
-   * When true, the update banner is suppressed so only one banner shows at a time.
-   */
-  @State() timesheetUnsubmitted: boolean = false;
+  @State() activeBanners: BannerType[] = [];
+
+  get visibleBanner() {
+    return BANNER_PRIORITY.find(banner => this.activeBanners.includes(banner));
+  }
 
   async componentWillLoad() {
     const config = await Server.fetchServerConfig();
@@ -40,9 +44,19 @@ export class TJFooter {
     this.serverCountry = config.country;
   }
 
-  handleTimesheetSubmittedChange = (e: CustomEvent<boolean>) => {
-    this.timesheetUnsubmitted = !e.detail;
-  };
+  @Listen('bannerStateChange')
+  handleBannerStateChange(event: CustomEvent<BannerStateChangeEvent>) {
+    console.log('bannerStateChange', event.detail);
+    if (event.detail.isActive) {
+      this.activeBanners = [...this.activeBanners, event.detail.type];
+    } else {
+      this.activeBanners = this.activeBanners.filter(banner => banner !== event.detail.type);
+    }
+  }
+
+  getBannerStyle(bannerType: BannerType) {
+    return { display: this.visibleBanner === bannerType ? 'block' : 'none' };
+  }
 
   render() {
     return (
@@ -54,9 +68,12 @@ export class TJFooter {
         )}
         <tj-unsubmitted-banner
           isLoggedIn={this.isLoggedIn}
-          onTimesheetSubmittedChange={this.handleTimesheetSubmittedChange}
+          style={this.getBannerStyle(BannerType.Unsubmitted)}
         ></tj-unsubmitted-banner>
-        {!this.timesheetUnsubmitted && <tj-update-banner scriptVersion={this.scriptVersion}></tj-update-banner>}
+        <tj-update-banner
+          scriptVersion={this.scriptVersion}
+          style={this.getBannerStyle(BannerType.PanelUpdate)}
+        ></tj-update-banner>
         <div>
           <p>
             {this.isLoggedIn ? `Logged in as ${User.username} (${User.userId}) @ ` : null}
