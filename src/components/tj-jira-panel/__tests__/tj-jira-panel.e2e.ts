@@ -5,6 +5,7 @@ import '@root/src/playwright.setup';
 import { Server, getWeekDays } from '@utils/tj';
 
 import { mockAPI } from './../../../__mocks__/playwright';
+import { createTimesheetResponse } from './../../../__mocks__/responses/timesheet.response';
 
 const login = async (page: Page) => {
   await page.getByLabel('Username').fill('username');
@@ -233,9 +234,16 @@ test.describe('tj-jira-panel', () => {
     });
 
     test('should not show banner when timesheet is submitted', async ({ page }) => {
-      await page.goto('/playwright?timesheetSubmitted=true');
-      await page.getByText('TJ Integration').waitFor({ state: 'visible' });
+      await page.route(Server.url, route => {
+        const body = route.request().postData() ?? '';
+        if (body.includes('getTimesheet')) {
+          route.fulfill({ status: 200, contentType: 'application/xml', body: createTimesheetResponse(true) });
+        } else {
+          mockAPI(route);
+        }
+      });
       await login(page);
+      await expect(page.getByText('Logged in as')).toBeVisible();
       await expect(page.getByRole('heading', { name: 'Unsubmitted Timesheet' })).not.toBeVisible();
     });
 

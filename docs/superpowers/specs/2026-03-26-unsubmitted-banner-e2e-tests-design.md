@@ -18,32 +18,28 @@ The component emits a `bannerStateChange` event consumed by `tj-footer` to contr
 
 ### `src/__mocks__/responses/index.ts`
 
-Update `playwrightResponses.getTimesheet` to read the `timesheetSubmitted` query param from the page's `referer` header:
+`playwrightResponses.getTimesheet` always returns an unsubmitted timesheet by default:
 
 ```ts
-getTimesheet: (params: ResponseFunctionParameters) => {
-  const url = new URL(params.headers.get('referer') ?? '');
-  const submitted = url.searchParams.get('timesheetSubmitted') === 'true';
-  return createTimesheetResponse(submitted);
-},
+getTimesheet: () => createTimesheetResponse(false),
 ```
 
-- `createTimesheetResponse` already accepts a `submitted: boolean` param (defaults to `false`) — no changes needed there.
-- The `referer` header in Playwright requests contains the page URL, making query params accessible to the mock handler.
-- Default behavior (no param) remains `submitted: false`, so existing tests are unaffected.
+Tests that need a submitted timesheet override the route directly in the test (see below) — the shared mock does not need to know about test state.
+
+> **Note:** An earlier approach read `?timesheetSubmitted` from the request's `referer` header, but browsers don't reliably include query params in `Referer` for same-origin fetches, so this was unreliable.
 
 ## Test cases
 
 Added as a new `// MARK: Unsubmitted Banner` describe block in `src/components/tj-jira-panel/__tests__/tj-jira-panel.e2e.ts`.
 
-No shared `beforeEach` — each test manages its own URL and login state.
+All tests inherit the outer `beforeEach` route (`Server.url → mockAPI`). The "submitted" test overrides the route for `getTimesheet` calls only, falling back to `mockAPI` for all other request types.
 
-| Test | URL | Logged in | Expected |
+| Test | Route override | Logged in | Expected |
 |---|---|---|---|
-| should not show banner when not logged in | `/playwright` | No | Banner heading not visible |
-| should show banner when logged in and timesheet is unsubmitted | `/playwright` | Yes | Heading + message visible |
-| should not show banner when timesheet is submitted | `/playwright?timesheetSubmitted=true` | Yes | Banner heading not visible |
-| should show "Open TJ" button when banner is visible | `/playwright` | Yes | "Open TJ" button visible |
+| should not show banner when not logged in | none | No | Banner heading not visible |
+| should show banner when logged in and timesheet is unsubmitted | none | Yes | Heading + message visible |
+| should not show banner when timesheet is submitted | `getTimesheet` → `createTimesheetResponse(true)` | Yes | Banner heading not visible |
+| should show "Open TJ" button when banner is visible | none | Yes | "Open TJ" button visible |
 
 ### Selectors used
 
@@ -55,5 +51,5 @@ No shared `beforeEach` — each test manages its own URL and login state.
 
 | File | Change |
 |---|---|
-| `src/__mocks__/responses/index.ts` | Read `timesheetSubmitted` query param in `getTimesheet` handler |
-| `src/components/tj-jira-panel/__tests__/tj-jira-panel.e2e.ts` | Add unsubmitted banner describe block with 4 test cases |
+| `src/__mocks__/responses/index.ts` | `getTimesheet` always returns unsubmitted; removed referer-based param logic |
+| `src/components/tj-jira-panel/__tests__/tj-jira-panel.e2e.ts` | Add unsubmitted banner describe block with 4 test cases; "submitted" test overrides route inline |

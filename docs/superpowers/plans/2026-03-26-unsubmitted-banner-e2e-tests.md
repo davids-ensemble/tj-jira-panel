@@ -4,7 +4,7 @@
 
 **Goal:** Add Playwright e2e tests for all `tj-unsubmitted-banner` visibility and interaction scenarios.
 
-**Architecture:** Update the existing Playwright mock handler to read a `timesheetSubmitted` query param from the page referer header, then add a new `unsubmitted banner` describe block with 4 self-contained test cases.
+**Architecture:** Tests that need a submitted timesheet override the Playwright route inline in the test rather than relying on a query param or referer header. The shared mock always returns unsubmitted by default.
 
 **Tech Stack:** Playwright, TypeScript, Stencil.js, XML mock responses
 
@@ -14,58 +14,31 @@
 
 | File | Change |
 |---|---|
-| `src/__mocks__/responses/index.ts` | Update `playwrightResponses.getTimesheet` to read `?timesheetSubmitted` query param |
-| `src/__mocks__/playwright.ts` | **Bug fix (discovered during implementation):** `route.request().headers()` returns a plain `Record<string, string>`, not a `Headers` instance. The original cast `as unknown as Headers` caused `.get('referer')` to throw at runtime. Fixed by wrapping with `new Headers(route.request().headers())`. |
-| `src/components/tj-jira-panel/__tests__/tj-jira-panel.e2e.ts` | Add `// MARK: Unsubmitted Banner` describe block with 4 tests |
+| `src/__mocks__/responses/index.ts` | `getTimesheet` always returns unsubmitted; removed referer-based param logic |
+| `src/components/tj-jira-panel/__tests__/tj-jira-panel.e2e.ts` | Add `// MARK: Unsubmitted Banner` describe block with 4 tests; "submitted" test overrides the route inline |
 
 ---
 
-### Task 1: Update the `getTimesheet` mock to support `?timesheetSubmitted` query param
+### Task 1: Simplify the `getTimesheet` mock to always return unsubmitted
 
 **Files:**
 - Modify: `src/__mocks__/responses/index.ts`
 
-- [ ] **Step 1: Read the current file**
+> **Design note:** An earlier approach read `?timesheetSubmitted` from the request's `Referer` header and called `page.goto('/playwright?timesheetSubmitted=true')` in the test. This was unreliable — browsers don't consistently include query params in `Referer` for same-origin fetches. The shared mock now always returns unsubmitted; tests that need a submitted response override the route inline.
 
-Open `src/__mocks__/responses/index.ts`. The relevant section is:
-
-```ts
-export const playwrightResponses = {
-  login: createLoginResponse,
-  getTimesheet: (_params: ResponseFunctionParameters) => createTimesheetResponse(),
-  addSubTask: createAddSubtaskResponse,
-  recordHoursForDay: (_params: ResponseFunctionParameters) => createRecordHoursForDayResponse(),
-  getServerConfiguration: createServerConfigResponse,
-};
-```
-
-- [ ] **Step 2: Update `getTimesheet` to read the query param**
-
-Replace the `getTimesheet` line so the handler reads `timesheetSubmitted` from the page's referer URL. The referer header is set automatically by Playwright to the current page URL.
-
-The updated `playwrightResponses` object should look like this (only `getTimesheet` changes):
+The `getTimesheet` handler should be:
 
 ```ts
-export const playwrightResponses = {
-  login: createLoginResponse,
-  getTimesheet: (params: ResponseFunctionParameters) => {
-    const referer = params.headers.get('referer') ?? '';
-    const submitted = referer ? new URL(referer).searchParams.get('timesheetSubmitted') === 'true' : false;
-    return createTimesheetResponse(submitted);
-  },
-  addSubTask: createAddSubtaskResponse,
-  recordHoursForDay: (_params: ResponseFunctionParameters) => createRecordHoursForDayResponse(),
-  getServerConfiguration: createServerConfigResponse,
-};
+getTimesheet: () => createTimesheetResponse(false),
 ```
 
-Note: `createTimesheetResponse` already accepts `submitted: boolean` (defaults to `false`), so no changes are needed in `timesheet.response.ts`. When no `?timesheetSubmitted` param is present, `referer` will not have it and `submitted` stays `false` — existing tests are unaffected.
+- [ ] **Step 1: Update `getTimesheet` in `playwrightResponses`**
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 2: Commit**
 
 ```bash
 git add src/__mocks__/responses/index.ts
-git commit -m "feat: support timesheetSubmitted query param in getTimesheet mock"
+git commit -m "fix: simplify getTimesheet mock to always return unsubmitted by default"
 ```
 
 ---
@@ -101,9 +74,16 @@ Append the following block inside the outer `test.describe('tj-jira-panel', ...)
     });
 
     test('should not show banner when timesheet is submitted', async ({ page }) => {
-      await page.goto('/playwright?timesheetSubmitted=true');
-      await page.getByText('TJ Integration').waitFor({ state: 'visible' });
+      await page.route(Server.url, route => {
+        const body = route.request().postData() ?? '';
+        if (body.includes('getTimesheet')) {
+          route.fulfill({ status: 200, contentType: 'application/xml', body: createTimesheetResponse(true) });
+        } else {
+          mockAPI(route);
+        }
+      });
       await login(page);
+      await expect(page.getByText('Logged in as')).toBeVisible();
       await expect(page.getByRole('heading', { name: 'Unsubmitted Timesheet' })).not.toBeVisible();
     });
 
@@ -115,9 +95,9 @@ Append the following block inside the outer `test.describe('tj-jira-panel', ...)
 ```
 
 Notes:
-- The first test ("not logged in") relies on the outer `beforeEach` which navigates to `/playwright` — no extra setup needed.
-- The "submitted" test navigates to `/playwright?timesheetSubmitted=true` and re-waits for the panel heading (same pattern as the `new task form` describe block which also re-navigates).
-- The outer `beforeEach` already routes `Server.url` to `mockAPI`, so all tests in this block inherit that.
+- The "submitted" test overrides the route inline, intercepting only `getTimesheet` requests and delegating everything else to `mockAPI`. This avoids relying on `Referer` headers or query params in the page URL.
+- Import `createTimesheetResponse` from `src/__mocks__/responses/timesheet.response` in the test file.
+- The outer `beforeEach` already routes `Server.url` to `mockAPI`, so all other tests in this block inherit that.
 
 - [ ] **Step 3: Run the e2e tests to verify they pass**
 
