@@ -46,7 +46,6 @@ export class TJFooter {
 
   @Listen('bannerStateChange')
   handleBannerStateChange(event: CustomEvent<BannerStateChangeEvent>) {
-    console.log('bannerStateChange', event.detail);
     if (event.detail.isActive) {
       this.activeBanners = [...this.activeBanners, event.detail.type];
     } else {
