@@ -68,36 +68,170 @@ jobs:
           PROMPT_FILE=$(mktemp)
           cat > "$PROMPT_FILE" <<'PROMPT_EOF'
           You are an expert code reviewer. Review the following pull request and provide constructive, actionable feedback.
+
+          IMPORTANT: You must respond with ONLY valid JSON matching this exact schema — no prose, no markdown fences:
+          {
+            "summary": "<overall review in markdown>",
+            "comments": [
+              {
+                "path": "<file path relative to repo root>",
+                "line": <integer line number in the diff>,
+                "side": "<RIGHT for added lines, LEFT for removed lines>",
+                "body": "<specific feedback for this line>"
+              }
+            ]
+          }
+
+          Rules for inline comments:
+          - Only include comments for lines that actually appear in the diff below.
+          - Use side "RIGHT" for lines starting with "+" (added), "LEFT" for lines starting with "-" (removed).
+          - The "line" value must be the line number shown in the diff hunk header (e.g. in "@@ -10,6 +10,8 @@", added lines start at 10 on the right side).
+          - If you have no inline comments, return an empty array for "comments".
           PROMPT_EOF
 
           printf "\nPR Title: %s\n\nPR Description:\n%s\n\nDiff:\n" "$PR_TITLE" "$PR_BODY" >> "$PROMPT_FILE"
           cat /tmp/pr.diff >> "$PROMPT_FILE"
           cat >> "$PROMPT_FILE" <<'PROMPT_EOF'
 
-          Provide a thorough review covering:
+          Review criteria:
           - Correctness and logic errors
           - Edge cases and error handling
           - Security concerns
           - Performance implications
           - Code style and readability
-
-          Format your response as markdown suitable for a GitHub PR comment. Be specific: reference file names and line numbers where relevant.
           PROMPT_EOF
 
-          REVIEW=$(agent -p --force --output-format text "$(cat "$PROMPT_FILE")")
+          REVIEW_RAW=$(agent -p --force --output-format text "$(cat "$PROMPT_FILE")")
+          echo "$REVIEW_RAW" > /tmp/review_raw.json
 
           {
-            echo "result<<REVIEW_EOF"
-            echo "$REVIEW"
+            echo "raw<<REVIEW_EOF"
+            echo "$REVIEW_RAW"
             echo "REVIEW_EOF"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Post review comment
+      - name: Validate and post review
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REVIEW_RESULT: ${{ steps.review.outputs.result }}
+          REVIEW_RAW: ${{ steps.review.outputs.raw }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          gh pr comment "${{ github.event.issue.number }}" \
-            --repo "${{ github.repository }}" \
-            --body "$(printf '## Cursor AI Review\n\n%s\n\n---\n*Triggered by `/cursor-review` · [View run](%s)*' "$REVIEW_RESULT" "$RUN_URL")"
+          PR_NUMBER="${{ github.event.issue.number }}"
+          REPO="${{ github.repository }}"
+          FOOTER="\n\n---\n*Triggered by \`/cursor-review\` · [View run]($RUN_URL)*"
+
+          # Try to parse JSON and post inline review; fall back to plain comment on any failure
+          post_fallback() {
+            local body="$1"
+            echo "Falling back to plain PR comment..."
+            gh pr comment "$PR_NUMBER" \
+              --repo "$REPO" \
+              --body "$(printf '## Cursor AI Review\n\n%s%s' "$body" "$FOOTER")"
+          }
+
+          # Extract JSON — strip any accidental markdown fences
+          JSON=$(echo "$REVIEW_RAW" | sed 's/^```json//;s/^```//' | tr -d '\r')
+
+          # Validate it's parseable JSON with python3
+          if ! python3 -c "import json,sys; json.load(sys.stdin)" <<< "$JSON" 2>/dev/null; then
+            echo "JSON parse failed — raw output was not valid JSON."
+            post_fallback "$REVIEW_RAW"
+            exit 0
+          fi
+
+          SUMMARY=$(python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('summary',''))" <<< "$JSON")
+          COMMENTS_JSON=$(python3 -c "import json,sys; d=json.load(sys.stdin); print(json.dumps(d.get('comments',[])))" <<< "$JSON")
+          COMMENT_COUNT=$(python3 -c "import json,sys; print(len(json.loads(sys.stdin.read())))" <<< "$COMMENTS_JSON")
+
+          if [[ "$COMMENT_COUNT" -eq 0 ]]; then
+            echo "No inline comments returned — posting summary only."
+            post_fallback "$SUMMARY"
+            exit 0
+          fi
+
+          # Build set of valid (path, line, side) tuples from the diff
+          python3 - <<'PYEOF' > /tmp/valid_positions.json
+          import re, json
+
+          valid = set()
+          current_file = None
+          right_line = left_line = 0
+
+          with open("/tmp/pr.diff") as f:
+              for raw_line in f:
+                  line = raw_line.rstrip('\n')
+                  m = re.match(r'^--- a/(.+)$', line)
+                  if m:
+                      current_file = m.group(1)
+                      continue
+                  m = re.match(r'^@@ -(\d+)(?:,\d+)? \+(\d+)(?:,\d+)? @@', line)
+                  if m:
+                      left_line = int(m.group(1)) - 1
+                      right_line = int(m.group(2)) - 1
+                      continue
+                  if current_file is None:
+                      continue
+                  if line.startswith('+') and not line.startswith('+++'):
+                      right_line += 1
+                      valid.add((current_file, right_line, 'RIGHT'))
+                  elif line.startswith('-') and not line.startswith('---'):
+                      left_line += 1
+                      valid.add((current_file, left_line, 'LEFT'))
+                  elif not line.startswith('\\'):
+                      left_line += 1
+                      right_line += 1
+
+          print(json.dumps([{"path": p, "line": l, "side": s} for p, l, s in sorted(valid)]))
+          PYEOF
+
+          # Filter comments to only valid positions
+          python3 - <<PYEOF > /tmp/filtered_comments.json
+          import json
+
+          with open("/tmp/valid_positions.json") as f:
+              valid = {(e["path"], e["line"], e["side"]) for e in json.load(f)}
+
+          comments = json.loads('''$COMMENTS_JSON''')
+          filtered = [
+              c for c in comments
+              if (c.get("path"), c.get("line"), c.get("side")) in valid
+          ]
+          print(json.dumps(filtered))
+          PYEOF
+
+          FILTERED_COUNT=$(python3 -c "import json,sys; print(len(json.load(sys.stdin)))" < /tmp/filtered_comments.json)
+          echo "Inline comments after validation: $FILTERED_COUNT / $COMMENT_COUNT"
+
+          if [[ "$FILTERED_COUNT" -eq 0 ]]; then
+            echo "No comments survived validation — posting summary only."
+            post_fallback "$SUMMARY"
+            exit 0
+          fi
+
+          # Build review payload and post via GitHub Reviews API
+          python3 - <<PYEOF > /tmp/review_payload.json
+          import json
+
+          with open("/tmp/filtered_comments.json") as f:
+              comments = json.load(f)
+
+          summary = json.loads(r"""$(echo "$SUMMARY" | python3 -c "import json,sys; print(json.dumps(sys.stdin.read()))")""")
+          footer = "\n\n---\n*Triggered by \`/cursor-review\` · [View run]($RUN_URL)*"
+
+          payload = {
+              "event": "COMMENT",
+              "body": summary + footer,
+              "comments": comments
+          }
+          print(json.dumps(payload))
+          PYEOF
+
+          gh api "repos/$REPO/pulls/$PR_NUMBER/reviews" \
+            --method POST \
+            --input /tmp/review_payload.json \
+            --jq '.id' \
+            && echo "Review posted successfully." \
+            || {
+              echo "Reviews API call failed — falling back to plain comment."
+              post_fallback "$SUMMARY"
+            }
