@@ -50,7 +50,8 @@ export class TJUnsubmittedBanner {
   private async checkSubmission() {
     this.isSubmitted = null;
     try {
-      const prevWeekDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+      const prevWeekDate = new Date();
+      prevWeekDate.setDate(prevWeekDate.getDate() - 7);
       const dom = await User.getTimesheet(prevWeekDate);
       const submitted = dom.querySelector('submitted')?.textContent === 'true';
       this.isSubmitted = submitted;
