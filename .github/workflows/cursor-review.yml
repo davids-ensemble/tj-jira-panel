@@ -30,7 +30,7 @@ jobs:
           echo "Authorized: ${{ github.event.comment.user.login }} (role: $ROLE)"
 
       - name: Checkout PR branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: refs/pull/${{ github.event.issue.number }}/head
           fetch-depth: 0
