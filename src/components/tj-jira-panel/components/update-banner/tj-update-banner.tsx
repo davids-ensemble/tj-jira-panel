@@ -61,10 +61,14 @@ export class TJUpdateBanner {
   async componentWillLoad() {
     localStorage.setItem(LOCAL_STORAGE_KEYS.VERSION, version);
     const isBetaVersion = version.includes('-beta');
-    const response = await fetch('https://data.jsdelivr.com/v1/packages/npm/@ens-davids/tj-jira-panel');
-    const data = (await response.json()) as PackageMetadataResponse;
-    this.latestVersion = data.tags[isBetaVersion ? 'beta' : 'latest'] || version;
-    this.bannerStateChange.emit({ type: BannerType.PanelUpdate, isActive: version !== this.latestVersion });
+    try {
+      const response = await fetch('https://data.jsdelivr.com/v1/packages/npm/@ens-davids/tj-jira-panel');
+      const data = (await response.json()) as PackageMetadataResponse;
+      this.latestVersion = data.tags[isBetaVersion ? 'beta' : 'latest'] || version;
+      this.bannerStateChange.emit({ type: BannerType.PanelUpdate, isActive: version !== this.latestVersion });
+    } catch {
+      this.bannerStateChange.emit({ type: BannerType.PanelUpdate, isActive: false });
+    }
   }
 
   updateAndRefresh = async () => {
