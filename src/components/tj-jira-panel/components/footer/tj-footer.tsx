@@ -32,10 +32,10 @@ export class TJFooter {
 
   @State() serverVersion: string;
   @State() serverCountry: string;
-  @State() activeBanners: BannerType[] = [];
+  @State() activeBanners: Set<BannerType> = new Set();
 
   get visibleBanner() {
-    return BANNER_PRIORITY.find(banner => this.activeBanners.includes(banner));
+    return BANNER_PRIORITY.find(banner => this.activeBanners.has(banner));
   }
 
   async componentWillLoad() {
@@ -46,11 +46,13 @@ export class TJFooter {
 
   @Listen('bannerStateChange')
   handleBannerStateChange(event: CustomEvent<BannerStateChangeEvent>) {
+    const next = new Set(this.activeBanners);
     if (event.detail.isActive) {
-      this.activeBanners = [...this.activeBanners, event.detail.type];
+      next.add(event.detail.type);
     } else {
-      this.activeBanners = this.activeBanners.filter(banner => banner !== event.detail.type);
+      next.delete(event.detail.type);
     }
+    this.activeBanners = next;
   }
 
   getBannerStyle(bannerType: BannerType) {
