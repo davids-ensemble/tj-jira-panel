@@ -7,7 +7,7 @@ import { BannerStateChangeEvent, BannerType } from '../footer/types';
 /**
  * A banner that warns the user when their previous week's timesheet has not been submitted.
  * Only renders when the user is logged in and the timesheet is confirmed unsubmitted.
- * Emits `timesheetSubmittedChange` so parent components can react to the submission state.
+ * Emits `bannerStateChange` so parent components can react to the submission state.
  */
 @Component({
   tag: 'tj-unsubmitted-banner',

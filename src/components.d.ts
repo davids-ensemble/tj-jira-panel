@@ -185,7 +185,7 @@ export namespace Components {
     /**
      * A banner that warns the user when their previous week's timesheet has not been submitted.
      * Only renders when the user is logged in and the timesheet is confirmed unsubmitted.
-     * Emits `timesheetSubmittedChange` so parent components can react to the submission state.
+     * Emits `bannerStateChange` so parent components can react to the submission state.
      */
     interface TjUnsubmittedBanner {
         /**
@@ -472,7 +472,7 @@ declare global {
     /**
      * A banner that warns the user when their previous week's timesheet has not been submitted.
      * Only renders when the user is logged in and the timesheet is confirmed unsubmitted.
-     * Emits `timesheetSubmittedChange` so parent components can react to the submission state.
+     * Emits `bannerStateChange` so parent components can react to the submission state.
      */
     interface HTMLTjUnsubmittedBannerElement extends Components.TjUnsubmittedBanner, HTMLStencilElement {
         addEventListener<K extends keyof HTMLTjUnsubmittedBannerElementEventMap>(type: K, listener: (this: HTMLTjUnsubmittedBannerElement, ev: TjUnsubmittedBannerCustomEvent<HTMLTjUnsubmittedBannerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -768,7 +768,7 @@ declare namespace LocalJSX {
     /**
      * A banner that warns the user when their previous week's timesheet has not been submitted.
      * Only renders when the user is logged in and the timesheet is confirmed unsubmitted.
-     * Emits `timesheetSubmittedChange` so parent components can react to the submission state.
+     * Emits `bannerStateChange` so parent components can react to the submission state.
      */
     interface TjUnsubmittedBanner {
         /**
@@ -928,7 +928,7 @@ declare module "@stencil/core" {
             /**
              * A banner that warns the user when their previous week's timesheet has not been submitted.
              * Only renders when the user is logged in and the timesheet is confirmed unsubmitted.
-             * Emits `timesheetSubmittedChange` so parent components can react to the submission state.
+             * Emits `bannerStateChange` so parent components can react to the submission state.
              */
             "tj-unsubmitted-banner": LocalJSX.IntrinsicElements["tj-unsubmitted-banner"] & JSXBase.HTMLAttributes<HTMLTjUnsubmittedBannerElement>;
             /**
