@@ -21,7 +21,11 @@ const responses = {
 
 export const playwrightResponses = {
   login: createLoginResponse,
-  getTimesheet: (_params: ResponseFunctionParameters) => createTimesheetResponse(),
+  getTimesheet: (params: ResponseFunctionParameters) => {
+    const referer = params.headers.get('referer') ?? '';
+    const submitted = referer ? new URL(referer).searchParams.get('timesheetSubmitted') === 'true' : false;
+    return createTimesheetResponse(submitted);
+  },
   addSubTask: createAddSubtaskResponse,
   recordHoursForDay: (_params: ResponseFunctionParameters) => createRecordHoursForDayResponse(),
   getServerConfiguration: createServerConfigResponse,
