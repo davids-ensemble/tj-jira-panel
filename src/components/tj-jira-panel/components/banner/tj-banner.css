@@ -23,7 +23,7 @@
   font-size: 14px;
   border-radius: 8px;
 
-  &:hover {
+  &:hover, &:focus-within {
     .content {
       max-height: 100px;
       transition: 0.5s ease-in;
