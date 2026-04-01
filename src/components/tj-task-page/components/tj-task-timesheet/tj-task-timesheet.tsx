@@ -12,7 +12,7 @@ const longWeekdayFormatter = new Intl.DateTimeFormat('en', {
 });
 
 const midnightToday = new Date();
-midnightToday.setUTCHours(0, 0, 0, 0);
+midnightToday.setHours(0, 0, 0, 0);
 
 /**
  * A component that displays the timesheet for a given task allowing the user to record hours.

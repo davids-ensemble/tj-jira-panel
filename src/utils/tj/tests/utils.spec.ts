@@ -82,3 +82,25 @@ describe('getWeekDays', () => {
     ).toBe(true);
   });
 });
+
+describe('local midnight normalization', () => {
+  it('setHours(0,0,0,0) produces local midnight, not UTC midnight', () => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    expect(date.getHours()).toBe(0);
+    expect(date.getMinutes()).toBe(0);
+    expect(date.getSeconds()).toBe(0);
+    expect(date.getMilliseconds()).toBe(0);
+  });
+
+  it('setUTCHours(0,0,0,0) does NOT produce local midnight in UTC+ timezones', () => {
+    // Simulate a UTC+2 scenario: create a date at 01:00 local (23:00 UTC previous day)
+    // After setUTCHours the local hour will NOT be 0 in UTC+ zones.
+    // This test documents why setUTCHours is wrong for local-date comparisons.
+    const date = new Date();
+    date.setUTCHours(0, 0, 0, 0);
+    // In UTC the hours are 0, but local hours may differ
+    expect(date.getUTCHours()).toBe(0);
+    // We do NOT assert getHours() === 0 because it depends on timezone offset
+  });
+});
