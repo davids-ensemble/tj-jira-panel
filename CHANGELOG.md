@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.10.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.9.0...v2.10.0) (2026-04-01)
+
+
+### Features
+
+* ✨ unsubmitted timesheet banner ([#36](https://github.com/davids-ensemble/tj-jira-panel/issues/36)) ([3655f26](https://github.com/davids-ensemble/tj-jira-panel/commit/3655f265939b5ab02a5b1659f3f57aee48066df0))
+
+
+### Bug Fixes
+
+* **scripts:** 🐛 fixed unreliable version handling ([#43](https://github.com/davids-ensemble/tj-jira-panel/issues/43)) ([8c27292](https://github.com/davids-ensemble/tj-jira-panel/commit/8c27292272723d8d7cffb3c8407d88c765eda9e3))
+* **security:** 🚔 fixed vulnerabilities ([#45](https://github.com/davids-ensemble/tj-jira-panel/issues/45)) ([1c6843a](https://github.com/davids-ensemble/tj-jira-panel/commit/1c6843a0ba79d2d71ebdfa63dd0db6caf52c6600))
+
 ## [2.9.0](https://github.com/davids-ensemble/tj-jira-panel/compare/v2.8.0...v2.9.0) (2025-11-13)
 
 
