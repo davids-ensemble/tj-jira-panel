@@ -28,13 +28,17 @@ Displays the version of the server and the extension and provides a button to op
 ### Depends on
 
 - [settings-button](../settings-button)
+- [tj-unsubmitted-banner](../unsubmitted-banner)
 - [tj-update-banner](../update-banner)
 
 ### Graph
 ```mermaid
 graph TD;
   tj-footer --> settings-button
+  tj-footer --> tj-unsubmitted-banner
   tj-footer --> tj-update-banner
+  tj-unsubmitted-banner --> tj-banner
+  tj-update-banner --> tj-banner
   tj-update-banner --> contextual-help
   tj-jira-panel --> tj-footer
   style tj-footer fill:#f9f,stroke:#333,stroke-width:4px

@@ -1,0 +1,10 @@
+:host {
+  --banner-colors: #f59e0b, #d97706, #b45309, #f97316, #ef4444, #f97316, #d97706, #f59e0b;
+}
+
+.message {
+  font-size: 12px;
+  text-align: center;
+  color: var(--tji-text-color-main);
+  margin: 0;
+}

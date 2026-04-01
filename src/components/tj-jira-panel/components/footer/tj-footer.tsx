@@ -1,7 +1,11 @@
-import { Component, Prop, State, h } from '@stencil/core';
+import { Component, Listen, Prop, State, h } from '@stencil/core';
 
 import { version } from '@root/package.json';
 import { Server, User } from '@utils/tj';
+
+import { BannerStateChangeEvent, BannerType } from './types';
+
+const BANNER_PRIORITY = [BannerType.Unsubmitted, BannerType.PanelUpdate];
 
 /**
  * The footer of the panel.
@@ -28,11 +32,31 @@ export class TJFooter {
 
   @State() serverVersion: string;
   @State() serverCountry: string;
+  @State() activeBanners: Set<BannerType> = new Set();
+
+  get visibleBanner() {
+    return BANNER_PRIORITY.find(banner => this.activeBanners.has(banner));
+  }
 
   async componentWillLoad() {
     const config = await Server.fetchServerConfig();
     this.serverVersion = config.version;
     this.serverCountry = config.country;
+  }
+
+  @Listen('bannerStateChange')
+  handleBannerStateChange(event: CustomEvent<BannerStateChangeEvent>) {
+    const next = new Set(this.activeBanners);
+    if (event.detail.isActive) {
+      next.add(event.detail.type);
+    } else {
+      next.delete(event.detail.type);
+    }
+    this.activeBanners = next;
+  }
+
+  getBannerStyle(bannerType: BannerType) {
+    return { display: this.visibleBanner === bannerType ? 'block' : 'none' };
   }
 
   render() {
@@ -43,7 +67,14 @@ export class TJFooter {
             <settings-button></settings-button>
           </div>
         )}
-        <tj-update-banner scriptVersion={this.scriptVersion}></tj-update-banner>
+        <tj-unsubmitted-banner
+          isLoggedIn={this.isLoggedIn}
+          style={this.getBannerStyle(BannerType.Unsubmitted)}
+        ></tj-unsubmitted-banner>
+        <tj-update-banner
+          scriptVersion={this.scriptVersion}
+          style={this.getBannerStyle(BannerType.PanelUpdate)}
+        ></tj-update-banner>
         <div>
           <p>
             {this.isLoggedIn ? `Logged in as ${User.username} (${User.userId}) @ ` : null}
